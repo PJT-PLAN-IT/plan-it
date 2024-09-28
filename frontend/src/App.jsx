@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Header } from "./pages/Header";
+import { Header } from "./components/Header";
 // front back 연동 확인용-----확인 했으면 지우기!
 // back 에는 get방식의 /server/test api 요청을 받을 수 있는 controller가 있어야함.(testcontroller에 기제되어있음)
 // /api는 vite.config.js에 설정된 것임.
