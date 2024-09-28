@@ -4,22 +4,32 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://db.wisejia.com:3303/planit
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: planit
     password: yhs9599
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  # JPA ??
+  # JPA
   jpa:
     hibernate:
       ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        show_sql: true
+        format_sql: true
+
+# MyBatis
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
 
 logging:
   level:
     root: INFO
     org.hibernate.SQL: DEBUG
 
-# CORS ??
+# CORS
 cors:
   allowedOrigins: "http://localhost:3000"
   allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
