@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.planit.test.TestMapper">
+    <select id="getBannerList" resultType="hashmap">
+        SELECT *
+        FROM T_BANNER
+    </select>
+
+    <insert id="insertBanner" parameterType="com.pjt.planit.entity.Banner">
+        INSERT INTO T_BANNER (
+            banner_img,
+            type,
+            seq,
+            use_yn,
+            create_dt,
+            create_by
+        ) VALUES (
+            #{bannerImg},
+            #{type},
+            #{seq},
+            #{useYn},
+            now(),
+            'zero'
+        )
+    </insert>
+</mapper>
