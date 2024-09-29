@@ -1,6 +1,7 @@
 package com.pjt.planit.mypage.dto;
 
-import com.pjt.planit.mypage.TripPlan;
+import com.pjt.planit.entity.Cust;
+import com.pjt.planit.entity.TripPlan;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,18 +34,19 @@ public class MyMateListDto {
 
     private String createYmd;
 
-    public TripPlan toEntity() {
-        return TripPlan.builder()
+    public TripPlan toEntity(Cust cust) {
+        TripPlan plan = TripPlan.builder()
                 .tripPlanNo(tripPlanNo)
-                .custNo(custNo)
+                .cust(cust)
                 .title(title)
                 .startDt(startDt)
                 .endDt(endDt)
                 .thumbnailImg(thumbnailImg)
                 .review(review)
                 .publicYn(publicYn)
-                .createDt(LocalDateTime.now())
                 .build();
+        plan.setCreateDt(LocalDateTime.now());
+        return plan;
     }
 
     public MyMateListDto toDto(TripPlan entity) {

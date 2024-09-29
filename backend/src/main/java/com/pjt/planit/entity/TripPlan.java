@@ -17,14 +17,16 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "T_TRIP_PLAN")
 public class TripPlan extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trip_plan_no")
     private Integer tripPlanNo;
 
     @NotNull
-    @Column(name = "cust_no")
-    private Integer custNo;
+    @JoinColumn(name = "cust_no")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cust cust;
 
     @NotNull
     @Column(name = "title")

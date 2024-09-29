@@ -1,14 +1,12 @@
 package com.pjt.planit.mypage.service;
 
-import com.pjt.planit.mypage.TripPlan;
+import com.pjt.planit.entity.TripPlan;
 import com.pjt.planit.mypage.dto.MyMateListDto;
 import com.pjt.planit.mypage.repository.MyMateListRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

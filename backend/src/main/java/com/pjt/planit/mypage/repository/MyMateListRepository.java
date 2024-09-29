@@ -1,6 +1,6 @@
 package com.pjt.planit.mypage.repository;
 
-import com.pjt.planit.mypage.TripPlan;
+import com.pjt.planit.entity.TripPlan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
