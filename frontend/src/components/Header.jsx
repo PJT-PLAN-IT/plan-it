@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "../pages/Header.css";
-import Logo from "../pages/logo.png";
+import "../assets/css/Header.css";
+import Logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
