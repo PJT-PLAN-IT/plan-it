@@ -8,7 +8,7 @@ function AppRoutes() {
         <Routes>
             <Route path="/join" element={<Join />} />
             <Route path="/login" element={<Login/>} />
-            <Route path="/editUserInfo" element={<EditUserInfo/>} />
+            <Route path="/editUserInfo/:custNo" element={<EditUserInfo/>}  />
         </Routes>
     );
 }

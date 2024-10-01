@@ -1,12 +1,10 @@
 import {useState} from "react";
 import axios from "axios";
-import {useAxiosInstance} from './../utils/axiosConfig.js';
 import {useAuth} from "../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 function Login(){
     const navigate = useNavigate();
-    useAxiosInstance();
     const {setToken} = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,14 +23,19 @@ function Login(){
             // 로그인 성공 시 처리
             console.log(response.data);
             alert('로그인 성공!');
-            setToken(response.data);
-            navigate("/editUserInfo");
+            setToken(response.data.token);
+            navigate("/editUserInfo/"+ `${response.data.custNo}`);
         } catch (err) {
             console.log(err);
             alert('로그인에 실패했습니다.');
         } finally {
             setLoading(false);  // 로딩 상태 비활성화
         }
+    };
+
+    //회원가입 페이지 이동
+    const goJoinPage = () => {
+        navigate('/join');
     };
 
     return (
@@ -78,6 +81,7 @@ function Login(){
 
                     <div className="flex justify-center">
                         <button
+                            onClick={goJoinPage}
                             type="button"
                             className="w-full bg-transparent border border-orange-500 text-orange-500 py-3 rounded-full font-semibold hover:bg-orange-50 transition duration-300">
                             회원가입
