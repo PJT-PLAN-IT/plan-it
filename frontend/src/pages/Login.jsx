@@ -1,12 +1,15 @@
 import {useState} from "react";
 import axios from "axios";
-import {useToken} from "../context/AuthContext.jsx";
+import {useAxiosInstance} from './../utils/axiosConfig.js';
+import {useAuth} from "../context/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Login(){
-    const {setToken} = useToken();
+    const navigate = useNavigate();
+    useAxiosInstance();
+    const {setToken} = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);  // 에러 메시지 상태
     const [loading, setLoading] = useState(false);  // 로딩 상태 관리
 
     const handleLogin = async (e) => {
@@ -22,10 +25,11 @@ function Login(){
             // 로그인 성공 시 처리
             console.log(response.data);
             alert('로그인 성공!');
-            setToken(response.data.token);
-
+            setToken(response.data);
+            navigate("/editUserInfo");
         } catch (err) {
-            setError(err.response?.data?.message || '로그인에 실패했습니다.');
+            console.log(err);
+            alert('로그인에 실패했습니다.');
         } finally {
             setLoading(false);  // 로딩 상태 비활성화
         }
@@ -39,9 +43,6 @@ function Login(){
                     <h3 className="text-2xl font-bold mb-2">로그인</h3>
                     <p className="text-gray-500 mb-10">로그인 후 플랫폼의 기능을 누려보세요!</p>
                 </div>
-
-                {/* 에러 메시지 */}
-                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                 <form className="space-y-4" onSubmit={handleLogin}>
                     <div>

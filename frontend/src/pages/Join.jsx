@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Join() {
     // 입력 필드를 상태로 관리
@@ -16,8 +17,8 @@ function Join() {
         gender: '',
         privacy: ''
     });
-
     const [authCode, setAuthCode] = useState("");
+    const navigate = useNavigate();
 
     // 입력 값 변경 시 호출되는 함수
     const handleInputChange = (e) => {
@@ -60,6 +61,7 @@ function Join() {
             console.log(response);
 
             alert('회원가입이 완료되었습니다.');
+            navigate("/login");
         } catch (error) {
             console.log(error);
             alert('회원가입에 실패했습니다.');
@@ -248,6 +250,9 @@ function Join() {
                         </div>
                     </div>
 
+                    {/* 성별 밑에 검정색 줄 추가 */}
+                    <hr className="w-full border-black my-4"/>
+
                     {/* 개인정보 동의 */}
                     <div className="flex items-center gap-4">
                         <label className="w-3/5 text-gray-700 font-semibold mb-10">개인정보 수집에 동의하십니까?</label>
@@ -262,6 +267,7 @@ function Join() {
                             </label>
                         </div>
                     </div>
+
 
                     {/* 가입하기 버튼 */}
                     <div className="flex justify-center mt-10">
