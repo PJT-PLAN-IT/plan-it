@@ -11,7 +11,7 @@ function App() {
   const [data, setData] = useState("");
   useEffect(() => {
     axios
-      .get("/api/api/server/test")
+      .get("/api/server/test")
       .then((response) => {
         console.log(response);
         setData(response.data);
