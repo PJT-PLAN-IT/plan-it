@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "T_TRIP_PLAN")
 public class TripPlan extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trip_plan_no")
@@ -24,7 +25,7 @@ public class TripPlan extends BaseEntity{
 
     @NotNull
     @Column(name = "cust_no")
-    private Integer custNo;
+    private int custNo;
 
     @NotNull
     @Column(name = "title")
