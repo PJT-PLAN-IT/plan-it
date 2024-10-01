@@ -1,6 +1,6 @@
 package com.pjt.planit.test;
 
-import com.pjt.planit.entity.Banner;
+import com.pjt.planit.db.entity.Banner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,11 @@ import java.util.List;
 public class TestController {
     @Autowired
     private TestService testService;
+
+    @GetMapping("/test")
+    public String test(){
+        return "hi";
+    }
 
     @GetMapping("/mybatis/banner/list")
     public List<Banner> getBannerListByMybatis() {
