@@ -64,4 +64,16 @@ public class Cust extends BaseEntity {
 
     @Column(name = "intro")
     private String intro;
+
+    public void updateUserInfo(Integer custNo, String email, String pw, String name, String nickname,
+                               String phoneNumber, LocalDateTime birthDt, String gender) {
+        this.custNo = custNo;
+        this.email = email;
+        this.pw = pw;
+        this.name = name;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.birthDt = birthDt;
+        this.gender = gender;
+    }
 }

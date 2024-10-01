@@ -10,4 +10,8 @@ import java.util.List;
 @Repository
 public interface TripPlanRepository extends JpaRepository<TripPlan, Integer> {
     List<TripPlan> findAllByCustNoAndStartDtBetweenOrderByCreateDtDesc(Integer custNo, LocalDateTime startDt, LocalDateTime endDt);
+
+    List<TripPlan> findAllByCustNo(Integer custNo);  //내가 작성한 여행계획 조회
+
+    TripPlan findByTripPlanNo(Integer tripPlanNo);
 }

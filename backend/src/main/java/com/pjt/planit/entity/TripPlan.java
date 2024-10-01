@@ -24,9 +24,8 @@ public class TripPlan extends BaseEntity{
     private Integer tripPlanNo;
 
     @NotNull
-    @JoinColumn(name = "cust_no")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Cust cust;
+    @Column(name = "cust_no")
+    private int custNo;
 
     @NotNull
     @Column(name = "title")
