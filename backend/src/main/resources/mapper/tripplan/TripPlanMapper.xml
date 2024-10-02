@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pjt.planit.tripplan.mapper.PlanMapper">
-    <select id="getPlanList" parameterType="com.pjt.planit.tripplan.dto.PlanDto" resultType="hashmap">
+<mapper namespace="com.pjt.planit.business.tripplan.mapper.PlanMapper">
+    <select id="getPlanList" parameterType="com.pjt.planit.business.tripplan.dto.PlanDto" resultType="hashmap">
         SELECT *
         , CASE WHEN A.cust_no = 2 THEN 'Y' ELSE 'N' END AS ownerYn
         FROM (
