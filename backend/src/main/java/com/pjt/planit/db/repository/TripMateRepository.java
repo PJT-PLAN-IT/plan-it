@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TripMateRepository extends JpaRepository<TripMate, Integer> {
 
+    TripMate findByCustNo(Integer custNo);
 }

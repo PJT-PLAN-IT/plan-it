@@ -58,4 +58,7 @@ public class FindMate extends BaseEntity {
 
     @Column(name = "fifty_yn")
     private String fiftyYn;
+
+    @Column(name = "thumbnail_img")
+    private String thumbnailImg;
 }

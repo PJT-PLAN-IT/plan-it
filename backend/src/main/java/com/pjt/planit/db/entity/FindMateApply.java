@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -43,4 +44,15 @@ public class FindMateApply extends BaseEntity {
     @NotNull
     @Column(name = "expired_dt")
     private LocalDateTime expiredDt;
+
+
+    public void updateYn(String allowYn, String refuseYn){
+        if(StringUtils.hasText(allowYn)){
+            this.allowYn = allowYn;
+        }
+
+        if(StringUtils.hasText(refuseYn)){
+            this.refuseYn = refuseYn;
+        }
+    }
 }

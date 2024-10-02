@@ -27,4 +27,5 @@ public class TripMate extends BaseEntity{
     @NotNull
     @Column(name = "cust_no")
     private Integer custNo;
+
 }
