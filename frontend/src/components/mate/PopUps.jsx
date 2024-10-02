@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
-export function Alert() {
+function Alert() {
   const check = (
     <FontAwesomeIcon className="text-[60px] text-orange" icon={faCircleCheck} />
   );
@@ -33,7 +33,7 @@ export function Alert() {
   );
 }
 
-export function ThumbSelect() {
+function ThumbSelect() {
   const camera = <FontAwesomeIcon icon={faCamera} />;
   return (
     <div className="w-[700px] border-2 flex-col flex justify-center items-center">
@@ -60,7 +60,7 @@ export function ThumbSelect() {
   );
 }
 
-export function ShareLink() {
+function ShareLink() {
   const url = window.location.href;
   const copyToClipboard = () => {
     navigator.clipboard

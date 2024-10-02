@@ -12,10 +12,12 @@ export function TripScroll() {
   );
 }
 
-export function Textbox() {
+export default function Textbox({ formData, titleChange, contentChange }) {
   return (
     <div className=" flex-col border border-gray-400  mb-[70px] ">
       <input
+        onChange={titleChange}
+        name="title"
         className=" w-[400px] h-10 p-2 my-2 justify-start block focus:outline-none"
         type="text"
         placeholder="제목을 입력하세요"
@@ -23,6 +25,8 @@ export function Textbox() {
 
       <Editor
         apiKey="xrrohkv0t2zqx94m985ll5nay89i4r3tppwr17zjeg2igtg6"
+        onEditorChange={contentChange}
+        value={formData}
         init={{
           plugins: [
             // Core editing features
@@ -43,7 +47,6 @@ export function Textbox() {
             "blocks fontfamily fontsize | bold italic underline strikethrough | link table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | ",
           elementpath: false,
           tinycomments_mode: "embedded",
-          tinycomments_author: "Author name",
           menubar: "",
           mergetags_list: [
             { value: "First.Name", title: "First Name" },
@@ -59,3 +62,5 @@ export function Textbox() {
     </div>
   );
 }
+
+// export default Textbox;

@@ -12,6 +12,7 @@ export default function ListMainNav() {
   const [open, setOpen] = useState(false);
   const search = <FontAwesomeIcon icon={faMagnifyingGlass} />;
   const filter = <FontAwesomeIcon icon={faSliders} />;
+
   return (
     <>
       <div className="p-4 flex w-[100%] justify-between mt-5">
@@ -53,14 +54,16 @@ function SearchFilter() {
   return (
     <div className=" z-50 overflow-y-scroll  overflow-x-hidden absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 w-[900px] h-[1000px]">
       <div className=" bg-white w-[900px] h-[1400px] ">
-        <RegionSel />
-        <TripStyle />
-        <Calender />
-        <AgeAndGender />
-        <div className="mr-10 flex gap-5 justify-center items-center">
-          <ConfirmBtnBg />
-          <CloseBtnBg />
-        </div>
+        <form>
+          <RegionSel />
+          <TripStyle />
+          <Calender />
+          <AgeAndGender />
+          <div className="mr-10 flex gap-5 justify-center items-center">
+            <ConfirmBtnBg />
+            <CloseBtnBg />
+          </div>
+        </form>
       </div>
     </div>
   );
