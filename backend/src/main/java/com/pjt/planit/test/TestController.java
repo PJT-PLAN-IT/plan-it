@@ -1,6 +1,6 @@
 package com.pjt.planit.test;
 
-import com.pjt.planit.entity.Banner;
+import com.pjt.planit.db.entity.Banner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -7,7 +7,7 @@
         FROM T_BANNER
     </select>
 
-    <insert id="insertBanner" parameterType="com.pjt.planit.entity.Banner">
+    <insert id="insertBanner" parameterType="com.pjt.planit.db.entity.Banner">
         INSERT INTO T_BANNER (
             banner_img,
             type,
