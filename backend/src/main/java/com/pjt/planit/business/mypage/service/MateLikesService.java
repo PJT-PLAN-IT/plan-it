@@ -1,5 +1,6 @@
 package com.pjt.planit.business.mypage.service;
 
+import com.pjt.planit.business.mypage.dto.MateLikeRevokeDto;
 import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.entity.FindMate;
 import com.pjt.planit.db.entity.FindMateLike;
@@ -50,6 +51,15 @@ public class MateLikesService {
                 .toList();
 
         return result;
+    }
+
+    /**
+     * 좋아요 취소
+     * @param dto
+     */
+    @Transactional
+    public void likeRevoke(MateLikeRevokeDto dto) {
+        findMateLikeRepository.deleteByFindMateLikeNo(dto.getFindMateLikeNo());
     }
 
 

@@ -12,15 +12,15 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/my/mates")
-public class MyPageController {
+public class MateController {
 
     private final MateListWriteService myMateListService;
     private final MateApplyService myMateApplyService;
     private final MateLikesService myMateLikesService;
 
-    @GetMapping("/{id}")
-    public ApiResponse myMateList(@PathVariable Integer id, @RequestParam Integer year) {
-        List<MateListWriteDto> list = myMateListService.myMateList(id, year);
+    @GetMapping("/{custNo}")
+    public ApiResponse myMateList(@PathVariable Integer custNo, @RequestParam Integer year) {
+        List<MateListWriteDto> list = myMateListService.myMateList(custNo, year);
         return ApiResponse.ok(list);
     }
 
@@ -30,9 +30,9 @@ public class MyPageController {
         return ApiResponse.ok();
     }
 
-    @GetMapping("/apply/{id}")
-    public ApiResponse MateApply(@PathVariable Integer id, @RequestParam Integer year) {
-        List<MateListSubDto> list = myMateApplyService.mateApply(id, year);
+    @GetMapping("/apply/{custNo}")
+    public ApiResponse MateApply(@PathVariable Integer custNo, @RequestParam Integer year) {
+        List<MateListSubDto> list = myMateApplyService.mateApply(custNo, year);
         return ApiResponse.ok(list);
     }
 
@@ -42,9 +42,15 @@ public class MyPageController {
         return ApiResponse.ok();
     }
 
-    @GetMapping("/likes/{id}")
-    public ApiResponse mateListLikes(@PathVariable Integer id, @RequestParam Integer year) {
-        List<MateListLikeDto> list = myMateLikesService.mateListLikes(id, year);
+    @GetMapping("/likes/{custNo}")
+    public ApiResponse mateListLikes(@PathVariable Integer custNo, @RequestParam Integer year) {
+        List<MateListLikeDto> list = myMateLikesService.mateListLikes(custNo, year);
         return ApiResponse.ok(list);
+    }
+
+    @PostMapping("/like/revoke")
+    public ApiResponse likeRevoke(@RequestBody MateLikeRevokeDto dto) {
+        myMateLikesService.likeRevoke(dto);
+        return ApiResponse.ok();
     }
 }
