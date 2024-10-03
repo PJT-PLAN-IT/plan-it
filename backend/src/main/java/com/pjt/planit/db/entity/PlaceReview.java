@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
@@ -51,4 +53,7 @@ public class PlaceReview extends BaseEntity {
 
     @Column(name = "review_img4")
     private String reviewImg4;
+
+    @Column(name = "create_dt")
+    private LocalDateTime createDt;
 }

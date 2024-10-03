@@ -19,11 +19,11 @@ public class UserInfoService {
 
     /**
      * 개인정보 불러오기
-     * @param custId
+     * @param custNo
      * @return
      */
-    public CustInfoDto userInfo(Integer custId) {
-        Optional<Cust> byId = custRepository.findById(custId);
+    public CustInfoDto userInfo(Integer custNo) {
+        Optional<Cust> byId = custRepository.findById(custNo);
         if (byId.isPresent()) {
             Cust cust = byId.get();
             CustInfoDto list = toDto(cust);
