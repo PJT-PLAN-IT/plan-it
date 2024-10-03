@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
-export default function ListMainTiles() {
+function ListMainTiles() {
   return (
     <div className="flex flex-wrap gap-10 my-20 justify-center">
       <ListMainTile />
@@ -17,7 +17,7 @@ export default function ListMainTiles() {
   );
 }
 
-function ListMainTile() {
+const ListMainTile = () => {
   const heart = (
     <FontAwesomeIcon
       className="text-gray-200 font-medium text-[30px]"
@@ -53,4 +53,8 @@ function ListMainTile() {
       </div>
     </div>
   );
-}
+};
+
+export default ListMainTiles;
+
+export { ListMainTile };

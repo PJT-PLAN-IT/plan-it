@@ -6,7 +6,7 @@ const TripStyles = [
   { value: "#레포츠", key: 5, name: "btnSp" },
   { value: "#맛집탐방", key: 6, name: "btnFd" },
 ];
-export function TripStyle({ formData, trpBtnClick }) {
+function TripStyle({ formData, trpBtnClick }) {
   return (
     <div className="border-t-2">
       <div className="py-[10px] px-[30px] my-[9px]">

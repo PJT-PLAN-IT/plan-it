@@ -18,7 +18,7 @@ function MyTrip() {
   );
 }
 
-function MyTripDay() {
+const MyTripDay = () => {
   return (
     <div className="flex ml-8 mb-20">
       <div className=" flex-3 mt-3.5 font-bold text-xl">day 1</div>
@@ -36,9 +36,9 @@ function MyTripDay() {
       </div>
     </div>
   );
-}
+};
 
-function MyTripPlans() {
+const MyTripPlans = () => {
   const [open, setOpen] = useState(false);
   const chevdown = (
     <FontAwesomeIcon className="text-lg text-gray-400" icon={faChevronDown} />
@@ -79,14 +79,16 @@ function MyTripPlans() {
       </div>
     </div>
   );
-}
+};
 
-export function MyTripMap() {
+const MyTripMap = () => {
   return (
     <div>
       <img src={MapImg} alt="map" />
     </div>
   );
-}
+};
 
 export default MyTrip;
+
+export { MyTripDay, MyTripPlans, MyTripMap };

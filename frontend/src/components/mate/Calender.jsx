@@ -2,7 +2,8 @@ import Calendar from "react-calendar";
 import "../../assets/css/Calender.css";
 import { useState } from "react";
 import moment from "moment/moment";
-export default function Calender({ dateChange }) {
+
+function Calender({ dateChange }) {
   const [date, setDate] = useState([null, null]);
 
   const handleDateChange = (selectedDate) => {
@@ -34,3 +35,5 @@ export default function Calender({ dateChange }) {
     </div>
   );
 }
+
+export default Calender;

@@ -19,7 +19,7 @@ const Regions = [
   { value: "#제주", key: 50, name: "btnJj" },
 ];
 
-export function RegionSel({ formData, regBtnClick }) {
+function RegionSel({ formData, regBtnClick }) {
   return (
     <div className="border-t-2">
       <div className="w-[900px] p-[30px] mb-[35px]">

@@ -107,3 +107,5 @@ export function MateDetail() {
     </div>
   );
 }
+
+export default MateDetail;

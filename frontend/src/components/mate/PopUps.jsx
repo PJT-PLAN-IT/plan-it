@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
-function Alert() {
+const Alert = () => {
   const check = (
     <FontAwesomeIcon className="text-[60px] text-orange" icon={faCircleCheck} />
   );
@@ -31,9 +31,9 @@ function Alert() {
       </div>
     </div>
   );
-}
+};
 
-function ThumbSelect() {
+const ThumbSelect = () => {
   const camera = <FontAwesomeIcon icon={faCamera} />;
   return (
     <div className="w-[700px] border-2 flex-col flex justify-center items-center">
@@ -58,9 +58,9 @@ function ThumbSelect() {
       <button className="my-10 px-10 py-2 rounded-lg on ">저장하기</button>
     </div>
   );
-}
+};
 
-function ShareLink() {
+const ShareLink = () => {
   const url = window.location.href;
   const copyToClipboard = () => {
     navigator.clipboard
@@ -90,4 +90,6 @@ function ShareLink() {
       </div>
     </div>
   );
-}
+};
+
+export { ShareLink, ThumbSelect, Alert };

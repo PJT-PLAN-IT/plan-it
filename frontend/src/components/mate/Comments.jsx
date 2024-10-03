@@ -1,4 +1,4 @@
-export function AddComment() {
+const AddComment = () => {
   return (
     <div className="border-2 py-2 my-20 flex-col ">
       <div className="w-[100%] h-[100px] mb-5">
@@ -11,9 +11,9 @@ export function AddComment() {
       <button className="border-2 button gen my-2">등록</button>
     </div>
   );
-}
+};
 
-export function ShowComment() {
+const ShowComment = () => {
   return (
     <div className="my-20">
       <h1 className="border-b-2 p-2">
@@ -55,4 +55,6 @@ export function ShowComment() {
       </div>
     </div>
   );
-}
+};
+
+export { AddComment, ShowComment };

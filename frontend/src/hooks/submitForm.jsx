@@ -1,3 +1,5 @@
+import { useState } from "react";
+import axios from "axios";
 import Header from "../components/mate/Header";
 import TextBox, { TripScroll } from "../components/mate/TextBox";
 import RegionSel from "../components/mate/RegionSel";
@@ -5,9 +7,9 @@ import TripStyle from "../components/mate/TripStyle";
 import Calender from "../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
-import { useState } from "react";
+import { btnVal } from "./validCheck";
 
-export default function SubmitForm() {
+function SubmitForm() {
   const [formData, setFormData] = useState({
     regButtonStates: {
       btnAl: false,
@@ -50,7 +52,7 @@ export default function SubmitForm() {
       endDate: "",
     },
     titleState: "",
-    mateNumState: "",
+    mateNumState: 1,
     contentState: "",
     genderState: "",
   });
@@ -116,22 +118,48 @@ export default function SubmitForm() {
   }
 
   const handleSubmit = (e) => {
+    console.log("submit called");
     e.preventDefault();
+    const regArr = Object.values(formData.regButtonStates);
+    const stlArr = Object.values(formData.tripButtonStates);
+    const datArr = Object.values(formData.dateChangeStates);
+    const ttlArr = formData.titleState;
+    const cntArr = formData.contentState;
+    const gdrArr = formData.genderState;
+    const mtnArr = formData.mateNumState;
+
+    const regTxt = "지역";
+    const styleTxt = "여행 스타일";
+    const datTxt = "날짜";
+    const ttlTxt = "제목";
+    const cntTxt = "내용";
+    const gdrTxt = "성별";
+    const mtnTxt = "모집인원수";
+
+    const v1 = btnVal(regArr, regTxt);
+    const v2 = btnVal(stlArr, styleTxt);
+    const v3 = btnVal(datArr, datTxt);
+    const v4 = btnVal(ttlArr, ttlTxt);
+    const v5 = btnVal(cntArr, cntTxt);
+    const v6 = btnVal(gdrArr, gdrTxt);
+    const v7 = btnVal(mtnArr, mtnTxt);
+
+    if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6 || !v7) {
+      return;
+    }
     console.log("sending json: ", formData);
 
-    fetch("http://localhost/80/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("success:", data);
+    axios
+      .post("api/server/mate", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("success:", response.data);
       })
       .catch((error) => {
-        console.error("error :", error);
+        console.error("error:", error);
       });
   };
 
@@ -162,10 +190,12 @@ export default function SubmitForm() {
         </div>
         <MateNum mateNumChange={mateNumChange} />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
-          <RegBtnBg type="submit" />
+          <RegBtnBg type="button" />
           <CancelBtnBg />
         </div>
       </form>
     </div>
   );
 }
+
+export default SubmitForm;

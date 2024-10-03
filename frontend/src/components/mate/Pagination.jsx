@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-export default function Pagination() {
+function Pagination() {
   const left = <FontAwesomeIcon icon={faArrowLeft} />;
   const right = <FontAwesomeIcon icon={faArrowRight} />;
   return (
@@ -21,3 +21,5 @@ export default function Pagination() {
     </div>
   );
 }
+
+export default Pagination;

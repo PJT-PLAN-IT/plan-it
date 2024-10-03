@@ -8,7 +8,7 @@ import AgeAndGender from "../mate/AgeAndGender";
 import Calender from "../mate/Calender";
 import { CloseBtnBg, ConfirmBtnBg } from "../mate/Buttons";
 
-export default function ListMainNav() {
+function ListMainNav() {
   const [open, setOpen] = useState(false);
   const search = <FontAwesomeIcon icon={faMagnifyingGlass} />;
   const filter = <FontAwesomeIcon icon={faSliders} />;
@@ -50,7 +50,7 @@ export default function ListMainNav() {
   );
 }
 
-function SearchFilter() {
+const SearchFilter = () => {
   return (
     <div className=" z-50 overflow-y-scroll  overflow-x-hidden absolute top-[50%] left-[50%] -translate-y-2/4 -translate-x-2/4 w-[900px] h-[1000px]">
       <div className=" bg-white w-[900px] h-[1400px] ">
@@ -67,4 +67,7 @@ function SearchFilter() {
       </div>
     </div>
   );
-}
+};
+
+export default ListMainNav;
+export { SearchFilter };

@@ -1,6 +1,6 @@
 import { Editor } from "@tinymce/tinymce-react";
 
-export function TripScroll() {
+const TripScroll = () => {
   return (
     <div className="flex justify-start">
       <select className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10  ">
@@ -10,9 +10,9 @@ export function TripScroll() {
       </select>
     </div>
   );
-}
+};
 
-export default function Textbox({ formData, titleChange, contentChange }) {
+function Textbox({ formData, titleChange, contentChange }) {
   return (
     <div className=" flex-col border border-gray-400  mb-[70px] ">
       <input
@@ -21,6 +21,7 @@ export default function Textbox({ formData, titleChange, contentChange }) {
         className=" w-[400px] h-10 p-2 my-2 justify-start block focus:outline-none"
         type="text"
         placeholder="제목을 입력하세요"
+        maxLength={14}
       />
 
       <Editor
@@ -63,4 +64,6 @@ export default function Textbox({ formData, titleChange, contentChange }) {
   );
 }
 
-// export default Textbox;
+export default Textbox;
+
+export { TripScroll };

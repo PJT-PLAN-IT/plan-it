@@ -1,4 +1,4 @@
-export function AgeAndGender() {
+function AgeAndGender() {
   return (
     <div className="flex-col my-[30px]">
       <div className="flex">
@@ -10,7 +10,7 @@ export function AgeAndGender() {
   );
 }
 
-export function GenderSel({ formData, handleGenderChange }) {
+const GenderSel = ({ formData, handleGenderChange }) => {
   const genderInfo = [
     {
       name: "여자",
@@ -44,9 +44,9 @@ export function GenderSel({ formData, handleGenderChange }) {
       </div>
     </div>
   );
-}
+};
 
-export function AgeSel({ ageButtonChange }) {
+const AgeSel = ({ ageButtonChange }) => {
   const ageGroup = [
     { demo: " 20대", key: 20, name: "twenty" },
     { demo: " 30대", key: 30, name: "thirty" },
@@ -71,9 +71,9 @@ export function AgeSel({ ageButtonChange }) {
       </div>
     </div>
   );
-}
+};
 
-export function MateNum({ mateNumChange }) {
+const MateNum = ({ mateNumChange }) => {
   return (
     <div className="p-[30px] pb-20 border-b-2">
       <h1 className="TitleLabel">모집 인원 수:</h1>
@@ -86,6 +86,8 @@ export function MateNum({ mateNumChange }) {
       />
     </div>
   );
-}
+};
 
 export default AgeAndGender;
+
+export { MateNum, AgeSel, GenderSel };
