@@ -1,13 +1,8 @@
 import Logo from "../../assets/img/logo.png";
-import Img1 from "../../assets/img/img1.jpg";
-import Img2 from "../../assets/img/img2.jpg";
-import Img3 from "../../assets/img/img3.jpg";
-import Img4 from "../../assets/img/img4.jpg";
-import Img5 from "../../assets/img/img5.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-
+import { useState } from "react";
 const Alert = () => {
   const check = (
     <FontAwesomeIcon className="text-[60px] text-orange" icon={faCircleCheck} />
@@ -33,29 +28,96 @@ const Alert = () => {
   );
 };
 
-const ThumbSelect = () => {
+const ThumbSelect = ({ thumbSelChange }) => {
   const camera = <FontAwesomeIcon icon={faCamera} />;
+  const [file, setFile] = useState(null);
+  const IMGUR_CLIENT_ID = "5043e84fa279a89";
+
+  const imgArr = [
+    { img: "https://i.imgur.com/opKra17.jpg" },
+    { img: "https://i.imgur.com/InGqTTI.jpg" },
+    { img: "https://i.imgur.com/JZH8AZK.jpg" },
+    { img: "https://i.imgur.com/kN6bbE6.jpg" },
+    { img: "https://i.imgur.com/Xoh0MPH.jpg" },
+  ];
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const submitImage = async (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      alert("썸네일을 선택하거나 파일을 올려주세요");
+      return;
+    }
+
+    const fileData = new FormData();
+    fileData.append("image", file);
+
+    try {
+      const response = await fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: {
+          Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+        },
+        body: fileData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        thumbSelChange(data.data.link);
+      } else {
+        alert("Image upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
   return (
-    <div className="w-[700px] border-2 flex-col flex justify-center items-center">
+    <div className=" border-2 flex-col flex justify-center ">
       <div>
-        <img className="w-[100px]" src={Logo} alt="" />
+        <h1 className="text-3xl mb-10 font-medium">썸네일을 선택해주세요</h1>
+        <div className="ml-12 flex flex-wrap w-[70%] h-[10%] gap-4 border-2 justify-evenly items-center">
+          {imgArr.map((img) => (
+            // eslint-disable-next-line react/jsx-key
+            <div className="w-[10%] object-cover overflow-hidden border-2 border-red-400 ">
+              <img className=" " src={img.img} alt="img" />
+            </div>
+          ))}
+        </div>
+        <div>
+          <h1 className="text-lg font-medium my-5  px-16 py-2 ">
+            {camera} 직접 썸네일 올리기
+          </h1>
+          <input
+            type="file"
+            className="border-2 border-gray inline-block"
+            accept=".jpg, .png"
+            onChange={handleFileChange}
+          />
+        </div>
+        <div className="flex justify-center items-center">
+          {/* <img className=" w-[40%]" src={setFormData.thumbnailSel} alt="img" /> */}
+          {/* {formData.thumbnailSel && (
+            <img
+              className="w-[40%]"
+              src={formData.thumbnailSel}
+              alt="thumbnail"
+            />
+          )} */}
+        </div>
+        <button
+          type="button"
+          className="my-10 px-10 py-2 rounded-lg on "
+          onClick={submitImage}
+        >
+          저장하기
+        </button>
       </div>
-      <h1 className="text-3xl mb-10 font-medium">썸네일을 선택해주세요</h1>
-      <div className="ml-12 flex flex-wrap w-[90%] gap-4 ">
-        <img className="w-[30%]" src={Img1} alt="img" />
-        <img className="w-[30%]" src={Img2} alt="img" />
-        <img className="w-[30%]" src={Img3} alt="img" />
-        <img className="w-[30%]" src={Img4} alt="img" />
-        <img className="w-[30%]" src={Img5} alt="img" />
-        <div className="w-[30%] bg-gray-400 text-center">이미지 없음</div>
-      </div>
-      <button className="text-lg font-medium my-5 border border-gray-950 px-16 py-2">
-        {camera} 직접 썸네일 올리기
-      </button>
-      <div className="flex justify-center items-center">
-        <img className=" w-[40%]" src={Img3} alt="img" />
-      </div>
-      <button className="my-10 px-10 py-2 rounded-lg on ">저장하기</button>
     </div>
   );
 };

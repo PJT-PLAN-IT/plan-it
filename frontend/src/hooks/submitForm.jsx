@@ -1,5 +1,3 @@
-import { useState } from "react";
-import axios from "axios";
 import Header from "../components/mate/Header";
 import TextBox, { TripScroll } from "../components/mate/TextBox";
 import RegionSel from "../components/mate/RegionSel";
@@ -7,7 +5,9 @@ import TripStyle from "../components/mate/TripStyle";
 import Calender from "../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
+import { useState } from "react";
 import { btnVal } from "./validCheck";
+import { ThumbSelect } from "../components/mate/PopUps";
 
 function SubmitForm() {
   const [formData, setFormData] = useState({
@@ -55,6 +55,7 @@ function SubmitForm() {
     mateNumState: 1,
     contentState: "",
     genderState: "",
+    thumbnailSel: "",
   });
 
   function regBtnClick(btnState) {
@@ -79,6 +80,10 @@ function SubmitForm() {
   const titleChange = (e) => {
     setFormData({ ...formData, titleState: e.target.value });
     console.log(e.target.value);
+  };
+  const thumbSelChange = (data) => {
+    setFormData({ ...formData, thumbnailSel: data });
+    // console.log(data);
   };
   const mateNumChange = (e) => {
     setFormData({ ...formData, mateNumState: e.target.value });
@@ -149,18 +154,20 @@ function SubmitForm() {
     }
     console.log("sending json: ", formData);
 
-    axios
-      .post("api/server/mate", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("success:", response.data);
-      })
-      .catch((error) => {
-        console.error("error:", error);
-      });
+    // fetch("http://localhost/80/", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("success:", data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("error :", error);
+    //   });
   };
 
   return (
@@ -189,6 +196,7 @@ function SubmitForm() {
           <AgeSel ageButtonChange={ageButtonChange} />
         </div>
         <MateNum mateNumChange={mateNumChange} />
+        <ThumbSelect thumbSelChange={thumbSelChange} />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
           <CancelBtnBg />

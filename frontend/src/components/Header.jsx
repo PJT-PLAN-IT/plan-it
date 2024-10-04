@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "../pages/Header.css";
-import Logo from "../pages/logo.png";
+import "../assets/css/Header.css";
+import Logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
@@ -17,7 +17,7 @@ const env = <FontAwesomeIcon className="size-6" icon={faEnvelope} />;
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <container className="font-notosans HeaderWrap">
+    <div className="font-notosans HeaderWrap">
       <img className="w-[90px]" src={Logo} alt="logo" />
       <div className="w-[1320px] HeaderItems">
         <div className=" m-auto ml-2 HeaderNav">
@@ -67,7 +67,7 @@ export function Header() {
           </ul>
         </div>
       </div>
-    </container>
+    </div>
   );
 }
 
