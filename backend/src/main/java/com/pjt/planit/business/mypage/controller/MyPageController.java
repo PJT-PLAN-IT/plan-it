@@ -4,6 +4,7 @@ import com.pjt.planit.business.mypage.dto.*;
 import com.pjt.planit.business.mypage.service.MateApplyService;
 import com.pjt.planit.business.mypage.service.MateLikesService;
 import com.pjt.planit.business.mypage.service.MateListWriteService;
+import com.pjt.planit.core.config.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,30 +22,30 @@ public class MyPageController {
     @GetMapping("/{id}")
     public ApiResponse myMateList(@PathVariable Integer id, @RequestParam Integer year) {
         List<MateListWriteDto> list = myMateListService.myMateList(id, year);
-        return ApiResponse.ok(list);
+        return ApiResponse.ok("ok", list);
     }
 
     @PostMapping("/approval")
     public ApiResponse applyUpdate(@RequestBody MateApplyUpdateDto dto) {
         myMateListService.applyUpdate(dto);
-        return ApiResponse.ok();
+        return ApiResponse.ok("ok");
     }
 
     @GetMapping("/apply/{id}")
     public ApiResponse MateApply(@PathVariable Integer id, @RequestParam Integer year) {
         List<MateListSubDto> list = myMateApplyService.mateApply(id, year);
-        return ApiResponse.ok(list);
+        return ApiResponse.ok("ok",list);
     }
 
     @PostMapping("/apply/secession")
     public ApiResponse applySecession(@RequestBody TripMateDto dto) {
         myMateApplyService.applySecession(dto);
-        return ApiResponse.ok();
+        return ApiResponse.ok("ok");
     }
 
     @GetMapping("/likes/{id}")
     public ApiResponse mateListLikes(@PathVariable Integer id, @RequestParam Integer year) {
         List<MateListLikeDto> list = myMateLikesService.mateListLikes(id, year);
-        return ApiResponse.ok(list);
+        return ApiResponse.ok("ok", list);
     }
 }

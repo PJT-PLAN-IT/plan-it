@@ -1,4 +1,4 @@
-package com.pjt.planit.business.mypage.controller;
+package com.pjt.planit.core.config;
 
 import lombok.*;
 
@@ -11,17 +11,28 @@ public class ApiResponse {
     private String msg;
     private Object data;
 
-    public static ApiResponse ok(){
+    /**
+     *
+     * @param message p1
+     * @return ApiResponse
+     */
+    public static ApiResponse ok(String message){
         return ApiResponse.builder()
                 .code(200)
-                .msg("ok")
+                .msg(message)
                 .build();
     }
 
-    public static ApiResponse ok(Object data){
+    /**
+     *
+     * @param message p1
+     * @param data d
+     * @return ApiResponse
+     */
+    public static ApiResponse ok(String message, Object data){
         return ApiResponse.builder()
                 .code(200)
-                .msg("ok")
+                .msg(message)
                 .data(data)
                 .build();
     }

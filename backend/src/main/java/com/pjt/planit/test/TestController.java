@@ -32,8 +32,10 @@ public class TestController {
         return testService.getBannerListByJpa();
     }
 
+
     @PostMapping("/jpa/banner")
     public void insertBannerByJpa(@RequestBody Banner banner) {
+
         System.out.println("test");
         testService.insertBannerByJpa(banner);
     }

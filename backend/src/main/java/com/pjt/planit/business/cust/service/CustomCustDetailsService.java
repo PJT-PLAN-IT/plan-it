@@ -8,6 +8,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+/**
+ * UserDetailService Custom Service
+ * with Spring Security Core
+ */
 @Service
 public class CustomCustDetailsService implements UserDetailsService{
 
@@ -23,7 +29,7 @@ public class CustomCustDetailsService implements UserDetailsService{
 
         Cust cust = custRepository.findAllByEmail(email);
 
-        if(cust != null) {
+        if(cust != null ) {
             return new CustomCustDetails(cust);
         }
 

@@ -15,19 +15,12 @@ import java.time.LocalDateTime;
 public class CustJoinDto {
 
     private String email;
-
     private String pw;
-
     private String name;
-
     private String nickname;
-
     private String phoneNumber;
-
     private LocalDateTime birthDt;
-
     private String gender; // M or W
-
     private LocalDateTime joinDt;
 
 }

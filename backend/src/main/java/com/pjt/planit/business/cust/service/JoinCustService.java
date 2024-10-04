@@ -21,11 +21,11 @@ public class JoinCustService {
     }
 
     // return값 변경하기 true/false
-    public Boolean JoinProcess(CustJoinDto custJoinDto) {
+    public void signup(CustJoinDto custJoinDto) {
         Boolean isExist = custRepository.existsByEmail(custJoinDto.getEmail());
 
         if(isExist) {
-            return false;
+            return;
         }
         Cust cust = Cust.builder()
                 .email(custJoinDto.getEmail())
@@ -37,12 +37,11 @@ public class JoinCustService {
                 .gender(custJoinDto.getGender())
                 .joinDt(LocalDateTime.now())
                 .build();
-        cust.setCreateBy(cust.getName());
-        cust.setCreateDt(LocalDateTime.now());
+        System.out.println(cust.getEmail());
+        cust.setCreateBy(cust.getEmail());
 
         custRepository.save(cust);
 
-        return true;
     }
 
 

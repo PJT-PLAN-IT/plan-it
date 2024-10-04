@@ -1,4 +1,4 @@
-package com.pjt.planit.config;
+package com.pjt.planit.core.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

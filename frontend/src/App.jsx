@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const [data, setData] = useState('');
   useEffect(() => {
-    axios.get('/api/server/test')
+    axios.get('/api/test/test')
       .then(response => {
         console.log(response);
         setData(response.data);
