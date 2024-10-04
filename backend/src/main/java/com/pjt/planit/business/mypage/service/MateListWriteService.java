@@ -92,11 +92,24 @@ public class MateListWriteService {
                     .mateApplyList(findMateApplyList.stream()
                             .map(apply -> {
                                 Cust custNo = custRepository.findByCustNo(apply.getCustNo());
-                                return new MateApplyDto().entityToDto(apply, custNo.getName());
+                                TripPlan planNo = tripPlanRepository.findByTripPlanNo(findMate.getTripPlanNo());
+                                return entityToDto(apply, custNo.getName(),planNo);
                             }).toList())
                     .build();
         }
         return null;
+    }
+
+    private MateApplyDto entityToDto(FindMateApply entity, String custName, TripPlan tripPlan ) {
+
+        return MateApplyDto.builder()
+                .findMateApplyNo(entity.getFindMateApplyNo())
+                .custNo(entity.getCustNo())
+                .allowYn(entity.getAllowYn())
+                .refuseYn(entity.getRefuseYn())
+                .custName(custName)
+                .tripPlanNo(tripPlan.getTripPlanNo())
+                .build();
     }
 
 }

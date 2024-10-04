@@ -14,4 +14,6 @@ public interface FindMateRepository extends JpaRepository<FindMate, Integer> {
 
     FindMate findByTripPlanNo(Integer tripPlanNo);
 
+    FindMate findByTitle(String title);
+
 }
