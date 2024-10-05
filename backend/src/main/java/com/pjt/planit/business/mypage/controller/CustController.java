@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/my-page")
-public class UserController {
+public class CustController {
 
     private final UserInfoService userInfoService;
     private final UserReplysService userReplysService;
@@ -25,8 +25,9 @@ public class UserController {
         return ApiResponse.ok(list);
     }
 
-    @PostMapping("/update")
-    public ApiResponse updateUserInfo(@RequestBody CustInfoDto dto) {
+    @PutMapping("/update/{custNo}")
+    public ApiResponse updateUserInfo(@PathVariable Integer custNo, @RequestBody CustInfoDto dto) {
+        dto.setCustNo(custNo);
         userInfoService.updateUserInfo(dto);
         return ApiResponse.ok();
     }
@@ -68,7 +69,13 @@ public class UserController {
 
     @GetMapping("/review/{placeReviewNo}")
     public ApiResponse retrieveReview(@PathVariable Integer placeReviewNo) {
-        ReviewUpdateDto list = userReviewsService.reviewDetail(placeReviewNo);
+        ReviewRetrieveDto list = userReviewsService.reviewDetail(placeReviewNo);
         return ApiResponse.ok(list);
+    }
+
+    @PutMapping("/review/{placeReviewNo}")
+    public ApiResponse updateReview(@PathVariable Integer placeReviewNo, @RequestBody ReviewRetrieveDto dto) {
+        //userReviewsService.updateReview(placeReviewNo, dto)
+        return ApiResponse.ok();
     }
 }

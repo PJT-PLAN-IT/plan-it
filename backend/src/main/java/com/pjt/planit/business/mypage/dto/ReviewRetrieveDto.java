@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewUpdateDto {
+public class ReviewRetrieveDto {
 
     //T_PLACE_REVIEW
     private Integer placeReviewNo;

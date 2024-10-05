@@ -100,6 +100,13 @@ public class MateListWriteService {
         return null;
     }
 
+    /**
+     * dto 변환
+     * @param entity
+     * @param custName
+     * @param tripPlan
+     * @return
+     */
     private MateApplyDto entityToDto(FindMateApply entity, String custName, TripPlan tripPlan ) {
 
         return MateApplyDto.builder()

@@ -1,7 +1,7 @@
 package com.pjt.planit.business.mypage.service;
 
 import com.pjt.planit.business.mypage.dto.ReviewListDto;
-import com.pjt.planit.business.mypage.dto.ReviewUpdateDto;
+import com.pjt.planit.business.mypage.dto.ReviewRetrieveDto;
 import com.pjt.planit.db.entity.PlaceReview;
 import com.pjt.planit.db.repository.PlaceReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +56,9 @@ public class UserReviewsService {
      * @param placeReviewNo
      * @return
      */
-    public ReviewUpdateDto reviewDetail(Integer placeReviewNo) {
+    public ReviewRetrieveDto reviewDetail(Integer placeReviewNo) {
         PlaceReview review = placeReviewRepository.findByPlaceReviewNo(placeReviewNo);
-        ReviewUpdateDto result = ReviewUpdateDto.builder()
+        ReviewRetrieveDto result = ReviewRetrieveDto.builder()
                 .placeReviewNo(review.getPlaceReviewNo())
                 .contentid(review.getContentid())
                 .star(review.getStar())
