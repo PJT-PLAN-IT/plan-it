@@ -25,7 +25,6 @@ public class JoinCustController {
     @PostMapping("")
     public ResponseResult<?> signup(@Valid @RequestBody CustJoinDto custJoinDto) {
         joinCustService.signup(custJoinDto);
-
         return ResponseResult.ofSuccess("success", null);
     }
 
