@@ -81,13 +81,13 @@ public class CustController {
 
     @GetMapping("/review/{placeReviewNo}")
     public ApiResponse retrieveReview(@PathVariable Integer placeReviewNo) {
-        ReviewUpdateDto list = userReviewsService.reviewDetail(placeReviewNo);
+        ReviewRetrieveDto list = userReviewsService.reviewDetail(placeReviewNo);
         return ApiResponse.ok("ok", list);
     }
 
     @PutMapping("/review/{placeReviewNo}")
     public ApiResponse updateReview(@PathVariable Integer placeReviewNo, @RequestBody ReviewRetrieveDto dto) {
         //userReviewsService.updateReview(placeReviewNo, dto)
-        return ApiResponse.ok();
+        return ApiResponse.ok("ok");
     }
 }
