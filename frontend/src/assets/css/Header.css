@@ -1,0 +1,75 @@
+
+.HeaderWrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.4px solid #797979;
+  margin-top: 30px;
+}
+
+.HeaderItems {
+  display: flex;
+  justify-content: space-between;
+}
+.HeaderNav {
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.HeaderNavItem {
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+}
+.HeaderNavItem:hover {
+  font-weight: 600;
+}
+
+.UserNavWrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.UserNavBtn {
+  display: flex;
+  align-items: center;
+  width: 7rem;
+  font-size: 0.75rem;
+  position: relative;
+}
+
+.DropDownMenu.inactive {
+  opacity: 0;
+}
+.DropDownMenu.active {
+  opacity: 1;
+}
+
+.DropDownCont {
+  padding: 0.25rem;
+  border: 0.05px solid #797979;
+  border-radius: 7px;
+  z-index: 10;
+  width: 200px;
+  height: 650px;
+  position: absolute;
+  right: 300px;
+  top: 90px;
+}
+
+.DropDownItem {
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.DropDownItem:hover {
+  font-size: 600;
+}
+
+.UnderLine {
+  border-bottom: 1px solid #797979;
+}
