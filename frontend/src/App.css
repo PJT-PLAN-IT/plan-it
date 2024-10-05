@@ -46,3 +46,31 @@ textarea::-webkit-scrollbar-thumb {
 .DropDownMenu.active {
   display: block;
 }
+
+/* 라디오 버튼 커스텀 스타일 */
+.custom-radio-button {
+  appearance: none;
+  border: 1px solid gray; /* 테두리 색상 주황색 */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-radio-button:checked {
+  background-color: #ff4500; /* 선택 시 배경색 주황색 */
+  border-color: #ff4500; /* 선택 시 테두리 주황색 유지 */
+}
+
+.custom-radio-button:checked::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}

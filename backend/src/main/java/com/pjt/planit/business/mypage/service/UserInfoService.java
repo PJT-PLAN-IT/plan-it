@@ -4,6 +4,7 @@ import com.pjt.planit.business.mypage.dto.CustInfoDto;
 import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.repository.CustRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +17,15 @@ import java.util.Optional;
 public class UserInfoService {
 
     private final CustRepository custRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 개인정보 불러오기
-     * @param custId
+     * @param custNo
      * @return
      */
-    public CustInfoDto userInfo(Integer custId) {
-        Optional<Cust> byId = custRepository.findById(custId);
+    public CustInfoDto userInfo(Integer custNo) {
+        Optional<Cust> byId = custRepository.findById(custNo);
         if (byId.isPresent()) {
             Cust cust = byId.get();
             CustInfoDto list = toDto(cust);
@@ -39,9 +41,10 @@ public class UserInfoService {
      */
     @Transactional
     public void updateUserInfo(CustInfoDto dto) {
-        Optional<Cust> byId = custRepository.findById(dto.getCustNo());
-        if (byId.isPresent()) {
-            Cust cust = byId.get();
+
+        Optional<Cust> byEmail = custRepository.findByEmail(dto.getEmail());
+        if (byEmail.isPresent()) {
+            Cust cust = byEmail.get();
 
             LocalDateTime birthDateTime = LocalDateTime.of(
                     Integer.parseInt(dto.getBirthYear()),
@@ -49,8 +52,8 @@ public class UserInfoService {
                     Integer.parseInt(dto.getBirthDay()),
                     0,0,0
             );
-            cust.updateUserInfo(dto.getCustNo(), dto.getEmail(), dto.getPw(), dto.getName(), dto.getNickname(),
-                    dto.getPhoneNumber(), birthDateTime, dto.getGender());
+
+            cust.updateUserInfo((bCryptPasswordEncoder.encode(dto.getPw())), dto.getName(), dto.getNickname(),dto.getPhoneNumber(), birthDateTime, dto.getGender());
 
             custRepository.save(cust);
         }

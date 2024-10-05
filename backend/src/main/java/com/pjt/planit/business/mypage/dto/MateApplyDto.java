@@ -20,14 +20,7 @@ public class MateApplyDto {
     private String refuseYn;
     //T_CUST
     private String custName;
+    //T_TRIP_PLAN
+    private Integer tripPlanNo;
 
-    public MateApplyDto entityToDto(FindMateApply entity, String custName ){
-        return MateApplyDto.builder()
-                .findMateApplyNo(entity.getFindMateApplyNo())
-                .custNo(entity.getCustNo())
-                .allowYn(entity.getAllowYn())
-                .refuseYn(entity.getRefuseYn())
-                .custName(custName)
-                .build();
-    }
 }
