@@ -1,4 +1,3 @@
-import Header from "../components/mate/Header";
 import TextBox, { TripScroll } from "../components/mate/TextBox";
 import RegionSel from "../components/mate/RegionSel";
 import TripStyle from "../components/mate/TripStyle";
@@ -7,9 +6,8 @@ import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
 import { useState } from "react";
 import { btnVal } from "./validCheck";
-import { ThumbSelect } from "../components/mate/PopUps";
 
-function SubmitForm() {
+export default function SubmitForm() {
   const [formData, setFormData] = useState({
     regButtonStates: {
       btnAl: false,
@@ -79,18 +77,12 @@ function SubmitForm() {
 
   const titleChange = (e) => {
     setFormData({ ...formData, titleState: e.target.value });
-    console.log(e.target.value);
   };
-  const thumbSelChange = (data) => {
-    setFormData({ ...formData, thumbnailSel: data });
-    // console.log(data);
-  };
+
   const mateNumChange = (e) => {
     setFormData({ ...formData, mateNumState: e.target.value });
-    console.log(e.target.value);
   };
   const contentChange = (content) => {
-    console.log(content);
     setFormData({ ...formData, contentState: content });
   };
 
@@ -102,7 +94,6 @@ function SubmitForm() {
         endDate: endDate,
       },
     });
-    console.log(startDate, endDate);
   };
 
   const handleGenderChange = (e) => {
@@ -123,7 +114,6 @@ function SubmitForm() {
   }
 
   const handleSubmit = (e) => {
-    console.log("submit called");
     e.preventDefault();
     const regArr = Object.values(formData.regButtonStates);
     const stlArr = Object.values(formData.tripButtonStates);
@@ -154,25 +144,24 @@ function SubmitForm() {
     }
     console.log("sending json: ", formData);
 
-    // fetch("http://localhost/80/", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("success:", data);
+    //   fetch("http://localhost/80/", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),
     //   })
-    //   .catch((error) => {
-    //     console.error("error :", error);
-    //   });
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log("success:", data);
+    //     })
+    //     .catch((error) => {
+    //       console.error("error :", error);
+    //     });
+    // };
   };
-
   return (
-    <div className="mx-[300px]">
-      <Header />
+    <div>
       <form onSubmit={handleSubmit}>
         <TripScroll />
         <TextBox
@@ -196,7 +185,7 @@ function SubmitForm() {
           <AgeSel ageButtonChange={ageButtonChange} />
         </div>
         <MateNum mateNumChange={mateNumChange} />
-        <ThumbSelect thumbSelChange={thumbSelChange} />
+        {/* <ThumbSelect thumbSelChange={thumbSelChange} /> */}
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
           <CancelBtnBg />
@@ -205,5 +194,3 @@ function SubmitForm() {
     </div>
   );
 }
-
-export default SubmitForm;

@@ -1,4 +1,4 @@
-function AgeAndGender() {
+export default function AgeAndGender() {
   return (
     <div className="flex-col my-[30px]">
       <div className="flex">
@@ -30,7 +30,7 @@ const GenderSel = ({ formData, handleGenderChange }) => {
       <h1 className="TitleLabel ml-[-10px] ">성별:</h1>
       <div className="flex w-[300px] justify-around ml-[-25px] pt-5">
         {genderInfo.map((gender) => (
-          <div className="AlignItem">
+          <div className="AlignItem" key="key">
             <input
               type="radio"
               name="gender"
@@ -58,7 +58,7 @@ const AgeSel = ({ ageButtonChange }) => {
       <h1 className="TitleLabel">나이대 (선택사항) :</h1>
       <div className=" flex justify-around w-[450px] ml-[-20px] pt-5">
         {ageGroup.map((age) => (
-          <div className="AlignItem ">
+          <div className="AlignItem " key={20}>
             <input
               type="checkbox"
               name="age"
@@ -87,7 +87,5 @@ const MateNum = ({ mateNumChange }) => {
     </div>
   );
 };
-
-export default AgeAndGender;
 
 export { MateNum, AgeSel, GenderSel };

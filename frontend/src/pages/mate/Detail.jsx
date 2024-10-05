@@ -1,23 +1,21 @@
 import "../../App.css";
 import "../../assets/css/Write.css";
-import { Header } from "./components/Header";
-import { MateDetail } from "./components/MateDetail";
-import { Calender } from "./components/Calender";
-import { RegionSel } from "./components/RegionSel";
-import { TripStyle } from "./components/TripStyle";
-import { AgeAndGender } from "./components/AgeAndGender";
-import { MateNum } from "./components/AgeAndGender";
-import MyTrip from "./components/MyTrip";
-import { MyTripMap } from "./components/MyTrip";
-import { MateReqBtn } from "./components/Buttons";
-import { MateCnlBtn } from "./components/Buttons";
-import { AddComment } from "./components/Comments";
-import { ShowComment } from "./components/Comments";
+import MateDetail from "../../components/mate/MateDetail";
+import Calender from "../../components/mate/Calender";
+import RegionSel from "../../components/mate/RegionSel";
+import TripStyle from "../../components/mate/TripStyle";
+import AgeAndGender from "../../components/mate/AgeAndGender";
+import { MateNum } from "../../components/mate/AgeAndGender";
+import MyTrip from "../../components/mate/MyTrip";
+import { MyTripMap } from "../../components/mate/MyTrip";
+import { MateReqBtn } from "../../components/mate/Buttons";
+import { MateCnlBtn } from "../../components/mate/Buttons";
+import { AddComment } from "../../components/mate/Comments";
+import { ShowComment } from "../../components/mate/Comments";
 
 export default function Detail() {
   return (
-    <div className="App mx-[300px]">
-      <Header />
+    <div>
       <MateDetail />
       <RegionSel />
       <TripStyle />

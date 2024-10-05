@@ -3,7 +3,7 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 
-export function MateDetail() {
+function MateDetail() {
   const [open, setOpen] = useState(false);
   const share = (
     <FontAwesomeIcon
