@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class PlanDto {
     private Integer tripPlanNo;
 
-    private Integer custNo;
-
     private String title;
 
     private LocalDateTime startDt;
