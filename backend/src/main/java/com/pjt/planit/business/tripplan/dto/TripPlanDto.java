@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -32,7 +33,8 @@ public class TripPlanDto {
 
     private String ownerYn;
 
-    List<TripPlanDetailDto> tripPlanDetailList;
+    private List<TripPlanDetailDto> tripPlanDetailList = new ArrayList<>();
 
-    List<TripPlanMateDto> tripPlanMateList;
+    private List<TripPlanMateDto> tripPlanMateList = new ArrayList<>();
+
 }

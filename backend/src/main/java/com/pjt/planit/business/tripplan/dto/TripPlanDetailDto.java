@@ -1,7 +1,16 @@
 package com.pjt.planit.business.tripplan.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class TripPlanDetailDto {
 
     private Integer tripDetailNo;
@@ -37,4 +46,5 @@ public class TripPlanDetailDto {
     private String reviewImg3;
 
     private String reviewImg4;
+
 }

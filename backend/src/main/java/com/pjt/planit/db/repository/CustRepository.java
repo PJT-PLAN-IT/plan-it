@@ -20,4 +20,5 @@ public interface CustRepository extends JpaRepository<Cust, Integer> {
     boolean existsByNickname(String nickname);
 
     Cust findByName(String name);
+    
 }
