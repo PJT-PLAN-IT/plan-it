@@ -54,6 +54,4 @@ public class PlaceReview extends BaseEntity {
     @Column(name = "review_img4")
     private String reviewImg4;
 
-    @Column(name = "create_dt")
-    private LocalDateTime createDt;
 }
