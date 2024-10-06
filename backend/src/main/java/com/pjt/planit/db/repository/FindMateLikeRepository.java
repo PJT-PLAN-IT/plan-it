@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface FindMateLikeRepository extends JpaRepository<FindMateLike, Integer> {
     List<FindMateLike> findAllByCustNo(Integer custNo);
+
+    void deleteByFindMateLikeNo(Integer findMateLikeNo);
 }

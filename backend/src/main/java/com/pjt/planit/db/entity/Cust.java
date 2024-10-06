@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "T_CUST")
 public class Cust extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cust_no")
@@ -65,10 +66,7 @@ public class Cust extends BaseEntity {
     @Column(name = "intro")
     private String intro;
 
-    public void updateUserInfo(Integer custNo, String email, String pw, String name, String nickname,
-                               String phoneNumber, LocalDateTime birthDt, String gender) {
-        this.custNo = custNo;
-        this.email = email;
+    public void updateUserInfo(String pw, String name, String nickname, String phoneNumber, LocalDateTime birthDt, String gender) {
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;

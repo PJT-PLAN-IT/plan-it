@@ -19,7 +19,9 @@ spring:
         globally_quoted_identifiers: true
         show_sql: true
         format_sql: true
-
+  jwt:
+    secret: vmffosdltvmfhwprxmghkdlxldwpqkfrlrkssodpwhgdmsrufrhkanfskdhrlfrldnjsgka
+    
 # MyBatis
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
@@ -33,3 +35,7 @@ logging:
 cors:
   allowedOrigins: "http://localhost:3000"
   allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
+
+travel:
+  api:
+    url: "https://apis.data.go.kr/B551011/KorService1"

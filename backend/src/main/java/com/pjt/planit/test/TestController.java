@@ -12,6 +12,11 @@ public class TestController {
     @Autowired
     private TestService testService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "hi";
+    }
+
     @GetMapping("/mybatis/banner/list")
     public List<Banner> getBannerListByMybatis() {
         return testService.getBannerListByMybatis();
@@ -27,8 +32,11 @@ public class TestController {
         return testService.getBannerListByJpa();
     }
 
+
     @PostMapping("/jpa/banner")
     public void insertBannerByJpa(@RequestBody Banner banner) {
+
+        System.out.println("test");
         testService.insertBannerByJpa(banner);
     }
 }

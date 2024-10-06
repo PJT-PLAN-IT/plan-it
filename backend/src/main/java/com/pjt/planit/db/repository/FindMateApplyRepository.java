@@ -3,7 +3,6 @@ package com.pjt.planit.db.repository;
 import com.pjt.planit.db.entity.FindMateApply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +14,8 @@ public interface FindMateApplyRepository extends JpaRepository<FindMateApply, In
     List<FindMateApply> findAllByCustNoAndApplyDtBetweenOrderByCreateDtDesc(Integer custNo, LocalDateTime applyDt, LocalDateTime expiredDt);
 
     List<FindMateApply> findBycustNo(Integer custNo);
+
+    FindMateApply findByFindMateNoAndCustNo(Integer findMateNo, Integer custNo);
 
 
 }

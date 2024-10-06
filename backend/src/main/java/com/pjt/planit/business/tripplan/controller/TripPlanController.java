@@ -20,4 +20,5 @@ public class TripPlanController {
     public List<PlanDto> getPlanListById(@RequestParam("custNo") Integer custNo, @RequestParam("year") Integer year) {
         return planService.getPlanList(custNo, year);
     }
+
 }

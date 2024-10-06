@@ -10,9 +10,9 @@ import axios from "axios";
 function App() {
   const [data, setData] = useState("");
   useEffect(() => {
-    axios
-      .get("/api/server/test")
-      .then((response) => {
+
+    axios.get('/api/test/test')
+      .then(response => {
         console.log(response);
         setData(response.data);
       })
