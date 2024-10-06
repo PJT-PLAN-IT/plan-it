@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useAxiosInstance} from "../utils/axiosConfig.js";
 import {useNavigate, useParams} from "react-router-dom";
 import MyCard from "../components/MyCard.jsx";
-import ApplyDropdown from "../components/ApplyDropdown.jsx";
+import MateInfo from "../components/MateInfo.jsx";
 
 function MyPage(){
     const axiosInstance = useAxiosInstance();
@@ -20,7 +20,7 @@ function MyPage(){
 
     const fetchMyMateList = async (yearParam) => {
         try {
-            const response = await axiosInstance.get(`/api/my/mates/${custNo}?year=${yearParam}`);
+            const response = await axiosInstance.get(`/api/my/mates/apply/${custNo}?year=${yearParam}`);
             const list = response.data.data;
             if (list && list.length > 0) {
                 setMyList(groupByDate(list));  // 그룹화된 데이터를 상태로 설정
@@ -76,12 +76,6 @@ function MyPage(){
                     </div>
 
                     <div className="relative flex items-center space-x-4">
-                        <button
-                            onClick={goPage}
-                            className="block font-bold text-orange-500 border border-orange-500 px-4 py-2 rounded-full transition">
-                            작성하기
-                        </button>
-
                         <select
                             value={year}
                             onChange={onChangeYear}
@@ -109,7 +103,7 @@ function MyPage(){
                         <div className="text-xl font-bold text-orange-500 mb-4">{date}</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {myList[date].map((item, index) => (
-                                <MyCard item={item} key={index} component={ <ApplyDropdown applyList={item.mateApplyList} refreshData={fetchMyMateList} /> }></MyCard>
+                                <MyCard item={item} key={index} component={ <MateInfo item={item} refreshData={fetchMyMateList}/> }/>
                             ))}
                         </div>
                     </div>
