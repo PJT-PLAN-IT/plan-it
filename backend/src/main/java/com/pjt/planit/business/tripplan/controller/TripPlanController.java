@@ -1,8 +1,6 @@
 package com.pjt.planit.business.tripplan.controller;
 
-import com.pjt.planit.business.tripplan.dto.TripPlanDetailDto;
-import com.pjt.planit.business.tripplan.dto.TripPlanDto;
-import com.pjt.planit.business.tripplan.dto.YearNoDto;
+import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.business.tripplan.service.PlanService;
 import com.pjt.planit.core.security.filter.ResponseResult;
 import com.pjt.planit.core.util.FindAuthorizedUser;
@@ -84,7 +82,8 @@ public class TripPlanController {
 
     /**
      * 여행 계획 삭제
-     *
+     * @param tripPlanNo
+     * @return ResponseResult
      */
     @DeleteMapping
     public ResponseResult<?> deleteTripPlan(@RequestParam Integer tripPlanNo) {
@@ -93,4 +92,29 @@ public class TripPlanController {
 
         return ResponseResult.ofSuccess("success", null);
     }
+
+    /**
+     * 여행 후기 작성
+     *
+     */
+    @PostMapping("/review")
+    public ResponseResult<?> reviewTripPlan(@RequestBody TripReviewDto tripReviewDto) {
+        planService.addReview(tripReviewDto);
+        return ResponseResult.ofSuccess("success", null);
+    }
+
+    /**
+     * 여행 후기 공개/비공개 설정
+     * @param tripPublicYnDto
+     */
+    @PostMapping("/public")
+    public ResponseResult<?> reviewTripPlan(@RequestBody TripPublicYnDto tripPublicYnDto) {
+        planService.changePublic(tripPublicYnDto);
+        return ResponseResult.ofSuccess("success", null);
+    }
+
+
+
+
+
 }
