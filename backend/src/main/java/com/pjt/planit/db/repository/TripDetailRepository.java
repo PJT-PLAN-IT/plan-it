@@ -12,4 +12,6 @@ public interface TripDetailRepository extends JpaRepository<TripDetail, Integer>
     Optional<List<TripDetail>> findAllByTripPlanNo(Integer tripPlanNo);
 
     void deleteAllByTripPlanNo(Integer tripPlanNo);
+
+    Optional<TripDetail> findByTripDetailNo(Integer tripDetailNo);
 }

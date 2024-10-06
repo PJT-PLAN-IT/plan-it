@@ -75,7 +75,7 @@
              , tpr.review_img2 AS reviewImg2
              , tpr.review_img3 AS reviewImg3
         FROM T_TRIP_DETAIL ttd
-        INNER JOIN T_PLACE_REVIEW tpr
+        LEFT OUTER JOIN T_PLACE_REVIEW tpr
         ON ttd.trip_detail_no = tpr.trip_detail_no
         WHERE ttd.trip_plan_no = #{tripPlanNo}
     </select>
