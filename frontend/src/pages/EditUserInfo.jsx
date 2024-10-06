@@ -22,7 +22,7 @@ function EditUserInfo() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axiosInstance.get(`/api/my_page/${custNo}`);
+                const response = await axiosInstance.get(`/api/my-page/${custNo}`);
                 const userData = response.data.data;
 
                 // 서버에서 받은 데이터를 formData 상태에 반영
@@ -65,7 +65,7 @@ function EditUserInfo() {
         }
 
         try {
-            const response = await axiosInstance.post('/api/my_page/update', {
+            const response = await axiosInstance.post('/api/my-page/update', {
                 ...formData,
                 custNo : custNo
             });
@@ -81,7 +81,7 @@ function EditUserInfo() {
     const distinctCheckClick = async (e) => {
         e.preventDefault();
 
-        const response = await axiosInstance.post('/api/my_page/isExists', null, {
+        const response = await axiosInstance.post('/api/my-page/check', null, {
             params: { nickName: formData.nickname }
         });
         console.log('서버 응답:', response);
