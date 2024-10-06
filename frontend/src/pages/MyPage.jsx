@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 
 import {useAxiosInstance} from "../utils/axiosConfig.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import MyCard from "../components/MyCard.jsx";
+import ApplyDropdown from "../components/ApplyDropdown.jsx";
 
 function MyPage(){
     const axiosInstance = useAxiosInstance();
+    const navigate = useNavigate();
     const {custNo} = useParams();
     const [year, setYear] = useState("2024");
     const [myList, setMyList] = useState([]);
@@ -45,18 +47,37 @@ function MyPage(){
         fetchMyMateList(year);
     }, []);
 
+    const goPage = (e) => {
+
+        e.preventDefault();
+        let buttonValue = e.target.value;
+        if(buttonValue === "registerMate"){//작성한 메이트글
+            navigate(`/mypage/mate/${custNo}`);
+        }
+        else if(buttonValue === "applyMate"){
+            navigate(`/mypage/applyMate/${custNo}`)
+        }
+        else if(buttonValue === "likeMate"){
+            navigate(`/mypage/likeMate/${custNo}`)
+        }
+        else{
+            //TODO 작성하기 페이지로 이동
+        }
+    };
+
     return (
         <div className="container mx-auto p-20">
             <div className="mb-6">
                 <div className="flex justify-between mb-6">
                     <div className="flex space-x-6">
-                        <button className="font-bold text-orange-500">작성한 메이트글</button>
-                        <button className="font-bold text-gray-500">신청한 메이트글</button>
-                        <button className="font-bold text-gray-500">좋아요 한 메이트 글</button>
+                        <button value="registerMate" onClick={goPage} className="font-bold text-orange-500">작성한 메이트글</button>
+                        <button value="applyMate"    onClick={goPage} className="font-bold text-gray-500">신청한 메이트글</button>
+                        <button value="likeMate"     onClick={goPage} className="font-bold text-gray-500">좋아요 한 메이트 글</button>
                     </div>
 
                     <div className="relative flex items-center space-x-4">
                         <button
+                            onClick={goPage}
                             className="block font-bold text-orange-500 border border-orange-500 px-4 py-2 rounded-full transition">
                             작성하기
                         </button>
@@ -73,10 +94,8 @@ function MyPage(){
                         </select>
                         <div
                             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                 viewBox="0 0 20 20">
-                                <path
-                                    d="M5.293 7.293l4 4a1 1 0 0 0 1.414 0l4-4A1 1 0 0 0 13.293 6.293L10 9.586 6.707 6.293A1 1 0 0 0 5.293 7.293z"/>
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293l4 4a1 1 0 0 0 1.414 0l4-4A1 1 0 0 0 13.293 6.293L10 9.586 6.707 6.293A1 1 0 0 0 5.293 7.293z"/>
                             </svg>
                         </div>
                     </div>
@@ -90,7 +109,7 @@ function MyPage(){
                         <div className="text-xl font-bold text-orange-500 mb-4">{date}</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {myList[date].map((item, index) => (
-                                <MyCard item={item} key={index}/>
+                                <MyCard item={item} key={index} component={ <ApplyDropdown applyList={item.mateApplyList} refreshData={fetchMyMateList} /> }></MyCard>
                             ))}
                         </div>
                     </div>
