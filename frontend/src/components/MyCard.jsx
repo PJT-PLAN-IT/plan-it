@@ -1,6 +1,4 @@
-import ApplyDropdown from "./ApplyDropdown.jsx";
-
-function MyCard({item}) {
+function MyCard({item, component}) {
 
     return (
 
@@ -17,7 +15,7 @@ function MyCard({item}) {
                 </div>
 
                 <div className="flex justify-between items-center">
-                    <ApplyDropdown applyList={item.mateApplyList}></ApplyDropdown>
+                    {component}
                 </div>
             </div>
         </div>
