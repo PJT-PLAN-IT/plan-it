@@ -3,6 +3,7 @@ package com.pjt.planit.business.tripplan.mapper;
 import com.pjt.planit.business.tripplan.dto.TripPlanDetailDto;
 import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.dto.TripPlanMateDto;
+import com.pjt.planit.business.tripplan.dto.TripReviewDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface PlanMapper {
     public List<TripPlanMateDto> getMateList(TripPlanDto param);
 
     public List<TripPlanDetailDto> getDetailList(TripPlanDto param);
+
 }

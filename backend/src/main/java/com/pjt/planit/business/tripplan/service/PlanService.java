@@ -1,6 +1,8 @@
 package com.pjt.planit.business.tripplan.service;
 
 import com.pjt.planit.business.tripplan.dto.TripPlanDetailDto;
+import com.pjt.planit.business.tripplan.dto.TripPublicYnDto;
+import com.pjt.planit.business.tripplan.dto.TripReviewDto;
 import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.entity.TripDetail;
 import com.pjt.planit.db.entity.TripPlan;
@@ -192,4 +194,32 @@ public class PlanService {
         return tripPlan;
     }
 
+
+    /**
+     * 여행 리뷰 추가
+     * @param tripReviewDto
+     */
+    public void addReview(TripReviewDto tripReviewDto) {
+        Optional<TripPlan> getTripPlan =  tripPlanRepository.findById(tripReviewDto.getTripPlanNo());
+
+        if(getTripPlan.isPresent()) {
+            TripPlan tripPlan = getTripPlan.get();
+            tripPlan.setReview(tripReviewDto.getReview());
+            tripPlanRepository.save(tripPlan);
+        }
+    }
+
+    /**
+     * 공개설정 수정
+     * @param tripPublicYnDto
+     */
+    public void changePublic(TripPublicYnDto tripPublicYnDto) {
+        Optional<TripPlan> getTripPlan =  tripPlanRepository.findById(tripPublicYnDto.getTripPlanNo());
+
+        if(getTripPlan.isPresent()) {
+            TripPlan tripPlan = getTripPlan.get();
+            tripPlan.setPublicYn(tripPublicYnDto.getPublicYn());
+            tripPlanRepository.save(tripPlan);
+        }
+    }
 }
