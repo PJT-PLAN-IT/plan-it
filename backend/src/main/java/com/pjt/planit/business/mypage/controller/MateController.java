@@ -37,12 +37,19 @@ public class MateController {
         return ApiResponse.ok("ok",list);
     }
 
+    //확정된 메이트글 탈퇴
     @PostMapping("/apply/secession")
-    public ApiResponse applySecession(@RequestBody TripMateDto dto) {
+    public ApiResponse applySecession(@RequestBody TripMateSecessionDto dto) {
         myMateApplyService.applySecession(dto);
         return ApiResponse.ok("ok");
     }
 
+    //신청한 메이트글 취소
+    @PostMapping("/apply/cancel")
+    public ApiResponse applyCancel(@RequestBody TripMateCancelDto dto) {
+        myMateApplyService.applyCancel(dto);
+        return ApiResponse.ok("ok");
+    }
 
     @GetMapping("/likes/{custNo}")
     public ApiResponse mateListLikes(@PathVariable Integer custNo, @RequestParam Integer year) {
@@ -50,6 +57,7 @@ public class MateController {
         return ApiResponse.ok("ok", list);
     }
 
+    //좋아요 취소
     @PostMapping("/like/revoke")
     public ApiResponse likeRevoke(@RequestBody MateLikeRevokeDto dto) {
         myMateLikesService.likeRevoke(dto);
