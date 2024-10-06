@@ -15,5 +15,7 @@ public interface FindMateApplyRepository extends JpaRepository<FindMateApply, In
 
     List<FindMateApply> findBycustNo(Integer custNo);
 
+    FindMateApply findByFindMateNoAndCustNo(Integer findMateNo, Integer custNo);
+
 
 }

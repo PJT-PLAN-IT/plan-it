@@ -33,7 +33,6 @@ public class TripPlanController {
         return ResponseResult.ofSuccess("success", result);
     }
 
-
     /**
      * 여행 계획 디테일 출력
      * @RequestBody TripPlanYearNoDto
@@ -94,8 +93,4 @@ public class TripPlanController {
 
         return ResponseResult.ofSuccess("success", null);
     }
-
-
-
-
 }
