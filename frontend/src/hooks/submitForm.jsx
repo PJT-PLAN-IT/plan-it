@@ -6,36 +6,37 @@ import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
 import { useState } from "react";
 import { btnVal } from "./validCheck";
+import axios from "axios";
 
-export default function SubmitForm() {
-  const [formData, setFormData] = useState({
+function SubmitForm() {
+  const initFormData = {
     regButtonStates: {
-      btnAl: false,
-      btnSl: false,
-      btnBs: false,
-      btnDg: false,
-      btnIc: false,
-      btnGj: false,
-      btnDj: false,
-      btnUs: false,
-      btnSj: false,
-      btnGg: false,
-      btnGw: false,
-      btnCb: false,
-      btnCn: false,
-      btnKb: false,
-      btnKn: false,
-      btnJb: false,
-      btnJn: false,
-      btnJj: false,
+      0: false,
+      11: false,
+      26: false,
+      27: false,
+      28: false,
+      29: false,
+      30: false,
+      31: false,
+      36: false,
+      41: false,
+      51: false,
+      43: false,
+      44: false,
+      47: false,
+      48: false,
+      52: false,
+      46: false,
+      50: false,
     },
     tripButtonStates: {
-      btnFr: false,
-      btnTr: false,
-      btnCr: false,
-      btnFv: false,
-      btnSp: false,
-      btnFd: false,
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
     },
 
     ageButtonStates: {
@@ -54,7 +55,9 @@ export default function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
-  });
+    postDateState: "",
+  };
+  const [formData, setFormData] = useState(initFormData);
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -131,35 +134,61 @@ export default function SubmitForm() {
     const gdrTxt = "성별";
     const mtnTxt = "모집인원수";
 
+    const v4 = btnVal(ttlArr, ttlTxt);
+    const v5 = btnVal(cntArr, cntTxt);
     const v1 = btnVal(regArr, regTxt);
     const v2 = btnVal(stlArr, styleTxt);
     const v3 = btnVal(datArr, datTxt);
-    const v4 = btnVal(ttlArr, ttlTxt);
-    const v5 = btnVal(cntArr, cntTxt);
     const v6 = btnVal(gdrArr, gdrTxt);
     const v7 = btnVal(mtnArr, mtnTxt);
 
     if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6 || !v7) {
       return;
     }
-    console.log("sending json: ", formData);
 
-    //   fetch("http://localhost/80/", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       console.log("success:", data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("error :", error);
-    //     });
-    // };
+    const selectedRegions = Object.entries(formData.regButtonStates)
+      .filter(([key, value]) => value)
+      .map(([key]) => parseInt(key));
+
+    const selectedTripStyles = Object.entries(formData.tripButtonStates)
+      .filter(([key, value]) => value)
+      .map(([key]) => parseInt(key));
+
+    const finalFormData = {
+      title: formData.titleState,
+      startDate: formData.dateChangeStates.startDate,
+      endDate: formData.dateChangeStates.endDate,
+      mateNum: formData.mateNumState,
+      content: formData.contentState,
+      gender: formData.genderState,
+      thumbnail: formData.thumbnailSel,
+      createDate: new Date(),
+      regions: selectedRegions,
+      tripStyles: selectedTripStyles,
+      twentyYN: formData.ageButtonStates.twenty ? "Y" : "N",
+      thirtyYN: formData.ageButtonStates.thirty ? "Y" : "N",
+      fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
+      fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
+    };
+    console.log("sending json: ", finalFormData);
+
+    axios
+      .post("/api/mate", finalFormData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("success", response.data);
+      })
+      .catch((error) => {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
+      });
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -185,7 +214,7 @@ export default function SubmitForm() {
           <AgeSel ageButtonChange={ageButtonChange} />
         </div>
         <MateNum mateNumChange={mateNumChange} />
-        {/* <ThumbSelect thumbSelChange={thumbSelChange} /> */}
+
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
           <CancelBtnBg />
@@ -194,3 +223,5 @@ export default function SubmitForm() {
     </div>
   );
 }
+
+export default SubmitForm;

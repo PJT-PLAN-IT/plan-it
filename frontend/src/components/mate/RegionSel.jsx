@@ -1,22 +1,22 @@
 const Regions = [
-  { value: "#전체", key: 0, name: "btnAl" },
-  { value: "#서울", key: 11, name: "btnSl" },
-  { value: "#부산", key: 26, name: "btnBs" },
-  { value: "#대구", key: 27, name: "btnDg" },
-  { value: "#인천", key: 28, name: "btnIc" },
-  { value: "#광주", key: 29, name: "btnGj" },
-  { value: "#대전", key: 30, name: "btnDj" },
-  { value: "#울산", key: 31, name: "btnUs" },
-  { value: "#세종", key: 36, name: "btnSj" },
-  { value: "#경기", key: 41, name: "btnGg" },
-  { value: "#강원", key: 51, name: "btnGw" },
-  { value: "#충북", key: 43, name: "btnCb" },
-  { value: "#충남", key: 44, name: "btnCn" },
-  { value: "#경북", key: 47, name: "btnKb" },
-  { value: "#경남", key: 48, name: "btnKn" },
-  { value: "#전북", key: 52, name: "btnJb" },
-  { value: "#전남", key: 46, name: "btnJn" },
-  { value: "#제주", key: 50, name: "btnJj" },
+  { value: "#전체", key: 0 },
+  { value: "#서울", key: 11 },
+  { value: "#부산", key: 26 },
+  { value: "#대구", key: 27 },
+  { value: "#인천", key: 28 },
+  { value: "#광주", key: 29 },
+  { value: "#대전", key: 30 },
+  { value: "#울산", key: 31 },
+  { value: "#세종", key: 36 },
+  { value: "#경기", key: 41 },
+  { value: "#강원", key: 51 },
+  { value: "#충북", key: 43 },
+  { value: "#충남", key: 44 },
+  { value: "#경북", key: 47 },
+  { value: "#경남", key: 48 },
+  { value: "#전북", key: 52 },
+  { value: "#전남", key: 46 },
+  { value: "#제주", key: 50 },
 ];
 
 function RegionSel({ formData, regBtnClick }) {
@@ -28,9 +28,9 @@ function RegionSel({ formData, regBtnClick }) {
           <button
             type="button"
             key={region.key}
-            onClick={() => regBtnClick(region.name)}
+            onClick={() => regBtnClick(region.key)}
             className={`button ${
-              formData.regButtonStates[region.name] ? "on" : ""
+              formData.regButtonStates[region.key] ? "on" : ""
             }`}
           >
             {region.value}

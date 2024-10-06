@@ -1,10 +1,10 @@
 const TripStyles = [
-  { value: "#자유여행", key: 1, name: "btnFr" },
-  { value: "#관광지", key: 2, name: "btnTr" },
-  { value: "#문화시설", key: 3, name: "btnCr" },
-  { value: "#축제", key: 4, name: "btnFv" },
-  { value: "#레포츠", key: 5, name: "btnSp" },
-  { value: "#맛집탐방", key: 6, name: "btnFd" },
+  { value: "#자유여행", key: 1 },
+  { value: "#관광지", key: 2 },
+  { value: "#문화시설", key: 3 },
+  { value: "#축제", key: 4 },
+  { value: "#레포츠", key: 5 },
+  { value: "#맛집탐방", key: 6 },
 ];
 function TripStyle({ formData, trpBtnClick }) {
   return (
@@ -15,9 +15,9 @@ function TripStyle({ formData, trpBtnClick }) {
           <button
             type="button"
             key={trips.key}
-            onClick={() => trpBtnClick(trips.name)}
+            onClick={() => trpBtnClick(trips.key)}
             className={`button ${
-              formData.tripButtonStates[trips.name] ? "on" : ""
+              formData.tripButtonStates[trips.key] ? "on" : ""
             }`}
           >
             {trips.value}

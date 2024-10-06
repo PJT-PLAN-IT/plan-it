@@ -30,7 +30,7 @@ const GenderSel = ({ formData, handleGenderChange }) => {
       <h1 className="TitleLabel ml-[-10px] ">성별:</h1>
       <div className="flex w-[300px] justify-around ml-[-25px] pt-5">
         {genderInfo.map((gender) => (
-          <div className="AlignItem" key="key">
+          <div className="AlignItem" key={gender.key}>
             <input
               type="radio"
               name="gender"
@@ -48,22 +48,22 @@ const GenderSel = ({ formData, handleGenderChange }) => {
 
 const AgeSel = ({ ageButtonChange }) => {
   const ageGroup = [
-    { demo: " 20대", key: 20, name: "twenty" },
-    { demo: " 30대", key: 30, name: "thirty" },
-    { demo: " 40대", key: 40, name: "forty" },
-    { demo: "50대 이상", key: 50, name: "fifty" },
+    { demo: " 20대", key: "twenty" },
+    { demo: " 30대", key: "thirty" },
+    { demo: " 40대", key: "forty" },
+    { demo: "50대 이상", key: "fifty" },
   ];
   return (
     <div className="p-[20px]">
       <h1 className="TitleLabel">나이대 (선택사항) :</h1>
       <div className=" flex justify-around w-[450px] ml-[-20px] pt-5">
         {ageGroup.map((age) => (
-          <div className="AlignItem " key={20}>
+          <div className="AlignItem" key={age.key}>
             <input
               type="checkbox"
               name="age"
               key={age.key}
-              onClick={() => ageButtonChange(age.name)}
+              onClick={() => ageButtonChange(age.key)}
             />
             <span className="SpanGap"> {age.demo}</span>
           </div>
