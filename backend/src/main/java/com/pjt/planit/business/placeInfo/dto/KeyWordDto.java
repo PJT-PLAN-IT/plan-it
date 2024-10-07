@@ -6,20 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 공통정보
+ * 키워드 검색 조회
  */
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonInfoDto {
+public class KeyWordDto {
 
     private String areacode;    //지역코드
     private String contentid;   //콘텐츠Id
     private String contenttypeid;   //관광타입(관광지, 숙박등..)
     private String title;   //제목
-    private String firstimage2;  //썸네일 대표이미지
-    private String zipcode;     //우편번호
-    private String addr1;   //주소
-    private String overview;    //소개
 }

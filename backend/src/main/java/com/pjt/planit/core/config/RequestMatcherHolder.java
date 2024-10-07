@@ -15,7 +15,9 @@ public class RequestMatcherHolder {
             "/planit/**",
             "/api/test/**",
             "/test/test",
-            "/my/mates/**"
+            "/my/mates/**",
+            "/place/**",
+            "/my-page/**"
     );
 
 }
