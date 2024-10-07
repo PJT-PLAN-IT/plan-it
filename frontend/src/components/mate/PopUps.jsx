@@ -31,15 +31,29 @@ const Alert = () => {
 const ThumbSelect = ({ thumbSelChange }) => {
   const camera = <FontAwesomeIcon icon={faCamera} />;
   const [file, setFile] = useState(null);
-  const IMGUR_CLIENT_ID = "5043e84fa279a89";
+  // const [img, setImg] = useState(false);
+  // const IMGUR_CLIENT_ID = "5043e84fa279a89";
 
   const imgArr = [
-    { img: "https://i.imgur.com/opKra17.jpg" },
-    { img: "https://i.imgur.com/InGqTTI.jpg" },
-    { img: "https://i.imgur.com/JZH8AZK.jpg" },
-    { img: "https://i.imgur.com/kN6bbE6.jpg" },
-    { img: "https://i.imgur.com/Xoh0MPH.jpg" },
+    { img: "https://imgur.com/EhF3mMd.jpg", key: "img1 " },
+    { img: "https://imgur.com/4JI6FE7.jpg", key: "img2" },
+    { img: "https://imgur.com/H4Y6H6u.jpg", key: "img3" },
+    { img: "https://imgur.com/j98DCIf.jpg", key: "img4" },
+    { img: "https://imgur.com/sFynFpK.jpg", key: "img5" },
+    { img: "https://imgur.com/cyL7WCh.jpg", key: "img6" },
   ];
+
+  const imageClick = (e) => {
+    setFile(e.target.src);
+
+    // img
+    //   ? (e.target.className = "border-2 border-red-400 ")
+    //   : (e.target.className = "");
+    // if (!img) {
+    //   setImg((e.target.className = "border-2 border-red-400 "));
+    // } else console.log(file);
+    thumbSelChange(file);
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -53,45 +67,96 @@ const ThumbSelect = ({ thumbSelChange }) => {
       return;
     }
 
-    const fileData = new FormData();
-    fileData.append("image", file);
+    const formData = new FormData();
+    formData.append("image", file);
 
     try {
-      const response = await fetch("https://api.imgur.com/3/image", {
+      const response = await fetch("/api/images/upload", {
         method: "POST",
-        headers: {
-          Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-        },
-        body: fileData,
+        body: formData,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        thumbSelChange(data.data.link);
-      } else {
-        alert("Image upload failed");
-      }
+      const imageUrl = await response.text();
+      console.log("Image URL:", imageUrl);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
+    // console.log(file);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = () => {
+    //   console.log(reader.result);
+    //   thumbSelChange(reader.result);
+    // };
+
+    // const handleFileUpload = async (e) => {
+    //   const formData = new FormData();
+    //   formData.append("image", e.target.files[0]);
+
+    //   try {
+    //     const response = await fetch(
+    //       "http://localhost:8080/api/images/upload",
+    //       {
+    //         method: "POST",
+    //         body: formData,
+    //       }
+    //     );
+
+    //   const imageUrl = await response.text();
+    //   console.log("Image URL:", imageUrl);
+    // } catch (error) {
+    //   console.error("Error uploading image:", error);
+    // }
   };
 
+  // const fileData = new FormData();
+  // fileData.append("image", file);
+
+  // try {
+  //   const response = await fetch("https://api.imgur.com/3/image", {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+  //     },
+  //     body: fileData,
+  //   });
+
+  //   const data = await response.json();
+
+  //   if (data.success) {
+  //     thumbSelChange(data.data.link);
+  //   } else {
+  //     alert("Image upload failed");
+  //   }
+  // } catch (error) {
+  //   console.error("Error uploading image:", error);
+  // }
+
   return (
-    <div className=" border-2 flex-col flex justify-center ">
+    <div className=" flex-col flex justify-center ">
       <div>
-        <h1 className="text-3xl mb-10 font-medium">썸네일을 선택해주세요</h1>
-        <div className="ml-12 flex flex-wrap w-[70%] h-[10%] gap-4 border-2 justify-evenly items-center">
+        <h1 className="text-3xl mb-10 font-medium mt-10">
+          썸네일을 선택해주세요
+        </h1>
+        <div className=" flex flex-wrap gap-4 justify-evenly items-center">
           {imgArr.map((img) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className="w-[10%] object-cover overflow-hidden border-2 border-red-400 ">
-              <img className=" " src={img.img} alt="img" />
+            <div
+              className="w-[10%] object-cover overflow-hidden border-2"
+              key={img.key}
+            >
+              <img
+                className=""
+                src={img.img}
+                alt="img"
+                key={img.key}
+                onClick={imageClick}
+              />
             </div>
           ))}
         </div>
-        <div>
+        <div className="flex h-9 items-center mt-10">
           <h1 className="text-lg font-medium my-5  px-16 py-2 ">
-            {camera} 직접 썸네일 올리기
+            {camera} 직접 썸네일 올리기:
           </h1>
           <input
             type="file"
@@ -100,16 +165,7 @@ const ThumbSelect = ({ thumbSelChange }) => {
             onChange={handleFileChange}
           />
         </div>
-        <div className="flex justify-center items-center">
-          {/* <img className=" w-[40%]" src={setFormData.thumbnailSel} alt="img" /> */}
-          {/* {formData.thumbnailSel && (
-            <img
-              className="w-[40%]"
-              src={formData.thumbnailSel}
-              alt="thumbnail"
-            />
-          )} */}
-        </div>
+        <div className="flex justify-center items-center"></div>
         <button
           type="button"
           className="my-10 px-10 py-2 rounded-lg on "
@@ -117,6 +173,8 @@ const ThumbSelect = ({ thumbSelChange }) => {
         >
           저장하기
         </button>
+        {/* <img className=" w-[40%]" src={setFormData.thumbnailSel} alt="img" /> */}
+        {/* {formData && <img className="w-[20%]" src={formData} alt="thumbnail" />} */}
       </div>
     </div>
   );
