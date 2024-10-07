@@ -110,24 +110,5 @@ public class TripPlanController {
         return ResponseResult.ofSuccess("success", null);
     }
 
-    /**
-     * 메이트 초대
-     * @param inviteMateDto
-     * @return
-     */
-    @PostMapping
-    public ResponseResult<?> inviteMate(@RequestBody InviteMateDto inviteMateDto) {
-        //1. 이미 저장이 된 게시글에 초대한 경우
-        //-> trip_plan_no를 따와서 invite db save
-
-        //2. 아직 저장이 안된 계획에 초대한 경우
-        // ->  초대하는 시점에 trip_plan_table
-
-
-        planService.inviteMate(inviteMateDto);
-        return ResponseResult.ofSuccess("success", null);
-    }
-
-
 
 }

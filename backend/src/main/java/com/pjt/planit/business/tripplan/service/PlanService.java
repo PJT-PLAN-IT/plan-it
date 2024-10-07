@@ -2,9 +2,11 @@ package com.pjt.planit.business.tripplan.service;
 
 import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.db.entity.Cust;
+import com.pjt.planit.db.entity.Invite;
 import com.pjt.planit.db.entity.TripDetail;
 import com.pjt.planit.db.entity.TripPlan;
 import com.pjt.planit.db.repository.CustRepository;
+import com.pjt.planit.db.repository.InviteRepository;
 import com.pjt.planit.db.repository.TripDetailRepository;
 import com.pjt.planit.db.repository.TripPlanRepository;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
@@ -23,11 +25,15 @@ public class PlanService {
     private final TripPlanRepository tripPlanRepository;
     private final TripDetailRepository tripDetailRepository;
     private final PlanMapper planMapper;
+    private final CustRepository custRepository;
+    private final InviteRepository inviteRepository;
 
-    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper) {
+    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper, CustRepository custRepository, InviteRepository inviteRepository) {
         this.tripPlanRepository = tripPlanRepository;
         this.tripDetailRepository = tripDetailRepository;
         this.planMapper = planMapper;
+        this.custRepository = custRepository;
+        this.inviteRepository = inviteRepository;
     }
 
     /**
@@ -217,12 +223,5 @@ public class PlanService {
             tripPlan.setPublicYn(tripPublicYnDto.getPublicYn());
             tripPlanRepository.save(tripPlan);
         }
-    }
-
-    /**
-     * 메이트 초대
-     * @param inviteMateDto
-     */
-    public void inviteMate(InviteMateDto inviteMateDto) {
     }
 }

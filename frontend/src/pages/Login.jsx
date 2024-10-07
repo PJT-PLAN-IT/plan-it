@@ -15,7 +15,7 @@ function Login(){
         setLoading(true);  // 로딩 상태 활성화
 
         try {
-            const response = await axios.post('/api/api/auth/login', {
+            const response = await axios.post('/api/login', {
                 email: email,
                 password: password
             });
