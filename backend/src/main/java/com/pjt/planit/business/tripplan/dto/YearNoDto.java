@@ -1,15 +1,18 @@
-package com.pjt.planit.core.util.dto;
+package com.pjt.planit.business.tripplan.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataDto<T> {
-    private ResponseDto<T> response;
+@Getter
+@Setter
+public class YearNoDto {
+
+    private Integer custNo;
+    private Integer year;
 
 }

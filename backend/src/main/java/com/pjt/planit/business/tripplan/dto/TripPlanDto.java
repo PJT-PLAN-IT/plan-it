@@ -6,15 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class PlanDto {
-    private Integer tripPlanNo;
+public class TripPlanDto {
 
     private Integer custNo;
+
+    private Integer tripPlanNo;
 
     private String title;
 
@@ -29,4 +32,9 @@ public class PlanDto {
     private String publicYn;
 
     private String ownerYn;
+
+    private List<TripPlanDetailDto> tripPlanDetailList = new ArrayList<>();
+
+    private List<TripPlanMateDto> tripPlanMateList = new ArrayList<>();
+
 }

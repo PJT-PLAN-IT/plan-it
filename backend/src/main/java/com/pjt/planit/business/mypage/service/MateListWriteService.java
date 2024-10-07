@@ -35,7 +35,7 @@ public class MateListWriteService {
         dto.setStartDt(LocalDateTime.of(year, 1, 1, 0, 0, 0));
         dto.setEndDt(LocalDateTime.of(year, 12, 31, 23, 59, 59));
 
-        List<TripPlan> list = tripPlanRepository.findAllByCustNoAndStartDtBetweenOrderByCreateDtDesc(custNo, dto.getStartDt(),dto.getEndDt());  //내가 작성한 여행계획 조회;
+        List<TripPlan> list = tripPlanRepository.findAllByCustNoAndStartDtBetweenOrderByCreateDtDesc(custNo, dto.getStartDt(),dto.getEndDt());
 
         List<MateListWriteDto> result = list.stream()
                 .map(entity -> {
