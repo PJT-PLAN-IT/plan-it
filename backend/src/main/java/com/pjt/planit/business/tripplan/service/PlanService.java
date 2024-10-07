@@ -1,15 +1,12 @@
 package com.pjt.planit.business.tripplan.service;
 
-import com.pjt.planit.business.tripplan.dto.TripPlanDetailDto;
-import com.pjt.planit.business.tripplan.dto.TripPublicYnDto;
-import com.pjt.planit.business.tripplan.dto.TripReviewDto;
+import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.entity.TripDetail;
 import com.pjt.planit.db.entity.TripPlan;
 import com.pjt.planit.db.repository.CustRepository;
 import com.pjt.planit.db.repository.TripDetailRepository;
 import com.pjt.planit.db.repository.TripPlanRepository;
-import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -222,4 +219,10 @@ public class PlanService {
         }
     }
 
+    /**
+     * 메이트 초대
+     * @param inviteMateDto
+     */
+    public void inviteMate(InviteMateDto inviteMateDto) {
+    }
 }
