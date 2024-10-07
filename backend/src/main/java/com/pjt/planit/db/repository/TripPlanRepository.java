@@ -19,9 +19,12 @@ public interface TripPlanRepository extends JpaRepository<TripPlan, Integer> {
 
     TripPlan findByTripPlanNoAndStartDtBetweenOrderByCreateDtDesc(Integer planNo, LocalDateTime startDt, LocalDateTime endDt);
 
+    TripPlan findByTripPlanNoAndStartDtBetweenOrderByStartDtDesc(Integer planNo, LocalDateTime startDt, LocalDateTime endDt);
+
     TripPlan findFirstByCustNoOrderByTripPlanNoDesc(Integer custNo);
 
     Optional<TripPlan> findByCustNoAndTripPlanNo(Integer custNo, Integer tripPlanNo);
 
     void deleteByTripPlanNo(Integer tripPlanNo);
+
 }

@@ -24,4 +24,6 @@ public class MateListLikeDto {
     private LocalDateTime endDt;
     //T_CUST
     private String name;
+    //T_FIND_MATE_LIKE
+    private Integer findMateLikeNo;
 }

@@ -40,7 +40,7 @@ public class MateApplyService {
                 .map(entity -> {
                     String allowYn = entity.getAllowYn();
                     FindMate findMate = findMateRepository.findByFindMateNo(entity.getFindMateNo());    //메이트 공고 찾기
-                    TripPlan tripPlan = tripPlanRepository.findByTripPlanNoAndStartDtBetweenOrderByCreateDtDesc(findMate.getTripPlanNo(), dto.getStartDt(), dto.getEndDt());
+                    TripPlan tripPlan = tripPlanRepository.findByTripPlanNoAndStartDtBetweenOrderByStartDtDesc(findMate.getTripPlanNo(), dto.getStartDt(), dto.getEndDt());
                     TripMate tripMate = tripMateRepository.findByTripPlanNoAndCustNo(tripPlan.getTripPlanNo(), custNo);
                     MateListSubDto convert = convert(allowYn, findMate, tripPlan, tripMate);
                     return convert;
@@ -72,8 +72,10 @@ public class MateApplyService {
 
     /**
      * dto 변환
+     * @param allowYn
      * @param findMate
      * @param tripPlan
+     * @param tripMate
      * @return
      */
     private MateListSubDto convert(String allowYn, FindMate findMate, TripPlan tripPlan, TripMate tripMate) {

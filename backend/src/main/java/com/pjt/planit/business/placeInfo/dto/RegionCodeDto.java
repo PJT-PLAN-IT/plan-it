@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 지역코드
+ */
 @Setter
 @Getter
 @NoArgsConstructor

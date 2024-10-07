@@ -11,4 +11,7 @@ public interface FindMateLikeRepository extends JpaRepository<FindMateLike, Inte
     List<FindMateLike> findAllByCustNo(Integer custNo);
 
     void deleteByFindMateLikeNo(Integer findMateLikeNo);
+
+    FindMateLike findByFindMateNoAndCustNo(Integer findMateNo, Integer custNo);
+
 }
