@@ -7,6 +7,7 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faFolder } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
 
 const down = <FontAwesomeIcon className="mb-[2px]" icon={faSortDown} />;
 const folder = <FontAwesomeIcon icon={faFolder} />;
@@ -17,7 +18,7 @@ const env = <FontAwesomeIcon className="size-6" icon={faEnvelope} />;
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <container className="font-notosans HeaderWrap">
+    <div className="font-notosans HeaderWrap">
       <img className="w-[90px]" src={Logo} alt="logo" />
       <div className="w-[1320px] HeaderItems">
         <div className=" m-auto ml-2 HeaderNav">
@@ -55,7 +56,11 @@ export function Header() {
             <hr />
             <DropdownMenu icon={heart} text={"메이트 관리"} />
             <hr />
-            <DropdownMenu icon={folder} text={"메이트 공고 작성하기"} />
+            <DropdownMenu
+              icon={folder}
+              text={"메이트 공고 작성하기"}
+              link={"/mate"}
+            />
             <DropdownMenu icon={folder} text={"나의 메이트 구하기"} />
             <DropdownMenu icon={folder} text={"메이트 신청 확인하기"} />
             <DropdownMenu icon={folder} text={"좋아요 한 메이트 글"} />
@@ -67,15 +72,17 @@ export function Header() {
           </ul>
         </div>
       </div>
-    </container>
+    </div>
   );
 }
 
 function DropdownMenu(props) {
   return (
     <li className="DropDownItem hover:font-semibold">
-      <span>{props.icon} </span>
-      {props.text}
+      <Link to={props.link}>
+        <span>{props.icon} </span>
+        {props.text}
+      </Link>
     </li>
   );
 }
