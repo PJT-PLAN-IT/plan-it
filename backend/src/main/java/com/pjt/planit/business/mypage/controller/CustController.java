@@ -29,8 +29,8 @@ public class CustController {
         return ApiResponse.ok("ok", list);
     }
 
-    //개인정보 수정
-    @PostMapping("/update")
+
+    @PutMapping("/update")
     public ApiResponse updateUserInfo(@RequestBody CustInfoDto dto) {
         Boolean isExist = userInfoService.nickNameCheck(dto.getNickname());
         if (isExist) {
