@@ -2,10 +2,10 @@ package com.pjt.planit.business.placeInfo.service;
 
 import com.pjt.planit.business.placeInfo.dto.ApiResponseDto;
 import com.pjt.planit.business.placeInfo.dto.RegionTypeDto;
-import com.pjt.planit.core.util.WebClientHelper;
 import com.pjt.planit.business.placeInfo.dto.RegionCodeDto;
-import com.pjt.planit.core.util.dto.BodyDto;
-import com.pjt.planit.core.util.dto.DataDto;
+import com.pjt.planit.core.util.openapi.WebClientHelper;
+import com.pjt.planit.core.util.openapi.dto.BodyDto;
+import com.pjt.planit.core.util.openapi.dto.DataDto;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
