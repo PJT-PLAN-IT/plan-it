@@ -3,6 +3,7 @@ package com.pjt.planit.business.mate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//import com.pjt.planit.business.ImageConverter.ImageController;
 import com.pjt.planit.business.mate.dto.MateWriteDTO;
 import com.pjt.planit.db.entity.FindMate;
 import com.pjt.planit.db.entity.FindMateRegion;
@@ -21,9 +22,13 @@ public class MateWriteService {
 
 	    @Autowired
 	    private FindMateStyleRepository findMateStyleRepository;
+	    
+//	    @Autowired
+//	    private ImageController imageController;
 
 		public void saveMateForm(MateWriteDTO writeDTO) {
-			
+				
+//			imageController.fetchImgUrl();
 			
 			 FindMate findMate = new FindMate();
 		        findMate.setTitle(writeDTO.getTitle());
@@ -32,7 +37,7 @@ public class MateWriteService {
 		        findMate.setRecruits(writeDTO.getMateNum());
 		        findMate.setContent(writeDTO.getContent());
 		        findMate.setGenderType(writeDTO.getGender());
-		        findMate.setThumbnailImg(writeDTO.getThumbnail());
+		        findMate.setThumbnailImg("asdasdas");
 		        findMate.setTwentyYn(writeDTO.getTwentyYN());
 		        findMate.setThirtyYn(writeDTO.getThirtyYN());
 		        findMate.setFortyYn(writeDTO.getFortyYN());

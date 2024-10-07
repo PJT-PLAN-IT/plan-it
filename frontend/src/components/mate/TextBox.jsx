@@ -29,6 +29,9 @@ function Textbox({ formData, titleChange, contentChange }) {
         onEditorChange={contentChange}
         value={formData}
         init={{
+          forced_root_block: "",
+          force_br_newlines: true,
+          force_p_newlines: false,
           plugins: [
             // Core editing features
             "anchor",
@@ -44,9 +47,9 @@ function Textbox({ formData, titleChange, contentChange }) {
             "visualblocks",
           ],
           height: 600,
+          elementpath: false,
           toolbar:
             "blocks fontfamily fontsize | bold italic underline strikethrough | link table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | ",
-          elementpath: false,
           tinycomments_mode: "embedded",
           menubar: "",
           mergetags_list: [

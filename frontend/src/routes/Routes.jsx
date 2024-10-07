@@ -6,7 +6,7 @@ import MyPage from "../pages/MyPage.jsx";
 import MyApplyMate from "../pages/MyApplyMate.jsx";
 import MyLikeMate from "../pages/MyLikeMate.jsx";
 import Write from "../pages/mate/Write.jsx";
-
+import Detail from "../pages/mate/Detail.jsx";
 function AppRoutes() {
   return (
     <Routes>
@@ -17,6 +17,7 @@ function AppRoutes() {
       <Route path="/mypage/applyMate/:custNo" element={<MyApplyMate />} />
       <Route path="/mypage/likeMate/:custNo" element={<MyLikeMate />} />
       <Route path="/mate" element={<Write />} />
+      <Route path="/detail" element={<Detail />} />
     </Routes>
   );
 }

@@ -3,11 +3,12 @@ import RegionSel from "../components/mate/RegionSel";
 import TripStyle from "../components/mate/TripStyle";
 import Calender from "../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
+import { ThumbSelect } from "../components/mate/PopUps";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
 import { useState } from "react";
 import { btnVal } from "./validCheck";
 import axios from "axios";
-
+import { Navigate } from "react-router-dom";
 function SubmitForm() {
   const initFormData = {
     regButtonStates: {
@@ -55,7 +56,6 @@ function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
-    postDateState: "",
   };
   const [formData, setFormData] = useState(initFormData);
 
@@ -77,6 +77,10 @@ function SubmitForm() {
       },
     }));
   }
+  const thumbSelChange = (data) => {
+    setFormData({ ...formData, thumbnailSel: data });
+    console.log(data);
+  };
 
   const titleChange = (e) => {
     setFormData({ ...formData, titleState: e.target.value });
@@ -162,7 +166,6 @@ function SubmitForm() {
       content: formData.contentState,
       gender: formData.genderState,
       thumbnail: formData.thumbnailSel,
-      createDate: new Date(),
       regions: selectedRegions,
       tripStyles: selectedTripStyles,
       twentyYN: formData.ageButtonStates.twenty ? "Y" : "N",
@@ -180,6 +183,7 @@ function SubmitForm() {
       })
       .then((response) => {
         console.log("success", response.data);
+        return <Navigate to="/detail" />;
       })
       .catch((error) => {
         console.error(
@@ -214,7 +218,11 @@ function SubmitForm() {
           <AgeSel ageButtonChange={ageButtonChange} />
         </div>
         <MateNum mateNumChange={mateNumChange} />
-
+        <ThumbSelect
+          thumbSelChange={thumbSelChange}
+          formData={formData}
+          setFormData={setFormData}
+        />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
           <CancelBtnBg />
