@@ -27,10 +27,10 @@ public class CustomCustDetailsService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Cust cust = custRepository.findAllByEmail(email);
+        Optional<Cust> cust = custRepository.findByEmail(email);
 
-        if(cust != null ) {
-            return new CustomCustDetails(cust);
+        if(cust.isPresent()) {
+            return new CustomCustDetails(cust.get());
         }
 
         return null;

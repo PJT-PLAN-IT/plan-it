@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pjt.planit.business.mate.dto.MateWriteDTO;
 import com.pjt.planit.business.mate.service.MateWriteService;
-import com.pjt.planit.business.placeInfo.controller.ApiResponse;
+import com.pjt.planit.core.config.ApiResponse;
 
 
 

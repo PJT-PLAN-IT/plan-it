@@ -3,16 +3,16 @@ package com.pjt.planit.business.mypage.dto;
 import lombok.*;
 
 /**
- * 확정된 여행 메이트, 메이트 탈퇴
+ * 신청한 메이트글 취소
  */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TripMateDto {
+public class TripMateCancelDto {
 
-    private Integer tripMateNo;
-    private Integer tripPlanNo;
+    //T_FIND_MATE
+    private Integer findMateNo;
     private Integer custNo;
 }

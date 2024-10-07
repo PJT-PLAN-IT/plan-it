@@ -12,7 +12,6 @@ public class MateWriteDTO {
     private String title;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private LocalDateTime createDate;
     private int mateNum;
     private String content;
     private String gender;

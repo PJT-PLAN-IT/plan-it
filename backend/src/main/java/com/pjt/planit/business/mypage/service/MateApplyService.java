@@ -1,7 +1,8 @@
 package com.pjt.planit.business.mypage.service;
 
 import com.pjt.planit.business.mypage.dto.MateListSubDto;
-import com.pjt.planit.business.mypage.dto.TripMateDto;
+import com.pjt.planit.business.mypage.dto.TripMateCancelDto;
+import com.pjt.planit.business.mypage.dto.TripMateSecessionDto;
 import com.pjt.planit.db.entity.*;
 import com.pjt.planit.db.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MateApplyService {
      * @return
      */
     public List<MateListSubDto> mateApply(Integer custNo, Integer year ) {
-        List<FindMateApply> applyList = findMateApplyRepository.findBycustNo(custNo);
+        List<FindMateApply> applyList = findMateApplyRepository.findBycustNo(custNo);   //내가 신청한 메이트 현황 찾기
 
         MateListSubDto dto = new MateListSubDto();
         dto.setStartDt(LocalDateTime.of(year, 1, 1, 0, 0, 0));
@@ -37,9 +38,11 @@ public class MateApplyService {
 
         List<MateListSubDto> result = applyList.stream()
                 .map(entity -> {
-                    FindMate findMate = findMateRepository.findByFindMateNo(entity.getFindMateNo());
+                    String allowYn = entity.getAllowYn();
+                    FindMate findMate = findMateRepository.findByFindMateNo(entity.getFindMateNo());    //메이트 공고 찾기
                     TripPlan tripPlan = tripPlanRepository.findByTripPlanNoAndStartDtBetweenOrderByCreateDtDesc(findMate.getTripPlanNo(), dto.getStartDt(), dto.getEndDt());
-                    MateListSubDto convert = convert(findMate, tripPlan);
+                    TripMate tripMate = tripMateRepository.findByTripPlanNoAndCustNo(tripPlan.getTripPlanNo(), custNo);
+                    MateListSubDto convert = convert(allowYn, findMate, tripPlan, tripMate);
                     return convert;
                 })
                 .filter(convert -> convert != null)
@@ -53,12 +56,19 @@ public class MateApplyService {
      * @param dto
      */
     @Transactional
-    public void applySecession(TripMateDto dto) {
-        TripMate custNo = tripMateRepository.findByCustNo(dto.getCustNo());
-        Integer tripMateNo = custNo.getTripMateNo();
-        tripMateRepository.deleteById(tripMateNo);
+    public void applySecession(TripMateSecessionDto dto) {
+        tripMateRepository.deleteById(dto.getTripMateNo());
     }
 
+    /**
+     * 신청한 메이트글 취소
+     * @param dto
+     */
+    @Transactional
+    public void applyCancel(TripMateCancelDto dto) {
+        FindMateApply findMateApply = findMateApplyRepository.findByFindMateNoAndCustNo(dto.getFindMateNo(), dto.getCustNo());
+        findMateApplyRepository.deleteById(findMateApply.getFindMateApplyNo());
+    }
 
     /**
      * dto 변환
@@ -66,21 +76,26 @@ public class MateApplyService {
      * @param tripPlan
      * @return
      */
-    private MateListSubDto convert(FindMate findMate, TripPlan tripPlan) {
+    private MateListSubDto convert(String allowYn, FindMate findMate, TripPlan tripPlan, TripMate tripMate) {
 
         if (tripPlan != null) {
             Cust cust = custRepository.findByCustNo(tripPlan.getCustNo());
 
-                return MateListSubDto.builder()
-                        .findMateNo(findMate.getFindMateNo())
-                        .title(findMate.getTitle())
-                        .content(findMate.getContent())
-                        .thumbnailImg(findMate.getThumbnailImg())
-                        .startDt(tripPlan.getStartDt())
-                        .endDt(tripPlan.getEndDt())
-                        .name(cust.getName())
-                        .build();
+            MateListSubDto.MateListSubDtoBuilder list = MateListSubDto.builder()
+                    .findMateNo(findMate.getFindMateNo())
+                    .title(findMate.getTitle())
+                    .content(findMate.getContent())
+                    .thumbnailImg(findMate.getThumbnailImg())
+                    .allowYn(allowYn)
+                    .tripPlanNo(tripPlan.getTripPlanNo())
+                    .startDt(tripPlan.getStartDt())
+                    .endDt(tripPlan.getEndDt())
+                    .name(cust.getName());
+            if (tripMate != null) {
+                list.tripMateNo(tripMate.getTripMateNo());
             }
+            return list.build();
+        }
         return null;
     }
 }
