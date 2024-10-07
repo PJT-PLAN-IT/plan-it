@@ -12,10 +12,7 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "hi";
-    }
+
 
     @GetMapping("/mybatis/banner/list")
     public List<Banner> getBannerListByMybatis() {
