@@ -19,18 +19,21 @@ public class MateController {
     private final MateApplyService myMateApplyService;
     private final MateLikesService myMateLikesService;
 
+    //내가 작성한 메이트글 조회
     @GetMapping("/{custNo}")
     public ApiResponse myMateList(@PathVariable Integer custNo, @RequestParam Integer year) {
         List<MateListWriteDto> list = myMateListService.myMateList(custNo, year);
         return ApiResponse.ok("ok", list);
     }
 
+    //내가 등록한 메이트글 승인, 거절
     @PostMapping("/approval")
     public ApiResponse applyUpdate(@RequestBody MateApplyUpdateDto dto) {
         myMateListService.applyUpdate(dto);
         return ApiResponse.ok("ok");
     }
 
+    //내가 신청한 메이트글 조회
     @GetMapping("/apply/{custNo}")
     public ApiResponse MateApply(@PathVariable Integer custNo, @RequestParam Integer year) {
         List<MateListSubDto> list = myMateApplyService.mateApply(custNo, year);
@@ -51,6 +54,7 @@ public class MateController {
         return ApiResponse.ok("ok");
     }
 
+    //좋아요한 메이트글 조회
     @GetMapping("/likes/{custNo}")
     public ApiResponse mateListLikes(@PathVariable Integer custNo, @RequestParam Integer year) {
         List<MateListLikeDto> list = myMateLikesService.mateListLikes(custNo, year);

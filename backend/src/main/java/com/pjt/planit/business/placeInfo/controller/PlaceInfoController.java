@@ -17,6 +17,7 @@ public class PlaceInfoController {
     private final PlaceDetailService placeDetailService;
     private final PlaceInfoService placeInfoService;
 
+    //여행장소 리뷰 조회
     @GetMapping("/reviews/{contentid}")
     public ApiResponse review(@PathVariable String contentid,
                               @RequestParam(defaultValue = "0") Integer page,
@@ -41,4 +42,10 @@ public class PlaceInfoController {
                                                     @RequestParam String areaCode) {
         return ApiResponse.ok("ok", placeInfoService.regionType(numOfRows, pageNo, arrange, contentTypeId, areaCode));
     }
+
+//    @GetMapping("/commonInfo")
+//    public ApiResponse commonInfo(){
+//
+//
+//    }
 }

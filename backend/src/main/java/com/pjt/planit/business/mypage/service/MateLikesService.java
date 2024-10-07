@@ -43,8 +43,9 @@ public class MateLikesService {
         List<MateListLikeDto> result = likeList.stream()
                 .map(entity -> {
                     FindMate findMate = findMateRepository.findByFindMateNo(entity.getFindMateNo());
-                    TripPlan tripPlan = tripPlanRepository.findByTripPlanNoAndStartDtBetweenOrderByCreateDtDesc(findMate.getTripPlanNo(), dto.getStartDt(), dto.getEndDt());
-                    MateListLikeDto convert = convert(findMate, tripPlan);
+                    TripPlan tripPlan = tripPlanRepository.findByTripPlanNoAndStartDtBetweenOrderByStartDtDesc(findMate.getTripPlanNo(), dto.getStartDt(), dto.getEndDt());
+                    FindMateLike findMateLike = findMateLikeRepository.findByFindMateNoAndCustNo(findMate.getFindMateNo(), custNo);
+                    MateListLikeDto convert = convert(findMate, tripPlan, findMateLike);
                     return convert;
                 })
                 .filter(convert -> convert != null)
@@ -59,7 +60,8 @@ public class MateLikesService {
      */
     @Transactional
     public void likeRevoke(MateLikeRevokeDto dto) {
-        findMateLikeRepository.deleteByFindMateLikeNo(dto.getFindMateLikeNo());
+        findMateLikeRepository.deleteById(dto.getFindMateLikeNo());
+
     }
 
 
@@ -67,22 +69,26 @@ public class MateLikesService {
      * dto 변환
      * @param findMate
      * @param tripPlan
+     * @param findMateLike
      * @return
      */
-    private MateListLikeDto convert(FindMate findMate, TripPlan tripPlan) {
+    private MateListLikeDto convert(FindMate findMate, TripPlan tripPlan, FindMateLike findMateLike) {
         if (tripPlan != null) {
             Cust cust = custRepository.findByCustNo(tripPlan.getCustNo());
 
-                return MateListLikeDto.builder()
-                        .findMateNo(findMate.getFindMateNo())
-                        .title(findMate.getTitle())
-                        .content(findMate.getContent())
-                        .thumbnailImg(findMate.getThumbnailImg())
-                        .startDt(tripPlan.getStartDt())
-                        .endDt(tripPlan.getEndDt())
-                        .name(cust.getName())
-                        .build();
+            MateListLikeDto.MateListLikeDtoBuilder list = MateListLikeDto.builder()
+                    .findMateNo(findMate.getFindMateNo())
+                    .title(findMate.getTitle())
+                    .content(findMate.getContent())
+                    .thumbnailImg(findMate.getThumbnailImg())
+                    .startDt(tripPlan.getStartDt())
+                    .endDt(tripPlan.getEndDt())
+                    .name(cust.getName());
+            if (findMateLike != null) {
+                list.findMateLikeNo(findMateLike.getFindMateLikeNo());
             }
+            return list.build();
+        }
         return null;
     }
 }
