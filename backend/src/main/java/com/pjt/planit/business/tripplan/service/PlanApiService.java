@@ -3,6 +3,8 @@ package com.pjt.planit.business.tripplan.service;
 import com.pjt.planit.business.placeInfo.dto.ApiResponseDto;
 import com.pjt.planit.business.tripplan.dto.openapi.BasicInfoDto;
 import com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoListDto;
+import com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoReviewDto;
+import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import com.pjt.planit.core.util.openapi.WebClientHelper;
 import com.pjt.planit.core.util.openapi.dto.BodyDto;
 import com.pjt.planit.core.util.openapi.dto.DataDto;
@@ -17,9 +19,11 @@ import java.util.List;
 public class PlanApiService {
 
     private final WebClientHelper webClientHelper;
+    private final PlanMapper planMapper;
 
-    public PlanApiService(WebClientHelper webClientHelper) {
+    public PlanApiService(WebClientHelper webClientHelper, PlanMapper planMapper) {
         this.webClientHelper = webClientHelper;
+        this.planMapper = planMapper;
     }
 
 
@@ -74,11 +78,34 @@ public class PlanApiService {
 
     }
 
+    public PlaceInfoListDto getPlaceByAreaCodeAndContentTypeIdAndReview(BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
+        String params = "numOfRows=" + basicInfoDto.getNumOfRows()
+                + "&pageNo=" + basicInfoDto.getPageNo()
+                + "&arrange="+ basicInfoDto.getArrange()
+                + "&contentTypeId=" + basicInfoDto.getContentTypeId()
+                + "&areaCode=" + basicInfoDto.getAreaCode();
+
+            String keyword = encodeVal(basicInfoDto.getKeyword());
+            params += "&keyword=" + keyword;
+
+        DataDto<PlaceInfoListDto> response =  response = webClientHelper.findPlaceByKeyword(params);
+
+        BodyDto<PlaceInfoListDto> body = response.getResponse().getBody();
+        List<PlaceInfoListDto> list = body.getItems().getItem();
+
+        PlaceInfoListDto placeInfoListDto = list.get(0);
+        List<PlaceInfoReviewDto> reviewList = planMapper.getReviewList(placeInfoListDto);
+        placeInfoListDto.setReviewList(reviewList);
+        placeInfoListDto.setStarAvg(Math.round(reviewList.stream().mapToInt(PlaceInfoReviewDto::getStar).average().orElseThrow() * 10) / 10.0);
+        placeInfoListDto.setReviewCount(reviewList.size());
+
+        return placeInfoListDto;
+    }
+
     private String encodeVal(String text) throws UnsupportedEncodingException {
         String val = text;
         String encodedVal = "";
         encodedVal = URLEncoder.encode(val, "utf-8");
         return encodedVal;
     }
-
 }
