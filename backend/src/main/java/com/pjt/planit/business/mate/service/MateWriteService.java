@@ -29,7 +29,6 @@ public class MateWriteService {
 		        findMate.setTitle(writeDTO.getTitle());
 		        findMate.setStartDt(writeDTO.getStartDate());
 		        findMate.setEndDt(writeDTO.getEndDate());
-		        findMate.setCreateDt(writeDTO.getCreateDate());
 		        findMate.setRecruits(writeDTO.getMateNum());
 		        findMate.setContent(writeDTO.getContent());
 		        findMate.setGenderType(writeDTO.getGender());

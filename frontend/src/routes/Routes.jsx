@@ -6,6 +6,7 @@ import MyPage from "../pages/MyPage.jsx";
 import MyApplyMate from "../pages/MyApplyMate.jsx";
 import MyLikeMate from "../pages/MyLikeMate.jsx";
 import Write from "../pages/mate/Write.jsx";
+
 function AppRoutes() {
   return (
     <Routes>
