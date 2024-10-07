@@ -16,7 +16,6 @@ public class RequestMatcherHolder {
             "/api/test/**",
             "/test/test",
             "/**"
-            
     );
 
 }
