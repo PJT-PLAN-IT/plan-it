@@ -1,4 +1,4 @@
-package com.pjt.planit.core.util.dto;
+package com.pjt.planit.core.util.openapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HeaderDto {
-    private String resultCode;
-    private String resultMsg;
+public class DataDto<T> {
+    private ResponseDto<T> response;
+
 }

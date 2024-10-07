@@ -1,4 +1,4 @@
-package com.pjt.planit.core.util.dto;
+package com.pjt.planit.core.util.openapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

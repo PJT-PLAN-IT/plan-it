@@ -1,8 +1,8 @@
-package com.pjt.planit.core.util;
+package com.pjt.planit.core.util.openapi;
 
 import com.pjt.planit.business.placeInfo.dto.RegionCodeDto;
 import com.pjt.planit.business.placeInfo.dto.RegionTypeDto;
-import com.pjt.planit.core.util.dto.DataDto;
+import com.pjt.planit.core.util.openapi.dto.DataDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
