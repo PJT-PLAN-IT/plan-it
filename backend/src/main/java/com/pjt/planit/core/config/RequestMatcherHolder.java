@@ -17,7 +17,6 @@ public class RequestMatcherHolder {
             "/test/test",
             "/api/images/upload",
             "/mate/**"
-
     );
 
 }
