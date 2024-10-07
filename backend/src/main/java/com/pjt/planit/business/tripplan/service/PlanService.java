@@ -13,6 +13,8 @@ import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,9 +144,6 @@ public class PlanService {
         tripDetailRepository.deleteAllByTripPlanNo(tripPlanNo);
     }
 
-
-
-
     /**
      * 여행 계획 기본 정보 추가
      * @param tripPlanDto
@@ -222,4 +221,5 @@ public class PlanService {
             tripPlanRepository.save(tripPlan);
         }
     }
+
 }

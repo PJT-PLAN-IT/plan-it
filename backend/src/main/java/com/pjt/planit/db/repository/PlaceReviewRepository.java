@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlaceReviewRepository extends JpaRepository<PlaceReview, Integer> {
@@ -20,5 +21,9 @@ public interface PlaceReviewRepository extends JpaRepository<PlaceReview, Intege
     Page<PlaceReview> findAllByCustNo(Integer custNo, Pageable pageable);
 
     void deleteByPlaceReviewNo(Integer placeReviewNo);
+
+    Optional<PlaceReview> findByTripDetailNo(Integer tripDetailNo);
+
+    Optional<PlaceReview> findByPlaceReviewNoAndCustNo(Integer placeReviewNo, Integer custNo);
 
 }

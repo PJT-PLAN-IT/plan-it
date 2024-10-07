@@ -4,10 +4,7 @@ import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.business.tripplan.service.PlanService;
 import com.pjt.planit.core.security.filter.ResponseResult;
 import com.pjt.planit.core.util.FindAuthorizedUser;
-import com.pjt.planit.db.entity.TripDetail;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +30,7 @@ public class TripPlanController {
 
     /**
      * 여행 계획 디테일 출력
-     * @RequestBody TripPlanYearNoDto
+     * @RequestParam tripPlanNo
      * @return ResponseResult
      */
     @GetMapping

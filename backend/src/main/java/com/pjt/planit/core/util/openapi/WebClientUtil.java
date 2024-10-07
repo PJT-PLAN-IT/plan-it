@@ -1,4 +1,4 @@
-package com.pjt.planit.core.util;
+package com.pjt.planit.core.util.openapi;
 
 import com.pjt.planit.core.config.WebClientConfig;
 import com.pjt.planit.core.error.InternalServerException;
