@@ -52,8 +52,11 @@
         SELECT ttm.trip_mate_no AS tripMateNo
              , ttm.trip_plan_no AS tripPlanNo
              , ttm.cust_no AS cust_no
+             , tc.nickname AS nickName
         FROM T_TRIP_MATE ttm
-        WHERE trip_plan_no = #{tripPlanNo}
+                 INNER JOIN T_CUST tc
+                ON tc.cust_no = ttm.cust_no
+        WHERE trip_plan_no = #{tripPlanNo};
     </select>
 
     <select id="getDetailList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="hashmap">

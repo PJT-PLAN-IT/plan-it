@@ -95,7 +95,7 @@ public class TripPlanController {
      *
      */
     @PostMapping("/review")
-    public ResponseResult<?> reviewTripPlan(@RequestBody TripReviewDto tripReviewDto) {
+    public ResponseResult<?> addPlanReview(@RequestBody TripReviewDto tripReviewDto) {
         planService.addReview(tripReviewDto);
         return ResponseResult.ofSuccess("success", null);
     }

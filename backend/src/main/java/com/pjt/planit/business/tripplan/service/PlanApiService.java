@@ -96,7 +96,7 @@ public class PlanApiService {
         PlaceInfoListDto placeInfoListDto = list.get(0);
         List<PlaceInfoReviewDto> reviewList = planMapper.getReviewList(placeInfoListDto);
         placeInfoListDto.setReviewList(reviewList);
-        placeInfoListDto.setStarAvg(Math.round(reviewList.stream().mapToInt(PlaceInfoReviewDto::getStar).average().orElseThrow() * 10) / 10.0);
+        placeInfoListDto.setStarAvg(Math.round(reviewList.stream().mapToInt(PlaceInfoReviewDto::getStar).average().orElse(0.0) * 10) / 10.0);
         placeInfoListDto.setReviewCount(reviewList.size());
 
         return placeInfoListDto;
