@@ -1,5 +1,6 @@
 package com.pjt.planit.core.util.openapi;
 
+import com.pjt.planit.business.main.dto.NewestPlaceDto;
 import com.pjt.planit.business.placeInfo.dto.CommonInfoDto;
 import com.pjt.planit.business.placeInfo.dto.KeyWordDto;
 import com.pjt.planit.business.placeInfo.dto.RegionCodeDto;
@@ -39,5 +40,9 @@ public class WebClientHelper {
 
     public DataDto<KeyWordDto> fetchKeyWordData(String params){
         return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
+    }
+
+    public DataDto<NewestPlaceDto> fetchNewestPlaceData(String params){
+        return fechData("/areaBasedList1", params, new ParameterizedTypeReference<>() {});
     }
 }
