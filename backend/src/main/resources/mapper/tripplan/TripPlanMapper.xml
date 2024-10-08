@@ -52,8 +52,11 @@
         SELECT ttm.trip_mate_no AS tripMateNo
              , ttm.trip_plan_no AS tripPlanNo
              , ttm.cust_no AS cust_no
+             , tc.nickname AS nickName
         FROM T_TRIP_MATE ttm
-        WHERE trip_plan_no = #{tripPlanNo}
+                 INNER JOIN T_CUST tc
+                ON tc.cust_no = ttm.cust_no
+        WHERE trip_plan_no = #{tripPlanNo};
     </select>
 
     <select id="getDetailList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="hashmap">
@@ -78,5 +81,22 @@
         LEFT OUTER JOIN T_PLACE_REVIEW tpr
         ON ttd.trip_detail_no = tpr.trip_detail_no
         WHERE ttd.trip_plan_no = #{tripPlanNo}
+    </select>
+    <select id="getReviewList" parameterType="com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoListDto" resultType="com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoReviewDto">
+        SELECT tpr.place_review_no AS placeReviewNo
+             , tpr.star AS star
+             , tpr.cust_no AS custNo
+             , tpr.contentid AS contentid
+             , tpr.review AS review
+             , tpr.review_img1 AS reviewImage1
+             , tpr.review_img2 AS reviewImage2
+             , tpr.review_img3 AS reviewImage3
+             , tpr.review_img4 AS reviewImage4
+             , tc.nickname AS nickName
+        FROM T_PLACE_REVIEW tpr
+        INNER JOIN T_CUST tc
+        ON tc.cust_no = tpr.cust_no
+        WHERE tpr.contentid = #{contentid}
+        ORDER BY tpr.place_review_no DESC
     </select>
 </mapper>

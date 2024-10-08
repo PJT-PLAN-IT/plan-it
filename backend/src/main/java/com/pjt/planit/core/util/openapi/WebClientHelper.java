@@ -5,6 +5,7 @@ import com.pjt.planit.business.placeInfo.dto.CommonInfoDto;
 import com.pjt.planit.business.placeInfo.dto.KeyWordDto;
 import com.pjt.planit.business.placeInfo.dto.RegionCodeDto;
 import com.pjt.planit.business.placeInfo.dto.RegionTypeDto;
+import com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoListDto;
 import com.pjt.planit.core.util.openapi.dto.DataDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
@@ -42,7 +43,23 @@ public class WebClientHelper {
         return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
     }
 
+
     public DataDto<NewestPlaceDto> fetchNewestPlaceData(String params){
         return fechData("/areaBasedList1", params, new ParameterizedTypeReference<>() {});
     }
+
+    /**
+     * ContentType과 areaCode로 데이터 뽑아오기
+     * @param params
+     * @return
+     */
+    public DataDto<PlaceInfoListDto> findPlaceByAreaAndContent(String params){
+        return fechData("/areaBasedList1", params, new ParameterizedTypeReference<>() {});
+    }
+
+    public DataDto<PlaceInfoListDto> findPlaceByKeyword(String params){
+        return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
+    }
+
+
 }

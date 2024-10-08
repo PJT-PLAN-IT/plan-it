@@ -12,5 +12,6 @@ public class TripPlanMateDto {
     private Integer tripMateNo;
     private Integer tripPlanNo;
     private Integer custNo;
+    private String nickName;
 
 }

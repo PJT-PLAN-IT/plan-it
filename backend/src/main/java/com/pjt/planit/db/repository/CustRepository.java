@@ -1,6 +1,7 @@
 package com.pjt.planit.db.repository;
 
 import com.pjt.planit.db.entity.Cust;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,6 @@ public interface CustRepository extends JpaRepository<Cust, Integer> {
     boolean existsByNickname(String nickname);
 
     Cust findByName(String name);
-    
+
+    Optional<Cust> findByNicknameAndSecessionYn(@NotNull String nickname, String secessionYn);
 }
