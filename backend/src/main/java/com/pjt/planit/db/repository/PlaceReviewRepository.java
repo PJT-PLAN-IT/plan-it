@@ -26,4 +26,5 @@ public interface PlaceReviewRepository extends JpaRepository<PlaceReview, Intege
 
     Optional<PlaceReview> findByPlaceReviewNoAndCustNo(Integer placeReviewNo, Integer custNo);
 
+    void deleteAllByTripDetailNo(Integer tripDetailNo);
 }

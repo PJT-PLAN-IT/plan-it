@@ -1,6 +1,9 @@
 package com.pjt.planit.business.tripplan.dto.openapi;
 
+import com.pjt.planit.business.mypage.dto.ReviewListDto;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,4 +19,8 @@ public class PlaceInfoListDto {
     private String areacode;    //지역코드
     private String contentid;   //콘텐츠Id
     private String contenttypeid;   //관광타입(관광지, 숙박등..)
+    private Double starAvg;
+    private Integer reviewCount;
+    List<PlaceInfoReviewDto> reviewList;
+
 }

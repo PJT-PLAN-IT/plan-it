@@ -26,6 +26,14 @@ public class PlanApiController {
          return ResponseResult.ofSuccess("success", result);
     }
 
+    @GetMapping("/detail")
+    public ResponseResult<?> getPlaceDetail(@RequestBody BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
+        PlaceInfoListDto result =  planApiService.getPlaceByAreaCodeAndContentTypeIdAndReview(basicInfoDto);
+        return ResponseResult.ofSuccess("success", result);
+    }
+
+
+
 
 
 }

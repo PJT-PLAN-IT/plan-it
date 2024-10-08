@@ -5,10 +5,7 @@ import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.entity.Invite;
 import com.pjt.planit.db.entity.TripDetail;
 import com.pjt.planit.db.entity.TripPlan;
-import com.pjt.planit.db.repository.CustRepository;
-import com.pjt.planit.db.repository.InviteRepository;
-import com.pjt.planit.db.repository.TripDetailRepository;
-import com.pjt.planit.db.repository.TripPlanRepository;
+import com.pjt.planit.db.repository.*;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,13 +24,15 @@ public class PlanService {
     private final PlanMapper planMapper;
     private final CustRepository custRepository;
     private final InviteRepository inviteRepository;
+    private final PlaceReviewRepository placeReviewRepository;
 
-    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper, CustRepository custRepository, InviteRepository inviteRepository) {
+    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper, CustRepository custRepository, InviteRepository inviteRepository, PlaceReviewRepository placeReviewRepository) {
         this.tripPlanRepository = tripPlanRepository;
         this.tripDetailRepository = tripDetailRepository;
         this.planMapper = planMapper;
         this.custRepository = custRepository;
         this.inviteRepository = inviteRepository;
+        this.placeReviewRepository = placeReviewRepository;
     }
 
     /**
@@ -143,8 +142,15 @@ public class PlanService {
      */
     @Transactional
     public void deleteTripPlan(Integer tripPlanNo) {
-        tripPlanRepository.deleteByTripPlanNo(tripPlanNo);
+
+        Optional<List<TripDetail>> detailList = tripDetailRepository.findAllByTripPlanNo(tripPlanNo);
+        if(detailList.isPresent()) {
+            for(TripDetail tripDetail : detailList.get()){
+                placeReviewRepository.deleteAllByTripDetailNo(tripDetail.getTripDetailNo());
+            }
+        }
         tripDetailRepository.deleteAllByTripPlanNo(tripPlanNo);
+        tripPlanRepository.deleteByTripPlanNo(tripPlanNo);
     }
 
     /**
@@ -224,4 +230,5 @@ public class PlanService {
             tripPlanRepository.save(tripPlan);
         }
     }
+
 }
