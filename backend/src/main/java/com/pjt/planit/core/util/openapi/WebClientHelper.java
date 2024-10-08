@@ -1,5 +1,6 @@
 package com.pjt.planit.core.util.openapi;
 
+import com.pjt.planit.business.main.dto.NewestPlaceDto;
 import com.pjt.planit.business.placeInfo.dto.CommonInfoDto;
 import com.pjt.planit.business.placeInfo.dto.KeyWordDto;
 import com.pjt.planit.business.placeInfo.dto.RegionCodeDto;
@@ -42,6 +43,11 @@ public class WebClientHelper {
         return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
     }
 
+
+    public DataDto<NewestPlaceDto> fetchNewestPlaceData(String params){
+        return fechData("/areaBasedList1", params, new ParameterizedTypeReference<>() {});
+    }
+
     /**
      * ContentType과 areaCode로 데이터 뽑아오기
      * @param params
@@ -54,5 +60,6 @@ public class WebClientHelper {
     public DataDto<PlaceInfoListDto> findPlaceByKeyword(String params){
         return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
     }
+
 
 }

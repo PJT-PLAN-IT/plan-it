@@ -45,7 +45,7 @@ public class PlaceInfoController {
     }
 
     //키워드 검색 조회
-    @GetMapping("/keyWord")
+    @GetMapping("/keyword")
     public ApiResponse keyWord(@RequestParam String keyword) throws UnsupportedEncodingException {
         return ApiResponse.ok("ok", placeInfoService.keyWord(keyword));
     }

@@ -2,6 +2,7 @@ package com.pjt.planit.business.mypage.service;
 
 import com.pjt.planit.business.mypage.dto.ReplyListDeleteDto;
 import com.pjt.planit.business.mypage.dto.ReplyListDto;
+import com.pjt.planit.business.mypage.dto.ReviewListDto;
 import com.pjt.planit.db.entity.FindMate;
 import com.pjt.planit.db.entity.FindMateReply;
 import com.pjt.planit.db.repository.FindMateReplyRepository;
@@ -63,13 +64,15 @@ public class UserReplysService {
      * @return
      */
     private ReplyListDto convert(FindMateReply findMateReply, FindMate findMate, Integer totalCount, Integer totalPage) {
-        //FindMate findTitle = findMateRepository.findByTitle(findMate.getTitle());
+
+        String createDt = findMateReply.getCreateDt().format(ReplyListDto.formatter);
 
         return ReplyListDto.builder()
                 .findMateReplyNo(findMateReply.getFindMateReplyNo())
                 .findMateNo(findMateReply.getFindMateNo())
                 .title(findMate.getTitle())
                 .reply(findMateReply.getReply())
+                .createDt(createDt)
                 .totalCount(totalCount)
                 .totalPage(totalPage)
                 .build();
