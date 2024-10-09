@@ -57,7 +57,7 @@ function MyPage(){
     }, []);
 
     return (
-        <div className="container mx-auto p-20">
+        <div className="App mx-[300px]">
             <div className="mb-6">
                 <div className="flex justify-between mb-6">
                     <div className="flex space-x-6">
