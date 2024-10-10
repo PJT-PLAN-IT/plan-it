@@ -26,5 +26,4 @@ public class ReplyListDto {
     private Integer totalCount;
     private Integer totalPage;
 
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 }

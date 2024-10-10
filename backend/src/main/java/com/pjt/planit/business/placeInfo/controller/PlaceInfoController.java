@@ -46,8 +46,10 @@ public class PlaceInfoController {
 
     //키워드 검색 조회
     @GetMapping("/keyword")
-    public ApiResponse keyWord(@RequestParam String keyword) throws UnsupportedEncodingException {
-        return ApiResponse.ok("ok", placeInfoService.keyWord(keyword));
+    public ApiResponse keyWord(@RequestParam(defaultValue = "12") Integer numOfRows,
+                               @RequestParam(defaultValue = "1") Integer pageNo,
+                               @RequestParam String keyword) throws UnsupportedEncodingException {
+        return ApiResponse.ok("ok", placeInfoService.keyWord(numOfRows, pageNo, keyword));
     }
 
     //공통정보 조회

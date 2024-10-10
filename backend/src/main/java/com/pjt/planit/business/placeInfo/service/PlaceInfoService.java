@@ -85,11 +85,11 @@ public class PlaceInfoService {
      * @param keyWord
      * @return
      */
-    public ApiResponseDto<KeyWordDto> keyWord(String keyWord) throws UnsupportedEncodingException {
+    public ApiResponseDto<KeyWordDto> keyWord(Integer numOfRows, Integer pageNo, String keyWord) throws UnsupportedEncodingException {
 
         String result = encodeVal(keyWord);
 
-        String params = "keyword=" + result;
+        String params = "numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&keyword=" + result;
 
         DataDto<KeyWordDto> response = webClientHelper.fetchKeyWordData(params);
         BodyDto<KeyWordDto> body = response.getResponse().getBody();
@@ -101,6 +101,7 @@ public class PlaceInfoService {
             keyWordDto.setAreacode(dto.getAreacode());
             keyWordDto.setContentid(dto.getContentid());
             keyWordDto.setContenttypeid(dto.getContenttypeid());
+            keyWordDto.setFirstimage2(dto.getFirstimage2());
             keyWordDto.setTitle(dto.getTitle());
 
             keyWordDtoList.add(keyWordDto);

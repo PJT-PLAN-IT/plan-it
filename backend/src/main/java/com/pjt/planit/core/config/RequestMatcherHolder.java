@@ -13,7 +13,8 @@ public class RequestMatcherHolder {
             "/login",
             "/join",
             "/planit/**",
-            "/api/test/**"
+            "/api/test/**",
+            "/**"
     );
 
 }

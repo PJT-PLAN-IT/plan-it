@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -65,14 +66,12 @@ public class UserReplysService {
      */
     private ReplyListDto convert(FindMateReply findMateReply, FindMate findMate, Integer totalCount, Integer totalPage) {
 
-        String createDt = findMateReply.getCreateDt().format(ReplyListDto.formatter);
-
         return ReplyListDto.builder()
                 .findMateReplyNo(findMateReply.getFindMateReplyNo())
                 .findMateNo(findMateReply.getFindMateNo())
                 .title(findMate.getTitle())
                 .reply(findMateReply.getReply())
-                .createDt(createDt)
+                .createDt(findMateReply.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) )
                 .totalCount(totalCount)
                 .totalPage(totalPage)
                 .build();

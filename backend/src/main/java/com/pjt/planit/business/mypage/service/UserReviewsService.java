@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -80,15 +81,13 @@ public class UserReviewsService {
      */
     private ReviewListDto convert(PlaceReview placeReview, Integer totalCount, Integer totalPage) {
 
-        String createDt = placeReview.getCreateDt().format(ReviewListDto.formatter);
-
         return ReviewListDto.builder()
                 .placeReviewNo(placeReview.getPlaceReviewNo())
                 .contentid(placeReview.getContentid())
                 .star(placeReview.getStar())
                 .review(placeReview.getReview())
                 .reviewImg1(placeReview.getReviewImg1())
-                .createDt(createDt)
+                .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .totalCount(totalCount)
                 .totalPage(totalPage)
                 .build();
