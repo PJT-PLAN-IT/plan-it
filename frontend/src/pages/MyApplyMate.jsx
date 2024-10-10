@@ -7,7 +7,7 @@ import MateInfo from "../components/MateInfo.jsx";
 import MateButton from "../components/MateButton.jsx";
 import SelectYear from "../components/SelectYear.jsx";
 
-function MyPage(){
+function MyApplyMate(){
     const axiosInstance = useAxiosInstance();
     const {custNo} = useParams();
     const [year, setYear] = useState("2024");
@@ -52,34 +52,36 @@ function MyPage(){
     }, []);
 
     return (
-        <div className="container mx-auto p-20">
-            <div className="mb-6">
-                <div className="flex justify-between mb-6">
-                    <div className="flex space-x-6">
-                        <MateButton custNo={custNo} value="applyMate"></MateButton>
-                    </div>
+        <div>
+            <div className="App mx-[300px]">
+                <div className="mb-6">
+                    <div className="flex justify-between mb-6">
+                        <div className="flex space-x-6">
+                            <MateButton custNo={custNo} value="applyMate"></MateButton>
+                        </div>
 
-                    <div className="relative flex items-center space-x-4">
-                        <SelectYear year={year} onChangeYear={onChangeYear} />
-                    </div>
-                </div>
-            </div>
-
-            <div className="space-y-10">
-                {/* 날짜별로 그룹화된 데이터를 순회하여 렌더링 */}
-                {Object.keys(myList).map((date) => (
-                    <div key={date}>
-                        <div className="text-xl font-bold text-orange-500 mb-4">{date}</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {myList[date].map((item, index) => (
-                                <MyCard item={item} key={index} component={ <MateInfo item={item} custNo={custNo} refreshData={fetchMyMateList}/> }/>
-                            ))}
+                        <div className="relative flex items-center space-x-4">
+                            <SelectYear year={year} onChangeYear={onChangeYear} />
                         </div>
                     </div>
-                ))}
+                </div>
+
+                <div className="space-y-10">
+                    {/* 날짜별로 그룹화된 데이터를 순회하여 렌더링 */}
+                    {Object.keys(myList).map((date) => (
+                        <div key={date}>
+                            <div className="text-xl font-bold text-orange-500 mb-4">{date}</div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {myList[date].map((item, index) => (
+                                    <MyCard item={item} key={index} component={ <MateInfo item={item} custNo={custNo} refreshData={fetchMyMateList}/> }/>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 }
 
-export default MyPage;
+export default MyApplyMate;

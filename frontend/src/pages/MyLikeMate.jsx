@@ -7,7 +7,7 @@ import Like from "../components/Like.jsx";
 import MateButton from "../components/MateButton.jsx";
 import SelectYear from "../components/SelectYear.jsx";
 
-function MyPage(){
+function MyLikeMate(){
     const axiosInstance = useAxiosInstance();
     const {custNo} = useParams();
     const [year, setYear] = useState("2024");
@@ -40,7 +40,7 @@ function MyPage(){
     }, []);
 
     return (
-        <div className="container mx-auto p-20">
+        <div className="App mx-[300px]">
             <div className="mb-6">
                 <div className="flex justify-between mb-6">
                     <div className="flex space-x-6">
@@ -64,4 +64,4 @@ function MyPage(){
     );
 }
 
-export default MyPage;
+export default MyLikeMate;
