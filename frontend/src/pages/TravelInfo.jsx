@@ -41,6 +41,7 @@ function TravelInfo() {
     const [travelList, setTravelList] = useState([]);
     const [skipFetch, setSkipFetch] = useState(false); // 추가된 상태 변수
 
+    //지역클릭
     const regBtnClick = (btnState) => {
         setFormData((prev) => {
             const isCurrentlyActive = prev.regButtonStates[btnState];  // 현재 클릭한 버튼이 활성화 상태인지 확인
@@ -65,8 +66,27 @@ function TravelInfo() {
                 regButtonStates: updatedRegButtonStates,
             };
         });
-        setPage(0);
+        btnClickSetState();
+    };
 
+    //카테고리 변경
+    const handleCategory = (category) => {
+        setCategory(category);
+        btnClickSetState();
+    };
+
+    //버튼클릭시 상태 초기화
+    const btnClickSetState = () => {
+        setPage(0);
+        setIsSearchBtnClick(false);
+        setSkipFetch(false);
+    };
+
+    // 페이지 변경 핸들러
+    const handlePageChange = (newPage) => {
+        if (newPage >= 0 && newPage < Math.ceil(totalCount / 12)) {
+            setPage(newPage); // 페이지 상태 업데이트
+        }
     };
 
     //검색
@@ -118,30 +138,8 @@ function TravelInfo() {
         }
     };
 
-    //카테고리 변경
-    const handleCategory = (category) => {
-        setCategory(category);
-        setPage(0);
-    };
-
-    // 페이지 변경 핸들러
-    const handlePageChange = (newPage) => {
-        if (newPage >= 0 && newPage < Math.ceil(totalCount / 12)) {
-            setPage(newPage); // 페이지 상태 업데이트
-        }
-    };
-
-    // 지역 코드 변경 시 페이지를 초기화
-    useEffect(() => {
-        setIsSearchBtnClick(false);
-        setPage(0); // 지역 필터가 변경될 때 페이지를 0으로 설정
-        setSkipFetch(true); // 페이지 초기화 시 API 호출 생략
-    }, [formData.regButtonStates, category]);
-
     // 페이지, 카테고리, 지역 필터가 변경될 때 데이터 가져오기
     useEffect(() => {
-        console.log("skipFetch ", skipFetch);
-        console.log("isSearchBtnClick", isSearchBtnClick);
         if (!skipFetch) {
             fetchDataList();
             setSkipFetch(false); // 이후에는 API 호출을 허용
@@ -151,12 +149,6 @@ function TravelInfo() {
             setSkipFetch(true); // 이후에는 API 호출을 허용
         }
     }, [formData.regButtonStates, category, page]);
-
-    /*케이스 정리
-    * 1. 3페이지에서 검색어 입력
-    * 2. 화면 최초로드후 검색어 입력
-    * 3.
-    * */
 
     return (
         <div className="App mx-[300px]">
