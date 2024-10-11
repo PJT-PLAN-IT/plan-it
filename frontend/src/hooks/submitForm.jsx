@@ -10,7 +10,7 @@ import { btnVal } from "./validCheck";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 function SubmitForm() {
-  const initFormData = {
+  const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
       11: false,
@@ -56,8 +56,7 @@ function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
-  };
-  const [formData, setFormData] = useState(initFormData);
+  });
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -173,6 +172,7 @@ function SubmitForm() {
       fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
       fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
     };
+
     console.log("sending json: ", finalFormData);
 
     axios
@@ -182,8 +182,9 @@ function SubmitForm() {
         },
       })
       .then((response) => {
-        console.log("success", response.data);
-        return <Navigate to="/detail" />;
+        // console.log("success", response.data);
+        const findMateNo = response.data.data;
+        Navigate(`/api/planit/mates/details/${findMateNo}`);
       })
       .catch((error) => {
         console.error(

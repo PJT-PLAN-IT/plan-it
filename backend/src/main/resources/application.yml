@@ -23,8 +23,9 @@ spring:
     secret: vmffosdltvmfhwprxmghkdlxldwpqkfrlrkssodpwhgdmsrufrhkanfskdhrlfrldnjsgka
   servlet:
     multipart:
-        max-file-size: 5MB
-        max-request-size: 5MB
+      enabled: true
+      max-file-size: 4GB
+      max-request-size: 4GB
     
 # MyBatis
 mybatis:

@@ -29,8 +29,8 @@ const Alert = () => {
 };
 
 const ThumbSelect = ({ thumbSelChange }) => {
-  const camera = <FontAwesomeIcon icon={faCamera} />;
   const [file, setFile] = useState(null);
+  const camera = <FontAwesomeIcon icon={faCamera} />;
   // const [img, setImg] = useState(false);
   // const IMGUR_CLIENT_ID = "5043e84fa279a89";
 
@@ -53,6 +53,7 @@ const ThumbSelect = ({ thumbSelChange }) => {
     //   setImg((e.target.className = "border-2 border-red-400 "));
     // } else console.log(file);
     thumbSelChange(file);
+    console.log(file);
   };
 
   const handleFileChange = (e) => {

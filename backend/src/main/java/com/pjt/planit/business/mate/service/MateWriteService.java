@@ -23,12 +23,9 @@ public class MateWriteService {
 	    @Autowired
 	    private FindMateStyleRepository findMateStyleRepository;
 	    
-//	    @Autowired
-//	    private ImageController imageController;
 
-		public void saveMateForm(MateWriteDTO writeDTO) {
+		public int saveMateForm(MateWriteDTO writeDTO) {
 				
-//			imageController.fetchImgUrl();
 			
 			 FindMate findMate = new FindMate();
 		        findMate.setTitle(writeDTO.getTitle());
@@ -37,7 +34,7 @@ public class MateWriteService {
 		        findMate.setRecruits(writeDTO.getMateNum());
 		        findMate.setContent(writeDTO.getContent());
 		        findMate.setGenderType(writeDTO.getGender());
-		        findMate.setThumbnailImg("asdasdas");
+		        findMate.setThumbnailImg(writeDTO.getThumbnail());
 		        findMate.setTwentyYn(writeDTO.getTwentyYN());
 		        findMate.setThirtyYn(writeDTO.getThirtyYN());
 		        findMate.setFortyYn(writeDTO.getFortyYN());
@@ -57,7 +54,8 @@ public class MateWriteService {
 		            style.setTripStyleId(styleId);
 		            findMateStyleRepository.save(style);
 		        }
-		        
+		       
+		        return findMate.getFindMateNo();
 			
 		}
 	    
