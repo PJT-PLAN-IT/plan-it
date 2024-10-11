@@ -39,3 +39,7 @@ cors:
 travel:
   api:
     url: "https://apis.data.go.kr/B551011/KorService1"
+
+file:
+  fileDir: /Users/kimhyejin/Desktop/photo/
+
