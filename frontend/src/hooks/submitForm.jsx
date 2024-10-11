@@ -8,7 +8,8 @@ import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
 import { useState } from "react";
 import { btnVal } from "./validCheck";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 function SubmitForm() {
   const [formData, setFormData] = useState({
     regButtonStates: {
@@ -57,6 +58,7 @@ function SubmitForm() {
     genderState: "",
     thumbnailSel: "",
   });
+  const navigate = useNavigate();
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -184,7 +186,7 @@ function SubmitForm() {
       .then((response) => {
         // console.log("success", response.data);
         const findMateNo = response.data.data;
-        Navigate(`/api/planit/mates/details/${findMateNo}`);
+        navigate(`/planit/mates/details/${findMateNo}`);
       })
       .catch((error) => {
         console.error(
