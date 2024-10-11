@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
+@DynamicInsert
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
@@ -51,6 +54,7 @@ public class Cust extends BaseEntity {
     private String gender; // M or W
 
     @Column(name = "secession_yn")
+    @ColumnDefault("N")
     private String secessionYn; //Y or N
 
     @Column(name = "secession_dt")

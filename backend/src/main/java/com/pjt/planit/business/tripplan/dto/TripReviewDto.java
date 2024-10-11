@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class TripReviewDto {
 
-    private String review;
     private Integer tripPlanNo;
+    private String review;
 
 }
