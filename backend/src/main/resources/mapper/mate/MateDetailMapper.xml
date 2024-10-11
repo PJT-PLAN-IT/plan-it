@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.pjt.planit.business.mate.mapper.DetailMapper">
+	<select id="getDetail"
+		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO"
+		resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
+		SELECT
+
+		c.cust_no as custNo,
+
+		fm.find_mate_no AS findMateNo,
+		fm.create_by AS findMateCreateBy,
+		fm.update_dt AS updateDate,
+		fm.trip_plan_no AS tripPlanNo,
+		fm.title as title,
+		fm.start_dt AS startDate,
+		fm.thumbnail_img AS
+		thumbnailImg,
+		fm.end_dt AS endDate,
+		fm.recruits AS mateNum,
+		fm.content
+		as content,
+		fm.gender_type AS gender,
+		fm.twenty_yn AS twentyYN,
+		fm.thirty_yn AS thirtyYN,
+		fm.forty_yn AS fortyYN,
+		fm.fifty_yn AS
+		fiftyYN,
+
+		fa.find_mate_apply_no AS findMateAppNo,
+		fa.allow_yn AS
+		appAllowYn,
+		fa.expired_dt AS expiredDt,
+
+		fl.find_mate_like_no AS
+		findMateLikeNo,
+
+		GROUP_CONCAT(r.content_type_id) AS regions,
+		GROUP_CONCAT(s.trip_style_id) AS tripStyles
+
+		FROM
+		T_FIND_MATE fm
+
+		LEFT JOIN
+		T_CUST c ON fm.create_by = c.create_by
+
+		LEFT JOIN
+		T_TRIP_PLAN tp ON
+		fm.trip_plan_no = tp.trip_plan_no
+
+		LEFT JOIN
+		T_FIND_MATE_APPLY fa ON
+		fm.find_mate_no = fa.find_mate_no
+
+		LEFT JOIN
+		T_FIND_MATE_LIKE fl ON
+		fm.find_mate_no = fl.find_mate_no
+
+		LEFT JOIN
+		T_FIND_MATE_REGION r ON
+		fm.find_mate_no = r.find_mate_no
+
+		LEFT JOIN
+		T_FIND_MATE_STYLE s ON
+		fm.find_mate_no = s.find_mate_no
+
+		WHERE
+		fm.find_mate_no = #{findMateNo}
+		GROUP BY
+		fm.find_mate_no;
+		
+	</select>
+
+	<select id="getTripPlan"
+		parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto"
+		resultType="hashmap">
+
+		SELECT *
+
+		FROM T_TRIP_PLAN
+
+		WHERE trip_plan_no = #{tripPlanNo};
+
+	</select>
+	
+	<select id="getMateReply"
+		parameterType="Integer"
+		resultType="hashmap">
+
+		SELECT *
+
+		FROM T_FIND_MATE_REPLY
+
+		WHERE find_mate_no = #{findMateNo};
+
+	</select>
+
+	<update id="editDetail"
+		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO">
+		UPDATE T_FIND_MATE
+		SET
+		find_mate_no = #{findMateNo},
+		create_by = #{findMateCreateBy},
+		trip_plan_no = #{tripPlanNo},
+		title = #{title},
+		start_dt = #{startDate},
+		end_dt = #{endDate},
+		update_dt = #{updateDate},
+		thumbnail_img = #{thumbnail_img},
+		recruits = #{mateNum},
+		content = #{content},
+		gender_type = #{gender},
+		twenty_yn = #{twentyYN},
+		thirty_yn = #{thirtyYN},
+		forty_yn = #{fortyYN},
+		fifty_yn = #{fiftyYN}
+		WHERE find_mate_no = #{findMateNo}
+	</update>
+	
+
+
+</mapper>

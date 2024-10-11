@@ -21,6 +21,11 @@ spring:
         format_sql: true
   jwt:
     secret: vmffosdltvmfhwprxmghkdlxldwpqkfrlrkssodpwhgdmsrufrhkanfskdhrlfrldnjsgka
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 4GB
+      max-request-size: 4GB
     
 # MyBatis
 mybatis:
