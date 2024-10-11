@@ -12,4 +12,8 @@ public interface FindMateReplyRepository extends JpaRepository<FindMateReply, In
     Page<FindMateReply> findAllByCustNoOrderByPublicYnDesc(Integer custNo, Pageable pageable);
 
     void deleteByFindMateReplyNo(Integer findMateReplyNo);
+
+	FindMateReply findByFindMateReplyNoAndCustNo(Integer findMateReplyNo, Integer custNo);
+
+	FindMateReply findByFindMateReplyNo(Integer findMateReplyNo);
 }

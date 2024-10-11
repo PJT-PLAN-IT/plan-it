@@ -54,4 +54,10 @@ public class PlaceReview extends BaseEntity {
     @Column(name = "review_img4")
     private String reviewImg4;
 
+    public void review(String reviewImg1, String reviewImg2, String reviewImg3, String reviewImg4) {
+        this.reviewImg1 = reviewImg1;
+        this.reviewImg2 = reviewImg2;
+        this.reviewImg3 = reviewImg3;
+        this.reviewImg4 = reviewImg4;
+    }
 }

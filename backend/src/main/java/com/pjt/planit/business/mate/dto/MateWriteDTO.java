@@ -1,8 +1,6 @@
 package com.pjt.planit.business.mate.dto;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 

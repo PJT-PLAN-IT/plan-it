@@ -2,13 +2,16 @@ package com.pjt.planit.business.mypage.controller;
 
 import com.pjt.planit.business.mypage.dto.*;
 import com.pjt.planit.business.mypage.service.UserInfoService;
+import com.pjt.planit.business.tripplan.dto.PlaceReviewDto;
 import com.pjt.planit.core.config.ApiResponse;
 import com.pjt.planit.business.mypage.service.UserReplysService;
 import com.pjt.planit.business.mypage.service.UserReviewsService;
+import com.pjt.planit.core.security.filter.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +32,7 @@ public class CustController {
         return ApiResponse.ok("ok", list);
     }
 
-
+    //개인정보 수정
     @PutMapping("/update")
     public ApiResponse updateUserInfo(@RequestBody CustInfoDto dto) {
         Boolean isExist = userInfoService.nickNameCheck(dto.getNickname());
@@ -86,16 +89,24 @@ public class CustController {
     }
 
     //수정버튼 누를때 보이는 리뷰 디테일
-    @GetMapping("/review/{placeReviewNo}")
-    public ApiResponse retrieveReview(@PathVariable Integer placeReviewNo) {
-        ReviewRetrieveDto list = userReviewsService.reviewDetail(placeReviewNo);
-        return ApiResponse.ok("ok", list);
-    }
+//    @GetMapping("/review/{placeReviewNo}")
+//    public ApiResponse retrieveReview(@PathVariable Integer placeReviewNo) {
+//        ReviewRetrieveDto list = userReviewsService.reviewDetail(placeReviewNo);
+//        return ApiResponse.ok("ok", list);
+//    }
 
-    //리뷰 수정 완료
-    @PutMapping("/review/{placeReviewNo}")
-    public ApiResponse updateReview(@PathVariable Integer placeReviewNo, @RequestBody ReviewRetrieveDto dto) {
-        //userReviewsService.updateReview(placeReviewNo, dto)
-        return ApiResponse.ok("ok");
+    //리뷰 수정
+    @PutMapping("/review/edit")
+    public ResponseResult<?> updatePlaceReview(@RequestPart List<MultipartFile> files, @RequestPart PlaceReviewDto placeReviewDto) {
+//        Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
+//        if ( !placeReviewDto.getCustNo().equals(custNo)) {
+//            return ResponseResult.ofSuccess("unauthorized user", null);
+//        }
+//        if(!userPlaceReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)){
+//            return ResponseResult.ofSuccess("unauthorized user", null);
+//        }
+        userReviewsService.updatePlaceReveiw(files, placeReviewDto);
+
+        return ResponseResult.ofSuccess("success", "");
     }
 }

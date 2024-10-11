@@ -1,4 +1,4 @@
-package com.pjt.planit.business.tripplan.controller;
+  package com.pjt.planit.business.tripplan.controller;
 
 import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.business.tripplan.service.PlanService;

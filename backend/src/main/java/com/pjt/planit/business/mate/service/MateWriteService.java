@@ -3,6 +3,7 @@ package com.pjt.planit.business.mate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//import com.pjt.planit.business.ImageConverter.ImageController;
 import com.pjt.planit.business.mate.dto.MateWriteDTO;
 import com.pjt.planit.db.entity.FindMate;
 import com.pjt.planit.db.entity.FindMateRegion;
@@ -21,9 +22,10 @@ public class MateWriteService {
 
 	    @Autowired
 	    private FindMateStyleRepository findMateStyleRepository;
+	    
 
-		public void saveMateForm(MateWriteDTO writeDTO) {
-			
+		public int saveMateForm(MateWriteDTO writeDTO) {
+				
 			
 			 FindMate findMate = new FindMate();
 		        findMate.setTitle(writeDTO.getTitle());
@@ -52,7 +54,8 @@ public class MateWriteService {
 		            style.setTripStyleId(styleId);
 		            findMateStyleRepository.save(style);
 		        }
-		        
+		       
+		        return findMate.getFindMateNo();
 			
 		}
 	    

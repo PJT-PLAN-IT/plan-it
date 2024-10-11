@@ -6,6 +6,8 @@ import MyPage from "../pages/mypage/MyPage.jsx";
 import Applys from "../pages/mypage/Applys.jsx";
 import Likes from "../pages/mypage/Likes.jsx";
 import Write from "../pages/mate/Write.jsx";
+import Detail from "../pages/mate/Detail.jsx";
+import MainPage from "../pages/MainPage.jsx";
 import MyReply from "../pages/mypage/MyReply.jsx";
 import TravelInfo from "../pages/travel/TravelInfo.jsx";
 import TravelDetail from "../pages/travel/TravelDetail.jsx";
@@ -21,6 +23,8 @@ function AppRoutes() {
       <Route path="/mypage/likes/:custNo" element={<Likes />} />
       <Route path="/mypage/replys/:custNo" element={<MyReply />} />
       <Route path="/mate" element={<Write />} />
+      <Route path="/details/:findMateNo" element={<Detail />} />
+      <Route path="/planit" element={<MainPage />} />
       <Route path="/travel/info" element={<TravelInfo />} />
       <Route path="/travel/detail" element={<TravelDetail />} />
     </Routes>

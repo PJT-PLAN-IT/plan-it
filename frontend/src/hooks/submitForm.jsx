@@ -3,13 +3,15 @@ import RegionSel from "../components/mate/RegionSel";
 import TripStyle from "../components/mate/TripStyle";
 import Calender from "../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
+import { ThumbSelect } from "../components/mate/PopUps";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
 import { useState } from "react";
 import { btnVal } from "./validCheck";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SubmitForm() {
-  const initFormData = {
+  const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
       11: false,
@@ -55,9 +57,8 @@ function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
-    postDateState: "",
-  };
-  const [formData, setFormData] = useState(initFormData);
+  });
+  const navigate = useNavigate();
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -77,6 +78,10 @@ function SubmitForm() {
       },
     }));
   }
+  const thumbSelChange = (data) => {
+    setFormData({ ...formData, thumbnailSel: data });
+    console.log(data);
+  };
 
   const titleChange = (e) => {
     setFormData({ ...formData, titleState: e.target.value });
@@ -162,7 +167,6 @@ function SubmitForm() {
       content: formData.contentState,
       gender: formData.genderState,
       thumbnail: formData.thumbnailSel,
-      createDate: new Date(),
       regions: selectedRegions,
       tripStyles: selectedTripStyles,
       twentyYN: formData.ageButtonStates.twenty ? "Y" : "N",
@@ -170,6 +174,7 @@ function SubmitForm() {
       fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
       fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
     };
+
     console.log("sending json: ", finalFormData);
 
     axios
@@ -179,7 +184,9 @@ function SubmitForm() {
         },
       })
       .then((response) => {
-        console.log("success", response.data);
+        // console.log("success", response.data);
+        const findMateNo = response.data.data;
+        navigate(`/planit/mates/details/${findMateNo}`);
       })
       .catch((error) => {
         console.error(
@@ -214,7 +221,11 @@ function SubmitForm() {
           <AgeSel ageButtonChange={ageButtonChange} />
         </div>
         <MateNum mateNumChange={mateNumChange} />
-
+        <ThumbSelect
+          thumbSelChange={thumbSelChange}
+          formData={formData}
+          setFormData={setFormData}
+        />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
           <CancelBtnBg />

@@ -28,10 +28,10 @@ function App() {
     <>
       <div className="mx-[300px]">
         <Header />
-        <br></br>
+        {/* <br></br>
         <h1 className="text-3xl font-bold underline">
           받은 데이터 확인 : {data}
-        </h1>
+        </h1> */}
       </div>
       <AuthProvider>
         <AppRoutes />
