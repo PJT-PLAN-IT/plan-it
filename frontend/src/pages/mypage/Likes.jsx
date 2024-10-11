@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 
-import {useAxiosInstance} from "../utils/axiosConfig.js";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {useParams} from "react-router-dom";
-import MyCard from "../components/MyCard.jsx";
-import Like from "../components/Like.jsx";
-import MateButton from "../components/MateButton.jsx";
-import SelectYear from "../components/SelectYear.jsx";
+import MyCard from "../../components/MyCard.jsx";
+import Like from "../../components/Like.jsx";
+import MateButton from "../../components/MateButton.jsx";
+import SelectYear from "../../components/SelectYear.jsx";
 
-function MyLikeMate(){
+function Likes(){
     const axiosInstance = useAxiosInstance();
     const {custNo} = useParams();
     const [year, setYear] = useState("2024");
@@ -64,4 +64,4 @@ function MyLikeMate(){
     );
 }
 
-export default MyLikeMate;
+export default Likes;

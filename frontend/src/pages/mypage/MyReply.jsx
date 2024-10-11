@@ -1,4 +1,4 @@
-import Reply from "../components/Reply.jsx";
+import Reply from "../../components/Reply.jsx";
 
 function MyReply() {
     return (
