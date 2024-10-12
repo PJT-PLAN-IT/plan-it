@@ -1,10 +1,10 @@
-import RegionSel from "../components/mate/RegionSel.jsx";
+import RegionSel from "../../components/mate/RegionSel.jsx";
 import {useEffect, useState} from "react";
-import {useAxiosInstance} from "../utils/axiosConfig.js";
-import SearchBox from "../components/travel/SearchBox.jsx";
-import Page from "../components/travel/Page.jsx";
-import Card from "../components/travel/Card.jsx";
-import TripCategory from "../components/travel/TripCategory.jsx";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
+import SearchBox from "../../components/travel/SearchBox.jsx";
+import Page from "../../components/travel/Page.jsx";
+import Card from "../../components/travel/Card.jsx";
+import TripCategory from "../../components/travel/TripCategory.jsx";
 
 function TravelInfo() {
     const initData = {
@@ -153,7 +153,7 @@ function TravelInfo() {
     return (
         <div className="App mx-[300px]">
             {/* 카테고리 탭 */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-6 mt-10">
                 <h2 className="text-3xl font-bold mb-4">여행정보</h2>
                 <RegionSel formData={formData} regBtnClick={regBtnClick}></RegionSel>
                 <TripCategory category={category} onChangeCategory={handleCategory}></TripCategory>

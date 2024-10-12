@@ -91,6 +91,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String token = jwtUtil.createJwt(email, 60*60*1000L);
 
         CustInfoDto custInfoDto = new CustInfoDto();
+        custInfoDto.setToken(token);
         custInfoDto.setEmail(email);
         custInfoDto.setNickname(customCustDetails.getNickname());
         custInfoDto.setCustNo(customCustDetails.getCustNo());
@@ -98,8 +99,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getOutputStream().write(objectMapper.writeValueAsString(ResponseResult.ofSuccess("로그인 성공", token)).getBytes());
-        response.getOutputStream().write(objectMapper.writeValueAsBytes(custInfoDto));
+        response.getOutputStream().write(objectMapper.writeValueAsString(ResponseResult.ofSuccess("로그인 성공",custInfoDto)).getBytes());
         response.addHeader("Authorization", "Bearer " + token);
 
         log.debug("로그인 성공: {} ", email);

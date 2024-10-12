@@ -461,4 +461,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+#KAKAO API KEY
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,intellij,eclipse,java,react,visualstudiocode,node

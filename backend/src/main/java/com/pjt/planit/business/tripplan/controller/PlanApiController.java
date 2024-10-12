@@ -20,13 +20,13 @@ public class PlanApiController {
         this.planApiService = planApiService;
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseResult<?> getPlaceByAreaCodeAndContentTypeId( @RequestBody BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
          ApiResponseDto<PlaceInfoListDto> result =  planApiService.getPlaceByAreaCodeAndContentTypeId(basicInfoDto);
          return ResponseResult.ofSuccess("success", result);
     }
 
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     public ResponseResult<?> getPlaceDetail(@RequestBody BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
         PlaceInfoListDto result =  planApiService.getPlaceByAreaCodeAndContentTypeIdAndReview(basicInfoDto);
         return ResponseResult.ofSuccess("success", result);
