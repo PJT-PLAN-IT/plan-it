@@ -1,4 +1,4 @@
-import {Map, MapMarker, Polyline} from "react-kakao-maps-sdk";
+import {CustomOverlayMap, Map, MapMarker, Polyline} from "react-kakao-maps-sdk";
 
 const MapComponent = () => {
     const positions = [
@@ -17,11 +17,11 @@ const MapComponent = () => {
     return (
         <Map id="map" center={{lat: 33.450701, lng: 126.570667}} level={4} className={`h-full`}>
             {positions.map((pos, index) => (
-                <MapMarker key={index} position={{lat: pos.lat, lng: pos.lng}}
-
-                >
-
-                </MapMarker>
+                <CustomOverlayMap key={index} position={{lat: pos.lat, lng: pos.lng}}>
+                    <div className={`flex items-center justify-center size-7 bg-orange rounded-full font-bold text-white`}>
+                        {index + 1}
+                    </div>
+                </CustomOverlayMap>
             ))}
             <Polyline
                 path={linePath}
@@ -31,6 +31,7 @@ const MapComponent = () => {
                 strokeStyle={'dash'}
             />
         </Map>
+
     )
 
 }
