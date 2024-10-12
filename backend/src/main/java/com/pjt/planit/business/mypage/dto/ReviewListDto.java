@@ -17,6 +17,7 @@ public class ReviewListDto {
     //T_PLACE_REVIEW
     private Integer placeReviewNo;
     private String contentid;
+    private String title;
     private Integer star;
     private String review;
     private String reviewImg1;
