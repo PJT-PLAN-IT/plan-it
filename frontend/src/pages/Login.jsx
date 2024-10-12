@@ -21,14 +21,15 @@ function Login(){
             });
 
             // 로그인 성공 시 처리
-            console.log(response.data);
-            const [tokenData, userInfo] = response.data.split(/(?<=})\s*(?={)/);
-            const tokenObj = JSON.parse(tokenData);
-            const userObj = JSON.parse(userInfo);
+            if (response.data.data) {
+                const responseData = response.data.data;
+                setToken(responseData.token);
 
-            setToken(tokenObj.data);
-            //TODO 메인페이지로 이동
-            navigate("/editUserInfo/"+ `${userObj.custNo}`);
+                //TODO 메인페이지로 이동
+                navigate("/editUserInfo/"+ `${responseData.custNo}`);
+            } else {
+                alert('로그인에 실패했습니다.');
+            }
         } catch (err) {
             console.log(err);
             alert('로그인에 실패했습니다.');
