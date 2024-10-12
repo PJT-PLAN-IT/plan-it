@@ -33,6 +33,7 @@ function AppRoutes() {
       <Route path="/details/:findMateNo" element={<Detail />} />
       <Route path="/planit" element={<MainPage />} />
 
+      {/* 여행 정보 */}
       <Route path="/travel/info" element={<TravelInfo />} />
       <Route path="/travel/detail" element={<TravelDetail />} />
 

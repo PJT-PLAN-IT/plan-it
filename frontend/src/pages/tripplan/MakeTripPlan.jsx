@@ -1,10 +1,8 @@
-//문제없던버젼..
-import {Map, MapMarker} from "react-kakao-maps-sdk";
 import {useState} from "react";
+import { DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
 import AreaList from "../../components/tripplan/SelectArea.jsx";
 import SelectContentTypeId from "../../components/tripplan/SelectContentTypeId.jsx";
-import { DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
-
+import MapComponent from "../../components/tripplan/MapComponent.jsx";
 
 function MakeTripPlan() {
 
@@ -90,7 +88,7 @@ function MakeTripPlan() {
     };
 
     const addPlanList = (event, day) => {
-
+        console.log(event);
         if(!currentDay){
             alert("먼저 날짜를 선택해주세요");
             return;
@@ -176,7 +174,7 @@ function MakeTripPlan() {
                 <div
                     className={`flex items-center absolute z-10 w-96 h-full transform transition-transform duration-300 ${isPlanModalOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     <div className={` w-96 h-screen flex flex-col bg-white border border-amber-700`}>
-                        <div className={`border-b-2 h-32 ps-3`} id="1">
+                        <div className={`border-b-2 h-32 ps-3`}>
                             {/* 생성된 총 날짜 표시 */}
                             {totalDays.length > 0 && (
                                 <div>
@@ -234,9 +232,9 @@ function MakeTripPlan() {
                                 )))}
                             </div>
                         </DragDropContext>
-                        <div className={`flex h-14 my-5 mx-3 justify-center items-center bg-[#FB6134]`} id="3">
+                        <button className={`flex h-14 my-5 mx-3 justify-center items-center bg-[#FB6134] rounded-lg`}>
                             저장하기
-                        </div>
+                        </button>
                     </div>
 
 
@@ -262,21 +260,14 @@ function MakeTripPlan() {
                     {searchBtn && (
                         <div className={`flex absolute h-screen  z-10 w-96 left-96 py-4 pl-4 transform transition-transform duration-300`}>
                             <div className={`relative flex flex-col border border-[#FB6134] w-full h-full bg-white rounded-lg`}>
-                                <div>
                                     <AreaList onSendData={handleData}/>
-                                    에서
                                     <SelectContentTypeId/>
-
-
-                                    <div className={`border border-gray-200 rounded-lg mx-3 my-5 py-3 px-2`} id="3">
+                                    <div className={`border border-gray-200 rounded-lg mx-3 my-5 py-3 px-2`}>
                                         궁금한 여행지를 검색해보세요!
                                     </div>
-                                    <div
-                                        className={`flex justify-center items-center mx-3 my-5 py-3 px-2  bg-[#FB6134] rounded-lg`}
-                                        id="3">
+                                    <button className={` flex h-14 my-5 mx-3 justify-center items-center bg-[#FB6134] rounded-lg`} >
                                         검색
-                                    </div>
-                                </div>
+                                    </button>
                                 <div className={`flex-1 flex-col overflow-y-auto overflow-hidden`}>
                                     {searchResultList.data.list.map((item) => (
                                         <div key={item.contentid} className={`flex h-auto my-4 justify-center items-center px-4 mx-4 border-2 border-gray-200 rounded-lg`}>
@@ -310,11 +301,7 @@ function MakeTripPlan() {
                 </div>
 
                 <div className={`flex-grow`}>
-                    <Map id="map" center={{lat: 33.450701, lng: 126.570667}} level={4} className={`h-full`}>
-                        <MapMarker position={{lat: 33.450701, lng: 126.570667}}>
-                            <div>what</div>
-                        </MapMarker>
-                    </Map>
+                   <MapComponent />
                 </div>
             </div>
         </div>

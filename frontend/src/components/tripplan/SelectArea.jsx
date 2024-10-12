@@ -37,13 +37,14 @@ const saveAreaCode = (e) => {
 
     return (
         <select value={isSelectedArea} onChange={handleChange}
-                className={`bg-transparent border-b-2 border-gray-500 py-2 px-4 mx-3 my-2 text-gray-700 focus:outline-none focus:border-gray-500"`}>
-            {areaList.map((area) => (
-                <option key={area.key} value={area.value}>
-                    {area.key}
-                </option>
-            ))}
+                className={`w-36 bg-transparent border-b-2 border-gray-500 py-2 px-4 mx-3 my-2 text-gray-700 focus:outline-none focus:border-gray-500"`}>
+                {areaList.map((area) => (
+                    <option key={area.key} value={area.value}>
+                        {area.key}
+                    </option>
+                ))}
         </select>
+        
     )
 }
 
