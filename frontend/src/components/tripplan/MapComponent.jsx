@@ -1,24 +1,33 @@
 import {CustomOverlayMap, Map, MapMarker, Polyline} from "react-kakao-maps-sdk";
+import {useEffect, useState} from "react";
 
-const MapComponent = () => {
-    const positions = [
-        { lat: 33.450701, lng: 126.570667, title: '첫 번째' },
-        { lat: 33.452701, lng: 126.572667, title: '두 번째' },
-        { lat: 33.453701, lng: 126.573667, title: '세 번째' },
-    ];
+const MapComponent = ({planCoordinate = [], searchMap}) => {
+    const [center, setCenter] = useState({
+        lat: searchMap.mapy,
+        lng: searchMap.mapx,
+    });
 
-    const linePath = positions.map(pos => (
+    useEffect(() => {
+        setCenter({
+            lat: searchMap.mapy,
+            lng: searchMap.mapx
+        })
+    }, [searchMap]);
+
+    const linePath = planCoordinate.map(pos => (
         {
-            lat : pos.lat,
-            lng : pos.lng
+            lat: pos.mapy,
+            lng: pos.mapx
         }
     ));
 
     return (
-        <Map id="map" center={{lat: 33.450701, lng: 126.570667}} level={4} className={`h-full`}>
-            {positions.map((pos, index) => (
-                <CustomOverlayMap key={index} position={{lat: pos.lat, lng: pos.lng}}>
-                    <div className={`flex items-center justify-center size-7 bg-orange rounded-full font-bold text-white`}>
+        <Map id="map" center={center} level={searchMap.level} className={`h-full`}
+             isPanto={true}>
+            {planCoordinate.map((pos, index) => (
+                <CustomOverlayMap key={index} position={{lat: pos.mapy, lng: pos.mapx}}>
+                    <div
+                        className={`flex items-center justify-center size-7 bg-orange rounded-full font-bold text-white`}>
                         {index + 1}
                     </div>
                 </CustomOverlayMap>
@@ -30,8 +39,13 @@ const MapComponent = () => {
                 strokeOpacity={1}
                 strokeStyle={'dash'}
             />
+            <MapMarker
+                position={{
+                    lat: searchMap.mapy,
+                    lng: searchMap.mapx
+                }}
+            />
         </Map>
-
     )
 
 }

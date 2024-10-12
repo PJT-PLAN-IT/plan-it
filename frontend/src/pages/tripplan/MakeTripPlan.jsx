@@ -3,55 +3,57 @@ import { DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
 import AreaList from "../../components/tripplan/SelectArea.jsx";
 import SelectContentTypeId from "../../components/tripplan/SelectContentTypeId.jsx";
 import MapComponent from "../../components/tripplan/MapComponent.jsx";
-import {useAxiosInstance} from "../../utils/axiosConfig.js";
-import {useAuth} from "../../context/AuthContext.jsx";
+// import {useAxiosInstance} from "../../utils/axiosConfig.js";
+// import {useAuth} from "../../context/AuthContext.jsx";
 
 function MakeTripPlan() {
-    const axiosInstance = useAxiosInstance();
-    const auth = useAuth();
-    const [searchData , setSearchData] = useState([]);
+    // const axiosInstance = useAxiosInstance();
+    // const auth = useAuth();
+    // const [searchData , setSearchData] = useState([]);
     const [requestData, setRequestData ] = useState({
         pageNo: 1,
         numOfRows: 10,
         arrange: "A",
     });
 
-    useEffect( () => {
-        const searchResultList = async() => {
-            try{
-                console.log(auth.token);
-                const response = await axiosInstance.post(`/api/open-api/place/search`, requestData);
-                const searchResultList = response.data.data.list;
-
-                const resultData = searchResultList.map(res => ({
-                    'title': res.title,
-                    'addr1': res.addr1,
-                    'addr2': res.addr2,
-                    'mapx': res.mapx,
-                    'mapy': res.mapy,
-                    'mlevel': res.mlevel,
-                    'areacode': res.areacode,
-                    'contentid': res.contentid,
-                    'contenttypeid': res.contenttypeid,
-                    'starAvg': res.starAvg,
-                    'reviewCount': res.reviewCount,
-                    'reviewList': res.reviewList
-                }));
-                setSearchData(resultData)
-            }catch(error){
-                console.error('서버요청 실패 : ', error);
-            }
-        };
-        searchResultList();
-    }, [requestData, axiosInstance]);
-
+    // useEffect( () => {
+    //     const searchResultList = async() => {
+    //         try{
+    //             console.log(auth.token);
+    //             const response = await axiosInstance.post(`/api/open-api/place/search`, requestData);
+    //             const searchResultList = response.data.data.list;
+    //
+    //             const resultData = searchResultList.map(res => ({
+    //                 'title': res.title,
+    //                 'addr1': res.addr1,
+    //                 'addr2': res.addr2,
+    //                 'mapx': res.mapx,
+    //                 'mapy': res.mapy,
+    //                 'mlevel': res.mlevel,
+    //                 'areacode': res.areacode,
+    //                 'contentid': res.contentid,
+    //                 'contenttypeid': res.contenttypeid,
+    //                 'starAvg': res.starAvg,
+    //                 'reviewCount': res.reviewCount,
+    //                 'reviewList': res.reviewList
+    //             }));
+    //             setSearchData(resultData)
+    //         }catch(error){
+    //             console.error('서버요청 실패 : ', error);
+    //         }
+    //     };
+    //     searchResultList();
+    // }, [requestData, axiosInstance]);
+    //
 
     /* 지역 선택하면 부모 컴포넌트에 데이터 보내는거 확인하는 코드 */
-    const areaSelect = (data) => {
+    const selectArea = (data) => {
+        console.log("데이타 " , data);
         let requestDataTemp = JSON.parse(JSON.stringify(requestData));
         requestDataTemp.areaCode = data;
         setRequestData(requestDataTemp);
         console.log(requestData);
+        goClickCoord(data.mapy, data.mapx, 6);
     }
 
     /* 카테고리 선택하면 부모 컴포넌트에 데이터 보내는거 확인하는 코드 */
@@ -129,7 +131,50 @@ function MakeTripPlan() {
                     "starAvg": null,
                     "reviewCount": null,
                     "reviewList": null
-                }
+                },
+                {
+                    "addr1": "서울특별시 강동구 고덕로38길 63",
+                    "addr2": "",
+                    "areacode": "1",
+                    "contentid": "2685271",
+                    "contenttypeid": "39",
+                    "mapx": "127.1427398175",
+                    "mapy": "37.5517283673",
+                    "title": "가마골",
+                },
+                {
+                    "addr1": "서울특별시 강남구 언주로135길 13",
+                    "addr2": "",
+                    "areacode": "1",
+                    "contentid": "2871443",
+                    "contenttypeid": "39",
+                    "mapx": "127.0341090296",
+                    "mapy": "37.5168415735",
+                    "title": "가람국시",
+                },
+                {
+                    "addr1": "서울특별시 영등포구 영등포로64길 11",
+                    "addr2": "",
+                    "areacode": "1",
+                    "booktour": "",
+                    "cat1": "A05",
+                    "cat2": "A0502",
+                    "cat3": "A05020100",
+                    "contentid": "2682774",
+                    "contenttypeid": "39",
+                    "createdtime": "20201117003146",
+                    "firstimage": "http://tong.visitkorea.or.kr/cms/resource/38/2682638_image2_1.jpg",
+                    "firstimage2": "http://tong.visitkorea.or.kr/cms/resource/38/2682638_image2_1.jpg",
+                    "cpyrhtDivCd": "Type3",
+                    "mapx": "126.9172780766",
+                    "mapy": "37.5142453371",
+                    "mlevel": "6",
+                    "modifiedtime": "20210326194216",
+                    "sigungucode": "20",
+                    "tel": "02-849-9288",
+                    "title": "가마로강정 신길삼거리",
+                    "zipcode": "07317"
+                },
             ],
             "numOfRows": 10,
             "pageNo": 1,
@@ -148,6 +193,7 @@ function MakeTripPlan() {
             ...prevState,
             [day]: prevState[day] ? [...prevState[day], event] : [event]
         }));
+        updatePlanCoord(event.mapy, event.mapx);
     };
 
     const createDays = () => {
@@ -215,7 +261,18 @@ function MakeTripPlan() {
 
 
     /* 지도 */
-
+    const [coordinate, setCoordinate] = useState([]);
+    const updatePlanCoord = (newMapy, newMapx) => {
+        setCoordinate((prevCoordinate) => [
+            ...prevCoordinate,
+            {mapy : newMapy, mapx:newMapx},
+        ]);
+        goClickCoord(newMapy, newMapx, 3);
+    };
+    const [clickCoord , setClickCoord] = useState({mapy: '37.5664056', mapx:'126.9778222', level : '6'});
+    const goClickCoord = (mapy, mapx, level) => {
+        setClickCoord({mapy, mapx, level});
+    };
 
     return (
         <div className={`flex h-screen`}>
@@ -314,7 +371,7 @@ function MakeTripPlan() {
                     {searchBtn && (
                         <div className={`flex absolute h-screen  z-10 w-96 left-96 py-4 pl-4 transform transition-transform duration-300`}>
                             <div className={`relative flex flex-col border border-[#FB6134] w-full h-full bg-white rounded-lg`}>
-                                    <AreaList onSendData={areaSelect}/>
+                                    <AreaList onSendData={selectArea}/>
                                     <SelectContentTypeId onSendData={contentTypeSelect} />
                                     <div className={`border border-gray-200 rounded-lg mx-3 my-5 py-3 px-2`}>
                                         궁금한 여행지를 검색해보세요!
@@ -325,7 +382,7 @@ function MakeTripPlan() {
                                 <div className={`flex-1 flex-col overflow-y-auto overflow-hidden`}>
                                     {searchResultList.data.list.map((item) => (
                                         <div key={item.contentid} className={`flex h-auto my-4 justify-center items-center px-4 mx-4 border-2 border-gray-200 rounded-lg`}>
-                                                <div className={`grow h-full flex flex-col align-middle text-3ml font-semibold`} >
+                                                <div className={`grow h-full flex flex-col align-middle text-3ml font-semibold`} onClick={() =>  goClickCoord(item.mapy, item.mapx, 6)}>
                                                     <div className={`grow h-full flex items-center text-3ml font-bold py-3`}>
                                                         {item.title}
                                                     </div>
@@ -353,9 +410,8 @@ function MakeTripPlan() {
                         </div>
                     )}
                 </div>
-
                 <div className={`flex-grow`}>
-                    <MapComponent />
+                    <MapComponent  planCoordinate = {coordinate} searchMap = {clickCoord} />
                 </div>
             </div>
         </div>
