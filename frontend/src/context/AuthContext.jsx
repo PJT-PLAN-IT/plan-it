@@ -13,17 +13,5 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  const token = localStorage.getItem("token");
-  const context = useContext(AuthContext);
-
-  //might not be needed
-  if (!context) {
-    throw new Error("oh no no useAuth with Auth providee~~");
-  }
-
-  if (token) {
-    context.setToken(token);
-  }
-
-  return context;
+  return useContext(AuthContext);
 }
