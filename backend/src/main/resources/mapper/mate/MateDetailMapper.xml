@@ -13,7 +13,8 @@
 		tripPlanNo,
 		fm.title AS title,
 		fm.start_dt AS startDate,
-		fm.end_dt AS endDate,
+		fm.end_dt AS
+		endDate,
 		fm.update_dt AS updateDate,
 		fm.create_dt AS findMateCreateDate,
 		fm.recruits AS mateNum,
@@ -21,7 +22,8 @@
 		fm.gender_type AS gender,
 		fm.twenty_yn AS twentyYN,
 		fm.thirty_yn AS thirtyYN,
-		fm.forty_yn AS fortyYN,
+		fm.forty_yn AS
+		fortyYN,
 		fm.fifty_yn AS
 		fiftyYN,
 		tp.thumbnail_img AS thumbnail_img,
@@ -51,7 +53,7 @@
 
 
 	</select>
-	
+
 
 	<select id="getTripPlan"
 		parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto"
@@ -69,11 +71,25 @@
 		resultType="hashmap">
 
 		SELECT *
-
-		FROM T_FIND_MATE_REPLY
-
-		WHERE find_mate_no =
-		#{findMateNo};
+		FROM (
+		SELECT tr.*,
+		CASE
+		WHEN
+		tr.upper_find_mate_reply_no IS
+		NULL THEN 1
+		ELSE 2
+		END AS depth
+		FROM
+		T_FIND_MATE_REPLY tr
+		WHERE
+		tr.find_mate_no =
+		#{findMateNo}
+		AND
+		tr.public_yn = 'Y'
+		) AS T1
+		ORDER BY
+		T1.upper_find_mate_reply_no,
+		T1.depth, T1.create_dt;
 
 	</select>
 

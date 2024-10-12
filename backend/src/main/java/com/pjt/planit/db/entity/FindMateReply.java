@@ -1,5 +1,7 @@
 package com.pjt.planit.db.entity;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
@@ -41,4 +43,7 @@ public class FindMateReply extends BaseEntity {
 
     @Column(name = "seq")
     private Integer seq;
+    
+    @Column(name="create_dt")
+    private LocalDateTime createDt;
 }

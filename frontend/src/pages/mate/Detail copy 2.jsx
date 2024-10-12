@@ -11,9 +11,7 @@ import { TripStyles } from "../../data/tripStyle";
 import { genderInfo } from "../../data/gender";
 import { MyTripPlans, MyTripMap } from "../../components/mate/MyTrip";
 import { MateReqBtn, MateCnlBtn } from "../../components/mate/Buttons";
-// import { CommentForm, ShowComment } from "../../components/mate/Comments";
-import CommentSection from "../../components/mate/DetailComment";
-import { useAxiosInstance } from "../../utils/axiosConfig";
+import { CommentForm, ShowComment } from "../../components/mate/Comments";
 
 export default function Detail() {
   const location = useLocation();
@@ -22,14 +20,14 @@ export default function Detail() {
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const axiosInstance = useAxiosInstance();
+
   useEffect(() => {
     console.log("Fetching data for findMateNo:", findMateNo);
     if (findMateNo) {
-      axiosInstance
+      axios
         .get(`/api/planit/mates/details?findMateNo=${findMateNo}`)
         .then((response) => {
-          // console.log("Detail Response:", JSON.stringify(response.data));
+          console.log("Detail Response:", JSON.stringify(response.data));
           const { tripPlanList, tripPlanDetailList, mateReplyList } =
             response.data.data;
           setFormDetails({
@@ -201,61 +199,74 @@ export default function Detail() {
                   </div>
                 </div>
               </div>
-              {formDetails.data.tripPlanList.title != null ? (
-                <>
-                  <div className="flex flex-col pt-10">
-                    <div className="font-semibold p-[30px] mb-10 border-t-2">
-                      <h1 className="TitleLabel">
-                        {formDetails.data.tripPlan.title}
-                      </h1>
-                      <p>
-                        {formDetails.data.tripPlan.start_dt} to
-                        <span> </span>
-                        {formDetails.data.tripPlan.end_dt}
-                      </p>
-                    </div>
-                    <div className="flex-col ml-8 mb-20 ">
-                      {Object.keys(groupedByDate).map((date, index) => (
-                        <div key={index} className="pb-5">
-                          {/* Display the date */}
-                          <h2 className="text-2xl font-bold mt-4">
-                            day {index + 1}
-                          </h2>
 
-                          {/* Sort each group by seq and display the details */}
-                          {groupedByDate[date]
-                            .sort((a, b) => a.seq - b.seq) // Sort by sequence within each date group
-                            .map((detail) => (
-                              <div key={detail.tripDetailNo}>
-                                <div className="flex-3 mt-3.5 font-bold text-xl">
-                                  {detail.content}
-                                </div>
-                                <div className="flex-1 relative">
-                                  <MyTripPlans
-                                    title={detail.title}
-                                    address={detail.address}
-                                    seq={detail.seq}
-                                  />
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      ))}
+              <div className="flex flex-col pt-10">
+                <div className="font-semibold p-[30px] mb-10 border-t-2">
+                  <h1 className="TitleLabel">
+                    {formDetails.data.tripPlan.title}
+                  </h1>
+                  <p>
+                    {formDetails.data.tripPlan.start_dt} to
+                    <span> </span>
+                    {formDetails.data.tripPlan.end_dt}
+                  </p>
+                </div>
+                <div className="flex-col ml-8 mb-20 ">
+                  {Object.keys(groupedByDate).map((date, index) => (
+                    <div key={index} className="pb-5">
+                      {/* Display the date */}
+                      <h2 className="text-2xl font-bold mt-4">
+                        day {index + 1}
+                      </h2>
+
+                      {/* Sort each group by seq and display the details */}
+                      {groupedByDate[date]
+                        .sort((a, b) => a.seq - b.seq) // Sort by sequence within each date group
+                        .map((detail) => (
+                          <div key={detail.tripDetailNo}>
+                            <div className="flex-3 mt-3.5 font-bold text-xl">
+                              {detail.content}
+                            </div>
+                            <div className="flex-1 relative">
+                              <MyTripPlans
+                                title={detail.title}
+                                address={detail.address}
+                                seq={detail.seq}
+                              />
+                            </div>
+                          </div>
+                        ))}
                     </div>
-                  </div>
-                  <MyTripMap />
-                </>
-              ) : (
-                ""
-              )}
+                  ))}
+                  {/* {formDetails.data.tripPlanDetails
+                    .sort((a, b) => {
+                      if (a.date < b.date) return -1; // Compare by date
+                      if (a.date > b.date) return 1;
+                      return a.seq - b.seq; // If date is the same, compare by seq
+                    })
+                    .map((detail) => (
+                      <div key={detail.tripDetailNo}>
+                        <div className=" flex-3 mt-3.5 font-bold text-xl">
+                          {detail.content}
+                        </div>
+                        <div className="flex-1 relative">
+                          <MyTripPlans
+                            title={detail.title}
+                            address={detail.address}
+                            seq={detail.seq}
+                          />
+                        </div>
+                      </div>
+                    ))} */}
+                </div>
+              </div>
+              <MyTripMap />
               <div className="flex justify-center align-middle gap-10 my-[70px]">
                 <MateReqBtn />
                 <MateCnlBtn />
               </div>
-
-              {/* <CommentForm /> */}
-              <CommentSection findMateNo={findMateNo} />
-              {/* <div className="my-20">
+              <CommentForm />
+              <div className="my-20">
                 <h1 className="border-b-2 p-2">
                   댓글 <b>{formDetails.data.mateReplyList.length}</b>
                 </h1>
@@ -270,7 +281,7 @@ export default function Detail() {
                     />
                   );
                 })}
-              </div> */}
+              </div>
             </div>
           </div>
         ) : (

@@ -1,14 +1,20 @@
 package com.pjt.planit.business.mate.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.pjt.planit.business.mate.dto.MateReplyDTO;
 import com.pjt.planit.business.mate.service.MateReplyService;
 import com.pjt.planit.core.config.ApiResponse;
+import com.pjt.planit.db.entity.FindMateReply;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -17,10 +23,22 @@ import lombok.RequiredArgsConstructor;
 public class MateReplyController {
 
 	private final MateReplyService mateReplyService;
+
+	/**
+	 * 공고 댓글 가져오기
+	 **/
 	
+	@GetMapping
+	public ApiResponse getRepliesByFindMateNo(@RequestParam("findMateNo") int findMateNo) {
+		List<FindMateReply> replies = mateReplyService.getRepliesByFindMateNo(findMateNo);
+		System.out.println("replies");
+		System.out.println(replies);
+		return  ApiResponse.ok("sent replies", replies);
+	}
+
 	/**
 	 * 공고 댓글 작성
-	 * **/
+	 **/
 	@PostMapping
 	public ApiResponse submitReply(@RequestBody MateReplyDTO replyDTO) {
 
@@ -30,17 +48,17 @@ public class MateReplyController {
 
 	/**
 	 * 공고 댓글 수정
-	 * **/	
+	 **/
 	@PutMapping
 	public ApiResponse editReply(@RequestBody MateReplyDTO replyDTO) {
-		
+
 		mateReplyService.editReply(replyDTO);
 		return ApiResponse.ok("edit reply");
 	}
-	
+
 	/**
 	 * 공고 댓글 삭제
-	 * **/
+	 **/
 	@DeleteMapping
 	public ApiResponse deleteReply(@RequestBody MateReplyDTO dto) {
 		mateReplyService.deleteReply(dto);
