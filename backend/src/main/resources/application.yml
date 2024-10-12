@@ -47,4 +47,5 @@ travel:
 
 file:
   fileDir: /Users/kimhyejin/Desktop/photo/
+  readFileDir : "http://localhost:8080/images/"
 
