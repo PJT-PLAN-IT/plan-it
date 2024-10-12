@@ -189,7 +189,7 @@ function EditUserInfo() {
                         />
                         <button
                             onClick={distinctCheckClick}
-                            className="w-1/5 bg-transparent text-orange-500 border border-orange-500 px-4 py-2 rounded-full hover:bg-orange-500 hover:text-white">
+                            className="w-1/5 bg-transparent text-orange-500 border border-orange-500 px-4 py-2 rounded-full hover:bg-orange hover:text-white">
                             중복체크
                         </button>
                     </div>
@@ -270,13 +270,13 @@ function EditUserInfo() {
                         <button
                             onClick={withdrawalClick}
                             type="button"
-                            className="w-1/5 bg-white-500 text-orange-500 py-2 border border-orange-500 rounded-full mt-10 mr-5">
+                            className="w-1/5 bg-white-500 text-orange py-2 border border-orange rounded-full mt-10 mr-5">
                             회원탈퇴
                         </button>
 
                         <button
                             type="submit"
-                            className="w-1/5 bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600 mt-10">
+                            className="w-1/5 bg-orange text-white py-2 rounded-full hover:bg-orange mt-10">
                             수정하기
                         </button>
                     </div>

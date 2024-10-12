@@ -59,9 +59,14 @@ function TravelDetail(){
 
     return (
         <div className="App mx-[300px]">
+            <div className="text-3xl font-bold mb-4 mt-10">
+                {commonInfoData.title || '공원 이름'}
+            </div>
+
             <div className="grid grid-cols-2 gap-8">
                 <div>
-                    <img src={commonInfoData.firstimage2} alt={commonInfoData.title} className="rounded-lg shadow-md w-full object-cover h-60"/>
+                    <img src={commonInfoData.firstimage2} alt={commonInfoData.title}
+                         className="rounded-lg shadow-md w-full object-cover h-60"/>
 
                     <p className="mt-4 text-gray-700 leading-relaxed">
                         {commonInfoData.overview}
@@ -84,7 +89,7 @@ function TravelDetail(){
                             <div className="flex-1">
                                 {/* 별점 영역 */}
                                 <div className="flex items-center space-x-1 text-yellow-500 mb-2">
-                                    {Array.from({ length: Math.floor(review.star) }).map((_, i) => (
+                                    {Array.from({length: Math.floor(review.star)}).map((_, i) => (
                                         <span key={i}>★</span>
                                     ))}
                                 </div>

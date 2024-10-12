@@ -22,9 +22,13 @@ function Login(){
 
             // 로그인 성공 시 처리
             console.log(response.data);
-            alert('로그인 성공!');
-            setToken(response.data.token);
-            navigate("/editUserInfo/"+ `${response.data.custNo}`);
+            const [tokenData, userInfo] = response.data.split(/(?<=})\s*(?={)/);
+            const tokenObj = JSON.parse(tokenData);
+            const userObj = JSON.parse(userInfo);
+
+            setToken(tokenObj.data);
+            //TODO 메인페이지로 이동
+            navigate("/editUserInfo/"+ `${userObj.custNo}`);
         } catch (err) {
             console.log(err);
             alert('로그인에 실패했습니다.');
@@ -62,7 +66,7 @@ function Login(){
                         <input
                             type="password"
                             placeholder="비밀번호 입력"
-                            className="w-full p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 mb-10"
+                            className="w-full p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange mb-10"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}  // 비밀번호 입력값 업데이트
                             required
@@ -73,7 +77,7 @@ function Login(){
                     <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="w-full bg-orange-500 text-white py-3 rounded-full font-semibold hover:bg-orange-600 transition duration-300"
+                            className="w-full bg-orange text-white py-3 rounded-full font-semibold"
                             disabled={loading}>
                             {loading ? '로그인 중...' : '로그인'}
                         </button>
@@ -83,7 +87,7 @@ function Login(){
                         <button
                             onClick={goJoinPage}
                             type="button"
-                            className="w-full bg-transparent border border-orange-500 text-orange-500 py-3 rounded-full font-semibold hover:bg-orange-50 transition duration-300">
+                            className="w-full bg-transparent border border-orange text-orange py-3 rounded-full font-semibold">
                             회원가입
                         </button>
                     </div>

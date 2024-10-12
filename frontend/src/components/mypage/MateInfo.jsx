@@ -3,7 +3,7 @@
 * */
 
 import {useEffect, useState} from "react";
-import {useAxiosInstance} from "../utils/axiosConfig.js";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
 
 function MateInfo({item, custNo, refreshData}) {
     const [isStarted, setIsStarted] = useState(false);
@@ -66,18 +66,18 @@ function MateInfo({item, custNo, refreshData}) {
                         {item.tripMateNo ? (
                             <button
                                 onClick={secessionOnClick}
-                                className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange-500 hover:text-white transition">
+                                className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange hover:text-white transition">
                                 탈퇴
                             </button>
                         ) : (
                             <>
                                 <button
-                                    className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange-500 hover:text-white transition">
+                                    className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange hover:text-white transition">
                                     대기중
                                 </button>
                                 <button
                                     onClick={cancelOnClick}
-                                    className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange-500 hover:text-white transition">
+                                    className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange hover:text-white transition">
                                     취소
                                 </button>
                             </>

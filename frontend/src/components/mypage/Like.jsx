@@ -1,5 +1,5 @@
 import { AiFillHeart } from "react-icons/ai";
-import {useAxiosInstance} from "../utils/axiosConfig.js";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
 
 function Like({item, refreshData}) {
     const axiosInstance = useAxiosInstance();
