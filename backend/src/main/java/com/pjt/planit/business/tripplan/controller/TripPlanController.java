@@ -23,8 +23,9 @@ public class TripPlanController {
      * @return ResponseResult
      */
     @GetMapping("/list")
-    public ResponseResult<?> getPlanListById(@RequestBody YearNoDto tripPlanYearNoDto) {
-        List<?> result = planService.getPlanList(tripPlanYearNoDto.getCustNo(), tripPlanYearNoDto.getYear());
+    public ResponseResult<?> getPlanListById(@RequestParam Integer custNo , @RequestParam Integer year) {
+
+        List<?> result = planService.getPlanList(custNo, year);
         return ResponseResult.ofSuccess("success", result);
     }
 
