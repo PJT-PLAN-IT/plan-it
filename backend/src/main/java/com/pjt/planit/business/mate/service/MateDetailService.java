@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.pjt.planit.business.mate.dto.MateDetailDTO;
-import com.pjt.planit.business.mate.mapper.DetailMapper;
+import com.pjt.planit.business.mate.mapper.MateDetailMapper;
 import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import com.pjt.planit.db.entity.FindMateRegion;
@@ -13,6 +13,8 @@ import com.pjt.planit.db.entity.FindMateStyle;
 import com.pjt.planit.db.repository.FindMateRegionRepository;
 import com.pjt.planit.db.repository.FindMateRepository;
 import com.pjt.planit.db.repository.FindMateStyleRepository;
+
+import io.jsonwebtoken.lang.Arrays;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,11 +23,11 @@ public class MateDetailService {
 	private final FindMateRepository mateRepository;
 	private final FindMateStyleRepository styleRepository;
 	private final FindMateRegionRepository regionRepository;
-	private final DetailMapper detailMapper;
+	private final MateDetailMapper detailMapper;
 	private final PlanMapper planMapper;
 
 	public MateDetailService(FindMateRepository mateRepository, FindMateStyleRepository styleRepository,
-			FindMateRegionRepository regionRepository, DetailMapper detailMapper, PlanMapper planMapper) {
+			FindMateRegionRepository regionRepository, MateDetailMapper detailMapper, PlanMapper planMapper) {
 		this.mateRepository = mateRepository;
 		this.styleRepository = styleRepository;
 		this.regionRepository = regionRepository;
@@ -35,25 +37,35 @@ public class MateDetailService {
 
 	public MateDetailDTO getDetail(int findMateNo) {
 
-		MateDetailDTO detailDTO = new MateDetailDTO();
-		detailDTO.setFindMateNo(findMateNo);
-		detailDTO = detailMapper.getDetail(detailDTO);
-		int tripPlanNo = detailDTO.getTripPlanNo();
-		TripPlanDto tripPlanDto = new TripPlanDto();
-		tripPlanDto.setTripPlanNo(tripPlanNo);
-		tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
-		detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
-		detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
-		detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));
+		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
+		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
+		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
+		detailDTO.setRegions(regions);
+		detailDTO.setTripStyles(styles);
+
+		if (detailDTO.getTripPlanNo() != null) {
+			int tripPlanNo = detailDTO.getTripPlanNo();
+			TripPlanDto tripPlanDto = new TripPlanDto();
+			tripPlanDto.setTripPlanNo(tripPlanNo);
+			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
+			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
+			detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
+		}
+
+		if (detailMapper.getMateReply(findMateNo) != null) {
+			detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));
+		}
+
 		return detailDTO;
 
 	}
 
-	public void editDetail(MateDetailDTO detailDTO) {
+	public int editDetail(MateDetailDTO detailDTO) {
 
 		detailMapper.editDetail(detailDTO);
 		updateRegions(detailDTO);
 		updateStyles(detailDTO);
+		return detailDTO.getFindMateNo();
 
 	}
 

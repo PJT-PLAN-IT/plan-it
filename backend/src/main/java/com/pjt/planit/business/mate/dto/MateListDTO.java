@@ -13,16 +13,24 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MateListDTO {
-
-	private List<Integer> regions;
-	private List<Integer> tripStyles;
+	private Integer findMateNo;
+	private Integer tripPlanNo;
+	private String findMateCreateBy;
+	private String title;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private String gender;
-    private String twentyYN;
-    private String thirtyYN;
-    private String fortyYN;
-    private String fiftyYN;
-	private int mateNum;
-	private String gotPlanYn;
+	private Integer recruits;
+	private String twentyYN;
+	private String thirtyYN;
+	private String fortyYN;
+	private String fiftyYN;
+	private String thumbnailImg;
+	private Integer findMateLikeNo;
+	private Integer CustNo;
+	private Integer findMateApplyNo;
+	private String appAllowYn;
+	private String appRefuseYn;
+	private List<Integer> regions;
+	private List<Integer> tripStyles;
 }

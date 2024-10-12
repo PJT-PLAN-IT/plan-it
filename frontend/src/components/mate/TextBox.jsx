@@ -12,7 +12,7 @@ const TripScroll = () => {
   );
 };
 
-function Textbox({ formData, titleChange, contentChange }) {
+function Textbox({ title, content, titleChange, contentChange }) {
   return (
     <div className=" flex-col border border-gray-400  mb-[70px] ">
       <input
@@ -20,6 +20,7 @@ function Textbox({ formData, titleChange, contentChange }) {
         name="title"
         className=" w-[400px] h-10 p-2 my-2 justify-start block focus:outline-none"
         type="text"
+        value={title}
         placeholder="제목을 입력하세요"
         maxLength={14}
       />
@@ -27,7 +28,7 @@ function Textbox({ formData, titleChange, contentChange }) {
       <Editor
         apiKey="xrrohkv0t2zqx94m985ll5nay89i4r3tppwr17zjeg2igtg6"
         onEditorChange={contentChange}
-        value={formData}
+        value={content}
         init={{
           forced_root_block: "",
           force_br_newlines: true,

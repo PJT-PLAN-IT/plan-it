@@ -27,8 +27,6 @@ public class MateWriteController {
 	@PostMapping
 	public ApiResponse submitForm(@RequestBody MateWriteDTO writeDTO) {
 
-		System.out.println(writeDTO);
-
 		int findMateNo = mateWriteService.saveMateForm(writeDTO);
 		return ApiResponse.ok("공고 등록 완료", findMateNo);
 
@@ -39,8 +37,8 @@ public class MateWriteController {
 	@PutMapping
 	public ApiResponse editDetail(@RequestBody MateDetailDTO detailDTO) {
 
-		detailService.editDetail(detailDTO);
-		return ApiResponse.ok("공고 수정 완료");
+		int findMateNo = detailService.editDetail(detailDTO);
+		return ApiResponse.ok("공고 수정 완료", findMateNo);
 	}
 
 	/**

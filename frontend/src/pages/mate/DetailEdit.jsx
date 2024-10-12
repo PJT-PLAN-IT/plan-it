@@ -1,16 +1,22 @@
-import TextBox, { TripScroll } from "../components/mate/TextBox";
-import RegionSel from "../components/mate/RegionSel";
-import TripStyle from "../components/mate/TripStyle";
-import Calender from "../components/mate/Calender";
-import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
-import { ThumbSelect } from "../components/mate/PopUps";
-import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
-import { useState } from "react";
-import { btnVal } from "./validCheck";
+import "../../App.css";
+import "../../assets/css/Write.css";
+import TextBox, { TripScroll } from "../../components/mate/TextBox";
+import RegionSel from "../../components/mate/RegionSel";
+import TripStyle from "../../components/mate/TripStyle";
+import Calender from "../../components/mate/Calender";
+import { GenderSel, AgeSel, MateNum } from "../../components/mate/AgeAndGender";
+import { ThumbSelect } from "../../components/mate/PopUps";
+import { RegBtnBg, CancelBtnBg } from "../../components/mate/Buttons";
+import { useState, useEffect } from "react";
+import { btnVal } from "../../hooks/validCheck";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-function SubmitForm() {
+export default function DetailEdit() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  //   const [detailData, setDetailData] = useState(location.state?.formData);
+
   const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
@@ -52,13 +58,58 @@ function SubmitForm() {
       startDate: "",
       endDate: "",
     },
+    findMateNoState: "",
     titleState: "",
     mateNumState: 1,
     contentState: "",
     genderState: "",
     thumbnailSel: "",
   });
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Use data from location.state if it exists
+    const detailsData = location.state?.formData; // Ensure to adjust according to the passed state structure
+    console.log(detailsData);
+    if (detailsData) {
+      setFormData((prevData) => ({
+        ...prevData,
+        regButtonStates: {
+          ...prevData.regButtonStates,
+          ...Object.fromEntries(
+            Object.keys(prevData.regButtonStates).map((key) => [
+              key,
+              detailsData.regions.includes(parseInt(key)), // Assuming regions is an array of selected region IDs
+            ])
+          ),
+        },
+        tripButtonStates: {
+          ...prevData.tripButtonStates,
+          ...Object.fromEntries(
+            Object.keys(prevData.tripButtonStates).map((key) => [
+              key,
+              detailsData.tripStyles.includes(parseInt(key)), // Assuming tripStyles is an array of selected style IDs
+            ])
+          ),
+        },
+        ageButtonStates: {
+          twenty: detailsData.twentyYN === "Y",
+          thirty: detailsData.thirtyYN === "Y",
+          forty: detailsData.fortyYN === "Y",
+          fifty: detailsData.fiftyYN === "Y",
+        },
+        dateChangeStates: {
+          startDate: detailsData.startDate,
+          endDate: detailsData.endDate,
+        },
+        findMateNoState: detailsData.findMateNo || "",
+        titleState: detailsData.title || "",
+        mateNumState: detailsData.mateNum || 1,
+        contentState: detailsData.content || "",
+        genderState: detailsData.gender,
+        thumbnailSel: detailsData.thumbnailImg,
+      }));
+    }
+  }, [location.state]);
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -83,15 +134,36 @@ function SubmitForm() {
     console.log(data);
   };
 
-  const titleChange = (e) => {
-    setFormData({ ...formData, titleState: e.target.value });
+  //   const titleChange = (e) => {
+  //     setFormData({ ...formData, titleState: e.target.value });
+  //   };
+
+  const handleTitleChange = (event) => {
+    const newTitle = event.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      titleState: newTitle,
+    }));
   };
 
-  const mateNumChange = (e) => {
-    setFormData({ ...formData, mateNumState: e.target.value });
+  const handleMateNumChange = (event) => {
+    const newMateNum = Math.max(1, Number(event.target.value)); // Ensure it is at least 1
+    setFormData((prevData) => ({
+      ...prevData,
+      mateNumState: newMateNum, // Update the state
+    }));
   };
-  const contentChange = (content) => {
-    setFormData({ ...formData, contentState: content });
+  //   const mateNumChange = (e) => {
+  //     setFormData({ ...formData, mateNumState: e.target.value });
+  //   };
+  //   const contentChange = (content) => {
+  //     setFormData({ ...formData, contentState: content });
+  //   };
+  const handleContentChange = (newContent) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      contentState: newContent,
+    }));
   };
 
   const dateChange = (startDate, endDate) => {
@@ -160,13 +232,14 @@ function SubmitForm() {
       .map(([key]) => parseInt(key));
 
     const finalFormData = {
+      findMateNo: formData.findMateNoState,
       title: formData.titleState,
       startDate: formData.dateChangeStates.startDate,
       endDate: formData.dateChangeStates.endDate,
       mateNum: formData.mateNumState,
       content: formData.contentState,
       gender: formData.genderState,
-      thumbnail: formData.thumbnailSel,
+      thumbnail_img: formData.thumbnailSel,
       regions: selectedRegions,
       tripStyles: selectedTripStyles,
       twentyYN: formData.ageButtonStates.twenty ? "Y" : "N",
@@ -178,7 +251,7 @@ function SubmitForm() {
     console.log("sending json: ", finalFormData);
 
     axios
-      .post("/api/mate", finalFormData, {
+      .put("/api/mate", finalFormData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -197,14 +270,14 @@ function SubmitForm() {
   };
 
   return (
-    <div>
+    <div className="mx-[300px]">
       <form onSubmit={handleSubmit}>
         <TripScroll />
         <TextBox
-          formData={formData}
-          setFormData={setFormData}
-          titleChange={titleChange}
-          contentChange={contentChange}
+          title={formData.titleState}
+          content={formData.contentState}
+          titleChange={handleTitleChange}
+          contentChange={handleContentChange}
         />
         <RegionSel formData={formData} regBtnClick={regBtnClick} />
         <TripStyle formData={formData} trpBtnClick={trpBtnClick} />
@@ -212,15 +285,25 @@ function SubmitForm() {
           dateChange={dateChange}
           formData={formData}
           setFormData={setFormData}
+          initialDate={[
+            formData.dateChangeStates.startDate,
+            formData.dateChangeStates.endDate,
+          ]}
         />
         <div className="flex">
           <GenderSel
             formData={formData}
             handleGenderChange={handleGenderChange}
           />
-          <AgeSel ageButtonChange={ageButtonChange} />
+          <AgeSel
+            ageButtonChange={ageButtonChange}
+            ageButtonStates={formData.ageButtonStates}
+          />
         </div>
-        <MateNum mateNumChange={mateNumChange} />
+        <MateNum
+          mateNum={formData.mateNumState} // Pass mateNum state
+          mateNumChange={handleMateNumChange} // Pass change handler
+        />
         <ThumbSelect
           thumbSelChange={thumbSelChange}
           formData={formData}
@@ -234,5 +317,3 @@ function SubmitForm() {
     </div>
   );
 }
-
-export default SubmitForm;

@@ -1,7 +1,7 @@
 import "../../App.css";
 import "../../assets/css/Write.css";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
@@ -11,7 +11,7 @@ import { TripStyles } from "../../data/tripStyle";
 import { genderInfo } from "../../data/gender";
 import { MyTripPlans, MyTripMap } from "../../components/mate/MyTrip";
 import { MateReqBtn, MateCnlBtn } from "../../components/mate/Buttons";
-import { CommentForm, ShowComment } from "../../components/mate/Comments";
+import { AddComment, ShowComment } from "../../components/mate/Comments";
 
 export default function Detail() {
   const location = useLocation();
@@ -19,23 +19,21 @@ export default function Detail() {
   const findMateNo = queryParams.get("findMateNo");
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Fetching data for findMateNo:", findMateNo);
     if (findMateNo) {
       axios
         .get(`/api/planit/mates/details?findMateNo=${findMateNo}`)
         .then((response) => {
-          console.log("Detail Response:", JSON.stringify(response.data));
+          console.log("Detail Response:", response.data);
           const { tripPlanList, tripPlanDetailList, mateReplyList } =
             response.data.data;
           setFormDetails({
             data: {
               ...response.data.data,
-              tripPlan: tripPlanList[0] || {},
-              tripPlanDetails: tripPlanDetailList || [],
-              mateReplies: mateReplyList || [],
+              tripPlan: tripPlanList[0],
+              tripPlanDetails: tripPlanDetailList,
+              mateReplies: mateReplyList,
             },
           });
         })
@@ -44,7 +42,6 @@ export default function Detail() {
         });
     }
   }, [findMateNo]);
-
   const share = (
     <FontAwesomeIcon
       className="text-gray-500 text-[25px]"
@@ -55,23 +52,7 @@ export default function Detail() {
     <FontAwesomeIcon className="text-gray-500 text-[25px]" icon={faHeart} />
   );
 
-  const editDetail = () => {
-    if (formDetails.data) {
-      navigate("/mate/edit", { state: { formData: formDetails.data } });
-    }
-  };
-
-  const groupedByDate = formDetails?.data?.tripPlanDetails?.reduce(
-    (acc, detail) => {
-      const date = detail.planDt; // Assuming 'date' is the field for the trip date
-      if (!acc[date]) {
-        acc[date] = []; // Initialize an array for this date if it doesn't exist
-      }
-      acc[date].push(detail);
-      return acc;
-    },
-    {}
-  );
+  const editDetail = () => {};
 
   return (
     <div className="mx-[300px]">
@@ -97,7 +78,7 @@ export default function Detail() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-evenly min-w-[30%] max-w-[50%] flex-wrap text-xs mt-2 ml-[-19px] mb-10">
+                <div className="flex justify-evenly min-w-[30%] max-w-[60%] flex-wrap text-xs mt-2 ml-[-19px] mb-10">
                   {formDetails.data.regions.map((region) => {
                     const regionVar = Regions.find((r) => r.key == region);
                     return (
@@ -116,7 +97,10 @@ export default function Detail() {
                     );
                   })}
                   <p className="px-3 border-r-2">
-                    {formDetails.data.startDate.slice(0, 10)}-{" "}
+                    {formDetails.data.startDate.slice(0, 10)}
+                  </p>
+                  <p className="px-3 border-r-2">
+                    {" "}
                     {formDetails.data.endDate.slice(0, 10)}
                   </p>
                   {genderInfo
@@ -212,52 +196,19 @@ export default function Detail() {
                   </p>
                 </div>
                 <div className="flex-col ml-8 mb-20 ">
-                  {Object.keys(groupedByDate).map((date, index) => (
-                    <div key={index} className="pb-5">
-                      {/* Display the date */}
-                      <h2 className="text-2xl font-bold mt-4">
-                        day {index + 1}
-                      </h2>
-
-                      {/* Sort each group by seq and display the details */}
-                      {groupedByDate[date]
-                        .sort((a, b) => a.seq - b.seq) // Sort by sequence within each date group
-                        .map((detail) => (
-                          <div key={detail.tripDetailNo}>
-                            <div className="flex-3 mt-3.5 font-bold text-xl">
-                              {detail.content}
-                            </div>
-                            <div className="flex-1 relative">
-                              <MyTripPlans
-                                title={detail.title}
-                                address={detail.address}
-                                seq={detail.seq}
-                              />
-                            </div>
-                          </div>
-                        ))}
+                  {formDetails.data.tripPlanDetails.map((detail) => (
+                    <div key={detail.tripDetailNo}>
+                      <div className=" flex-3 mt-3.5 font-bold text-xl">
+                        {detail.content}
+                      </div>
+                      <div className="flex-1 relative">
+                        <MyTripPlans
+                          title={detail.title}
+                          address={detail.address}
+                        />
+                      </div>
                     </div>
                   ))}
-                  {/* {formDetails.data.tripPlanDetails
-                    .sort((a, b) => {
-                      if (a.date < b.date) return -1; // Compare by date
-                      if (a.date > b.date) return 1;
-                      return a.seq - b.seq; // If date is the same, compare by seq
-                    })
-                    .map((detail) => (
-                      <div key={detail.tripDetailNo}>
-                        <div className=" flex-3 mt-3.5 font-bold text-xl">
-                          {detail.content}
-                        </div>
-                        <div className="flex-1 relative">
-                          <MyTripPlans
-                            title={detail.title}
-                            address={detail.address}
-                            seq={detail.seq}
-                          />
-                        </div>
-                      </div>
-                    ))} */}
                 </div>
               </div>
               <MyTripMap />
@@ -265,21 +216,19 @@ export default function Detail() {
                 <MateReqBtn />
                 <MateCnlBtn />
               </div>
-              <CommentForm />
+              <AddComment />
               <div className="my-20">
                 <h1 className="border-b-2 p-2">
                   댓글 <b>{formDetails.data.mateReplyList.length}</b>
                 </h1>
 
                 {formDetails.data.mateReplyList.map((reply) => {
-                  return (
-                    <ShowComment
-                      key={reply.find_mate_reply_no}
-                      name={reply.cust_no}
-                      reply={reply.reply}
-                      date={reply.date}
-                    />
-                  );
+                  <ShowComment
+                    key={reply.find_mate_reply_no}
+                    name={reply.cust_no}
+                    reply={reply.reply}
+                    date={reply.date}
+                  />;
                 })}
               </div>
             </div>

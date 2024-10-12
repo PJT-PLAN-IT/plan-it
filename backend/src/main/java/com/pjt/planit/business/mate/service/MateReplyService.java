@@ -18,10 +18,10 @@ public class MateReplyService {
 
 		FindMateReply findMateReply = new FindMateReply();
 		findMateReply.setFindMateNo(replyDTO.getFindMateNo());
-		findMateReply.setUpperFindMateReplyNo(replyDTO.getUpperFindMateReplyNo());
+//		findMateReply.setUpperFindMateReplyNo(replyDTO.getUpperFindMateReplyNo());
 		findMateReply.setCustNo(replyDTO.getCustNo());
 		findMateReply.setReply(replyDTO.getReply());
-		findMateReply.setPublicYn(replyDTO.getPublicYn());
+//		findMateReply.setPublicYn(replyDTO.getPublicYn());
 		findMateReply.setSeq(replyDTO.getSeq());
 		replyRepository.save(findMateReply);
 	}

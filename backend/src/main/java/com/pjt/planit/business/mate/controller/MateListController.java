@@ -12,7 +12,7 @@ import com.pjt.planit.business.mate.service.MateListService;
 import com.pjt.planit.core.config.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/planit/mates")
+@RequestMapping("api/planit/mates")
 @RestController
 @RequiredArgsConstructor
 public class MateListController {
@@ -30,15 +30,5 @@ public class MateListController {
 		mateList = mateListService.getMateList();
 		return ApiResponse.ok("", mateList);
 	}
-	
-	/**
-	 * 필터링 후 페이지
-	 * **/
-	@PostMapping
-	public ApiResponse getMateList(@RequestBody MateListDTO dto) {
-		
-		List<MateListDTO> mateList = new ArrayList<>();
-		mateList = mateListService.getMateList(dto);
-		return ApiResponse.ok("", mateList);
-	}
+
 }

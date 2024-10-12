@@ -8,7 +8,7 @@ function MyTrip() {
   return (
     <div className="flex flex-col ">
       <div className="font-semibold p-[30px] mb-10">
-        <h1 className="TitleLabel">서울 여행</h1>
+        <h1 className="TitleLabel"></h1>
         <p>2024.10.06 ~ 2024.10.08</p>
       </div>
       <MyTripDay />
@@ -38,7 +38,7 @@ const MyTripDay = () => {
   );
 };
 
-const MyTripPlans = () => {
+const MyTripPlans = (prop) => {
   const [open, setOpen] = useState(false);
   const chevdown = (
     <FontAwesomeIcon className="text-lg text-gray-400" icon={faChevronDown} />
@@ -51,14 +51,12 @@ const MyTripPlans = () => {
       }}
     >
       <p className="bg-orange w-[22px] h-[22px] leading-tight text-center text-white rounded-full  ml-10 flex-6 mt-5">
-        1
+        {prop.seq}
       </p>
       <div className="flex flex-col flex-1">
         <div className="border p-2 pl-3 rounded-sm relative ">
-          <h3 className="text-sm font-semibold pb-1">강남역</h3>
-          <p className="text-xs font-normal text-gray-500">
-            서울 용산구 청파로 378 3층 204호
-          </p>
+          <h3 className="text-sm font-semibold pb-1">{prop.title}</h3>
+          <p className="text-xs font-normal text-gray-500">{prop.address}</p>
           <i className="absolute top-4 right-7">{chevdown}</i>
         </div>
         <div
@@ -80,7 +78,6 @@ const MyTripPlans = () => {
     </div>
   );
 };
-
 const MyTripMap = () => {
   return (
     <div>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.pjt.planit.business.mate.mapper.mate.MateListMapper">
+
+	<select id="getList"
+		parameterType="com.pjt.planit.business.mate.dto.MateListDTO">
+
+		SELECT
+		fm.find_mate_no AS findMateNo,
+		fm.trip_plan_no AS tripPlanNo,
+		fm.title
+		as title,
+		fm.start_dt AS startDate,
+		fm.end_dt AS endDate,
+		fm.thumbnail_img AS thumbnailImg,
+		fm.gender_type AS gender,
+		fm.recruits
+		AS recruits,
+		fm.twenty_yn AS twentyYN,
+		fm.thirty_yn AS thirtyYN,
+		fm.forty_yn AS fortyYN,
+		fm.fifty_yn AS
+		fiftyYN,
+		fl.find_mate_like_no AS
+		findMateLikeNo,
+		c.cust_no as custNo,
+		fa.find_mate_apply_no AS
+		findMateAppNo,
+		fa.allow_yn AS
+		appAllowYn,
+		fa.expired_dt AS expiredDt,
+
+		GROUP_CONCAT(r.content_type_id) AS regions,
+		GROUP_CONCAT(s.trip_style_id) AS tripStyles
+
+		FROM
+		T_FIND_MATE fm
+		LEFT JOIN
+		T_CUST c ON fm.create_by = c.create_by
+		LEFT JOIN
+		T_TRIP_PLAN tp ON
+		fm.trip_plan_no = tp.trip_plan_no
+		LEFT JOIN
+		T_FIND_MATE_APPLY fa ON
+		fm.find_mate_no = fa.find_mate_no
+		LEFT JOIN
+		T_FIND_MATE_LIKE fl ON
+		fm.find_mate_no = fl.find_mate_no
+		LEFT JOIN
+		T_FIND_MATE_REGION r ON
+		fm.find_mate_no = r.find_mate_no
+		LEFT JOIN
+		T_FIND_MATE_STYLE s ON
+		fm.find_mate_no = s.find_mate_no
+		WHERE
+		fm.find_mate_no = #{findMateNo}
+		GROUP BY
+		fm.find_mate_no;
+
+	</select>
+
+
+</mapper>
