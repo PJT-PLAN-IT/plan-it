@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,12 @@ public class PlaceDetailService {
                 .build();
     }
 
+    /**
+     *
+     * @param contentId
+     * @param contentTypeId
+     * @return
+     */
     public ApiResponseDto<Map<String, Object>> detailInfo(String contentId, String contentTypeId) {
         String params = "contentId=" + contentId + "&contentTypeId=" + contentTypeId;
 
@@ -130,8 +137,6 @@ public class PlaceDetailService {
      */
     private PlaceReviewDto convert(String formattedStarAvg, PlaceReview placeReview, Cust cust, Integer totalCount, Integer totalPage) {
 
-        String createDt = placeReview.getCreateDt().format(PlaceReviewDto.formatter);
-
         return PlaceReviewDto.builder()
                 .placeReviewNo(placeReview.getPlaceReviewNo())
                 .contentid(placeReview.getContentid())
@@ -142,7 +147,7 @@ public class PlaceDetailService {
                 .reviewImg2(placeReview.getReviewImg2())
                 .reviewImg3(placeReview.getReviewImg3())
                 .reviewImg4(placeReview.getReviewImg4())
-                .createDt(createDt)
+                .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .name(cust.getName())
                 .totalCount(totalCount)
                 .totalPage(totalPage)

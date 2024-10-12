@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CustInfoDto {
-
+    private String token;
     private String email;
     private int custNo;
     private String nickname;
