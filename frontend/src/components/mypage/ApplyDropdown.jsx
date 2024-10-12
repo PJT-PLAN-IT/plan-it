@@ -4,7 +4,7 @@
  * */
 
 import { useState } from "react";
-import { useAxiosInstance } from "../utils/axiosConfig.js";
+import { useAxiosInstance } from "../../utils/axiosConfig.js";
 
 function ApplyDropdown({ applyList, refreshData }) {
   const axiosInstance = useAxiosInstance();
@@ -85,14 +85,14 @@ function ApplyDropdown({ applyList, refreshData }) {
                       <div className="flex space-x-2">
                         <button
                           onClick={(e) => custButtonClick(e, apply)}
-                          className="bg-orange-500 text-white px-3 py-1 text-xs rounded"
+                          className="bg-orange text-white px-3 py-1 text-xs rounded"
                           value="allow"
                         >
                           승인
                         </button>
                         <button
                           onClick={(e) => custButtonClick(e, apply)}
-                          className="border border-orange-500 text-orange-500 px-3 py-1 text-xs rounded"
+                          className="border border-orange text-orange px-3 py-1 text-xs rounded"
                           value="reject"
                         >
                           거절

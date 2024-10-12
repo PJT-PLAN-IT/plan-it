@@ -1,6 +1,4 @@
-import {useState} from "react";
-
-function SelectContentTypeId(){
+const SelectContentTypeId = ({onSendData}) => {
 
 
     const contentTypeIdList = [
@@ -13,17 +11,16 @@ function SelectContentTypeId(){
         ,{key : "쇼핑", value : "38"}
         ,{key : "음식점", value : "39"}
     ];
+
     const saveContentTypeId = (e) => {
-        setIsSelectContentType(e);
-        //  이 턴에 saveContentTypeId를 가지고 오면 값 못가지고옴
+        onSendData(e);
     };
-    const [isSelectContentType, setIsSelectContentType] = useState('');
 
     return (
         <div className={`my-5 flex flex-wrap items-center justify-center`}>
             {contentTypeIdList.map((content) => (
-                <div key={content.key} value={isSelectContentType}
-                     className={`mx-2 my-1 py-1 px-2 font-light text-sm bg-gray-200 rounded-lg`}
+                <div className={`mx-2 my-1 py-1 px-2 font-light text-sm bg-gray-200 rounded-lg`}
+                     key={content.key} value={content.value}
                      onClick={() => saveContentTypeId(content.value)}>
                     {content.key}
                 </div>

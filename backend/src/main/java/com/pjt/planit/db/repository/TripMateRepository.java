@@ -17,7 +17,7 @@ public interface TripMateRepository extends JpaRepository<TripMate, Integer> {
 
 	List<TripMate> findAllByCustNo(Integer custNo);
 
-	TripMate findByTripMateNo(Integer tripMateNo);
+	List<TripMate> findAllByTripPlanNo(Integer tripMateNo);
 
 	TripMate findByTripPlanNoAndCustNo(Integer tripPlanNo, Integer custNo);
 

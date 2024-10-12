@@ -1,16 +1,66 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
 import AreaList from "../../components/tripplan/SelectArea.jsx";
 import SelectContentTypeId from "../../components/tripplan/SelectContentTypeId.jsx";
 import MapComponent from "../../components/tripplan/MapComponent.jsx";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
+import {useAuth} from "../../context/AuthContext.jsx";
 
 function MakeTripPlan() {
+    const axiosInstance = useAxiosInstance();
+    const auth = useAuth();
+    const [searchData , setSearchData] = useState([]);
+    const [requestData, setRequestData ] = useState({
+        pageNo: 1,
+        numOfRows: 10,
+        arrange: "A",
+    });
 
-    /* 지역 선택하면 부모 컴포넌트에 데이터 남는거 확인하는 코드 */
-    const handleData = (data) => {
-        console.log(data);
+    useEffect( () => {
+        const searchResultList = async() => {
+            try{
+                console.log(auth.token);
+                const response = await axiosInstance.post(`/api/open-api/place/search`, requestData);
+                const searchResultList = response.data.data.list;
+
+                const resultData = searchResultList.map(res => ({
+                    'title': res.title,
+                    'addr1': res.addr1,
+                    'addr2': res.addr2,
+                    'mapx': res.mapx,
+                    'mapy': res.mapy,
+                    'mlevel': res.mlevel,
+                    'areacode': res.areacode,
+                    'contentid': res.contentid,
+                    'contenttypeid': res.contenttypeid,
+                    'starAvg': res.starAvg,
+                    'reviewCount': res.reviewCount,
+                    'reviewList': res.reviewList
+                }));
+                setSearchData(resultData)
+            }catch(error){
+                console.error('서버요청 실패 : ', error);
+            }
+        };
+        searchResultList();
+    }, [requestData, axiosInstance]);
+
+
+    /* 지역 선택하면 부모 컴포넌트에 데이터 보내는거 확인하는 코드 */
+    const areaSelect = (data) => {
+        let requestDataTemp = JSON.parse(JSON.stringify(requestData));
+        requestDataTemp.areaCode = data;
+        setRequestData(requestDataTemp);
+        console.log(requestData);
     }
 
+    /* 카테고리 선택하면 부모 컴포넌트에 데이터 보내는거 확인하는 코드 */
+    const contentTypeSelect = (data)=> {
+        let requestDataTemp = JSON.parse(JSON.stringify(requestData));
+        requestDataTemp.contentTypeId = data;
+        setRequestData(requestDataTemp);
+        console.log(requestData);
+    }
 
     /* 모달관련 */
     const [isPlanModalOpen, setIsPlanModalOpen] = useState(true); //계획 짜는 모달
@@ -163,6 +213,10 @@ function MakeTripPlan() {
         console.log(selectedPlans);
     };
 
+
+    /* 지도 */
+
+
     return (
         <div className={`flex h-screen`}>
             <div className={`shrink-0 w-16 z-20 bg  border border-amber-700`}>
@@ -260,8 +314,8 @@ function MakeTripPlan() {
                     {searchBtn && (
                         <div className={`flex absolute h-screen  z-10 w-96 left-96 py-4 pl-4 transform transition-transform duration-300`}>
                             <div className={`relative flex flex-col border border-[#FB6134] w-full h-full bg-white rounded-lg`}>
-                                    <AreaList onSendData={handleData}/>
-                                    <SelectContentTypeId/>
+                                    <AreaList onSendData={areaSelect}/>
+                                    <SelectContentTypeId onSendData={contentTypeSelect} />
                                     <div className={`border border-gray-200 rounded-lg mx-3 my-5 py-3 px-2`}>
                                         궁금한 여행지를 검색해보세요!
                                     </div>
@@ -301,7 +355,7 @@ function MakeTripPlan() {
                 </div>
 
                 <div className={`flex-grow`}>
-                   <MapComponent />
+                    <MapComponent />
                 </div>
             </div>
         </div>

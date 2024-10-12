@@ -36,7 +36,7 @@ function Page({totalCount, page, handlePageChange, itemsPerPage = 10, maxPageBut
                             <button
                                 key={pageIndex}
                                 onClick={() => onChangePageHandler(pageIndex)}
-                                className={`p-2 px-4 rounded-lg ${pageIndex === page ? 'bg-orange-500 text-white' : ''}`}
+                                className={`p-2 px-4 rounded-lg ${pageIndex === page ? 'bg-orange text-white' : ''}`}
                             >
                                 {pageIndex + 1}
                             </button>
