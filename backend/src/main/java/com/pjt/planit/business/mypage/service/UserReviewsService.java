@@ -118,7 +118,7 @@ public class UserReviewsService {
                 .totalCount(totalCount)
                 .totalPage(totalPage);
         if (placeReview.getReviewImg1() != null) {
-            list.reviewImg1(readFileDir + placeReview.getReviewImg1()));
+            list.reviewImg1(readFileDir + placeReview.getReviewImg1());
         }
         if (placeReview.getReviewImg2() != null) {
             list.reviewImg2(readFileDir + placeReview.getReviewImg2());
