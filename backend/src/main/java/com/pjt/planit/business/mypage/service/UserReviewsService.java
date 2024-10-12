@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,8 @@ public class UserReviewsService {
 
     @Value("${file.fileDir}")
     private String fileDir;
+    @Value("${file.readFileDir}")
+    private String readFileDir;
 
     /**
      * 내가 작성한 리뷰 조회
@@ -115,16 +118,16 @@ public class UserReviewsService {
                 .totalCount(totalCount)
                 .totalPage(totalPage);
         if (placeReview.getReviewImg1() != null) {
-            list.reviewImg1(fileDir + placeReview.getReviewImg1());
+            list.reviewImg1(readFileDir + placeReview.getReviewImg1());
         }
         if (placeReview.getReviewImg2() != null) {
-            list.reviewImg2(fileDir + placeReview.getReviewImg2());
+            list.reviewImg2(readFileDir + placeReview.getReviewImg2());
         }
         if (placeReview.getReviewImg3() != null) {
-            list.reviewImg3(fileDir + placeReview.getReviewImg3());
+            list.reviewImg3(readFileDir + placeReview.getReviewImg3());
         }
         if (placeReview.getReviewImg4() != null) {
-            list.reviewImg4(fileDir + placeReview.getReviewImg4());
+            list.reviewImg4(readFileDir + placeReview.getReviewImg4());
         }
         return list.build();
     }

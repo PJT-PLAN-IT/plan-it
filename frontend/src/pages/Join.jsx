@@ -91,7 +91,7 @@ function Join() {
                             maxLength="45"
                             required
                         />
-                        <button type="button" className="w-1/5 bg-transparent text-orange-500 border border-orange-500 px-4 py-2 rounded-full hover:bg-orange-500 hover:text-white">
+                        <button type="button" className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
                             인증번호
                         </button>
                     </div>
@@ -109,7 +109,7 @@ function Join() {
                             onChange={authCodeInputChange}
                             required
                         />
-                        <button type="button" className="w-1/5 bg-transparent text-orange-500 border border-orange-500 px-4 py-2 rounded-full hover:bg-orange-500 hover:text-white">
+                        <button type="button" className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
                             확인
                         </button>
                     </div>
@@ -174,7 +174,7 @@ function Join() {
                             maxLength="45"
                             required
                         />
-                        <button type="button" className="w-1/5 bg-transparent text-orange-500 border border-orange-500 px-4 py-2 rounded-full hover:bg-orange-500 hover:text-white">
+                        <button type="button" className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
                             중복체크
                         </button>
                     </div>
@@ -240,11 +240,11 @@ function Join() {
                         <label className="w-1/5 text-gray-700 font-semibold">성별</label>
                         <div className="w-4/5 flex items-center space-x-8">
                             <label className="custom-radio flex items-center space-x-2">
-                                <input type="radio" name="gender" value="M" checked={formData.gender === 'M'} onChange={handleInputChange} className="custom-radio-button" />
+                                <input type="radio" name="gender" value="M" checked={formData.gender === 'M'} onChange={handleInputChange} className="" />
                                 <span>남자</span>
                             </label>
                             <label className="custom-radio flex items-center space-x-2">
-                                <input type="radio" name="gender" value="W" checked={formData.gender === 'W'} onChange={handleInputChange} className="custom-radio-button" />
+                                <input type="radio" name="gender" value="W" checked={formData.gender === 'W'} onChange={handleInputChange} className="" />
                                 <span>여자</span>
                             </label>
                         </div>
@@ -258,11 +258,13 @@ function Join() {
                         <label className="w-3/5 text-gray-700 font-semibold mb-10">개인정보 수집에 동의하십니까?</label>
                         <div className="w-2/5 flex items-center space-x-8 mb-10">
                             <label className="custom-radio flex items-center space-x-2">
-                                <input type="radio" name="privacy" value="예" checked={formData.privacy === '예'} onChange={handleInputChange} className="custom-radio-button" />
+                                <input type="radio" name="privacy" value="예" checked={formData.privacy === '예'} onChange={handleInputChange}
+                                       className=""/>
                                 <span>예</span>
                             </label>
                             <label className="custom-radio flex items-center space-x-2">
-                                <input type="radio" name="privacy" value="아니요" checked={formData.privacy === '아니요'} onChange={handleInputChange} className="custom-radio-button" />
+                                <input type="radio" name="privacy" value="아니요" checked={formData.privacy === '아니요'} onChange={handleInputChange}
+                                       className=""/>
                                 <span>아니요</span>
                             </label>
                         </div>
@@ -273,7 +275,7 @@ function Join() {
                     <div className="flex justify-center mt-10">
                         <button
                             type="submit"
-                            className="w-2/5 bg-orange-500 text-white py-2 rounded-full hover:bg-orange-600"
+                            className="w-2/5 bg-orange text-white py-2 rounded-full hover:bg-orange"
                         >
                             가입하기
                         </button>

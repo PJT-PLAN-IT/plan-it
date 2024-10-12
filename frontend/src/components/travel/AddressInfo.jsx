@@ -1,7 +1,7 @@
 function AddressInfo({zipcode, addr1}) {
     return (
         <div className="mb-6">
-            <h2 className="text-lg font-semibold bg-orange-100 text-white px-4 py-2 rounded-t-md">기본 정보</h2>
+            <h2 className="text-lg font-semibold bg-orange text-white px-4 py-2 rounded-t-md">기본 정보</h2>
             <table className="w-full text-sm border">
                 <tbody>
                 <tr>

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useAxiosInstance} from "../utils/axiosConfig.js";
+import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {useParams} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
@@ -74,7 +74,7 @@ function Reply() {
                             <td className="px-6 py-4 text-right border-l-0 border-r-0">
                                 <button
                                     onClick={() => deleteOnClick(comment.findMateReplyNo)}
-                                    className="bg-orange-500 text-white px-4 py-1 rounded-full">삭제
+                                    className="bg-orange text-white px-4 py-1 rounded-full">삭제
                                 </button>
                             </td>
                         </tr>
@@ -93,7 +93,7 @@ function Reply() {
                                     <button
                                         key={pageIndex}
                                         onClick={() => handlePageChange(pageIndex)}
-                                        className={`p-2 px-4 rounded-lg ${pageIndex === page ? 'bg-orange-500 text-white' : ''}`}
+                                        className={`p-2 px-4 rounded-lg ${pageIndex === page ? 'bg-orange text-white' : ''}`}
                                     >
                                         {pageIndex + 1}
                                     </button>
