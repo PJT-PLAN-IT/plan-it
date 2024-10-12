@@ -11,6 +11,7 @@ import MainPage from "../pages/MainPage.jsx";
 import MyReply from "../pages/mypage/MyReply.jsx";
 import TravelInfo from "../pages/travel/TravelInfo.jsx";
 import TravelDetail from "../pages/travel/TravelDetail.jsx";
+import MyReview from "../pages/mypage/MyReview.jsx";
 
 function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ function AppRoutes() {
       <Route path="/mypage/applys/:custNo" element={<Applys />} />
       <Route path="/mypage/likes/:custNo" element={<Likes />} />
       <Route path="/mypage/replys/:custNo" element={<MyReply />} />
+      <Route path="/mypage/reviews/:custNo" element={<MyReview />} />
       <Route path="/mate" element={<Write />} />
       <Route path="/details/:findMateNo" element={<Detail />} />
       <Route path="/planit" element={<MainPage />} />

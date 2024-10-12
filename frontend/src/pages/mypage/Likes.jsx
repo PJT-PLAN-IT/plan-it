@@ -2,10 +2,10 @@ import {useEffect, useState} from "react";
 
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {useParams} from "react-router-dom";
-import MyCard from "../../components/MyCard.jsx";
-import Like from "../../components/Like.jsx";
-import MateButton from "../../components/MateButton.jsx";
-import SelectYear from "../../components/SelectYear.jsx";
+import MyCard from "../../components/mypage/MyCard.jsx";
+import Like from "../../components/mypage/Like.jsx";
+import MateButton from "../../components/mypage/MateButton.jsx";
+import SelectYear from "../../components/mypage/SelectYear.jsx";
 
 function Likes(){
     const axiosInstance = useAxiosInstance();
@@ -41,7 +41,7 @@ function Likes(){
 
     return (
         <div className="App mx-[300px]">
-            <div className="mb-6">
+            <div className="mb-6 mt-10">
                 <div className="flex justify-between mb-6">
                     <div className="flex space-x-6">
                         <MateButton custNo={custNo} value="likeMate"></MateButton>
