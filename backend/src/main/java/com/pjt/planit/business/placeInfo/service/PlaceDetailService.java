@@ -11,6 +11,7 @@ import com.pjt.planit.db.entity.PlaceReview;
 import com.pjt.planit.db.repository.CustRepository;
 import com.pjt.planit.db.repository.PlaceReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,9 @@ public class PlaceDetailService {
     private final CustRepository custRepository;
     private final WebClientHelper webClientHelper;
 
+    @Value("${file.fileDir}")
+    private String fileDir;
+
     /**
      * 여행장소 리뷰 조회
      * @param contentid
@@ -42,6 +46,9 @@ public class PlaceDetailService {
     public List<PlaceReviewDto> reviews(String contentid, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createDt").descending());
         Page<PlaceReview> pageReviews = placeReviewRepository.findAllByContentid(contentid, pageable);
+
+        List<PlaceReview> reviews = pageReviews.getContent();
+        System.out.println("데이터 개수: " + reviews.size());
 
         //페이징된 리뷰 수
         Integer totalCount  = (int)pageReviews.getTotalElements();
@@ -58,7 +65,7 @@ public class PlaceDetailService {
         // 소수점 한 자리까지 포맷팅
         String formattedStarAvg = String.format("%.1f", starAvg);
 
-        List<PlaceReviewDto> result = placeReviews.stream()
+        List<PlaceReviewDto> result = pageReviews.stream()
                 .map(entity -> {
                     Cust cust = custRepository.findByCustNo(entity.getCustNo());
                     PlaceReviewDto convert = convert(formattedStarAvg, entity, cust, totalCount, totalPage);
@@ -143,10 +150,10 @@ public class PlaceDetailService {
                 .star(placeReview.getStar())
                 .starAvg(formattedStarAvg)
                 .review(placeReview.getReview())
-                .reviewImg1(placeReview.getReviewImg1())
-                .reviewImg2(placeReview.getReviewImg2())
-                .reviewImg3(placeReview.getReviewImg3())
-                .reviewImg4(placeReview.getReviewImg4())
+                .reviewImg1(fileDir + placeReview.getReviewImg1())
+                .reviewImg2(fileDir + placeReview.getReviewImg2())
+                .reviewImg3(fileDir + placeReview.getReviewImg3())
+                .reviewImg4(fileDir + placeReview.getReviewImg4())
                 .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .name(cust.getName())
                 .totalCount(totalCount)

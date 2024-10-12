@@ -5,6 +5,7 @@ import com.pjt.planit.business.placeInfo.service.PlaceDetailService;
 import com.pjt.planit.business.placeInfo.service.PlaceInfoService;
 import com.pjt.planit.core.config.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;

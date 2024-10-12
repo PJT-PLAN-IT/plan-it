@@ -2,6 +2,11 @@ package com.pjt.planit.business.mypage.service;
 
 import com.pjt.planit.business.mypage.dto.ReviewListDto;
 import com.pjt.planit.business.mypage.dto.ReviewRetrieveDto;
+import com.pjt.planit.business.placeInfo.controller.PlaceInfoController;
+import com.pjt.planit.business.placeInfo.dto.ApiResponseDto;
+import com.pjt.planit.business.placeInfo.dto.CommonInfoDto;
+import com.pjt.planit.business.placeInfo.service.PlaceDetailService;
+import com.pjt.planit.business.placeInfo.service.PlaceInfoService;
 import com.pjt.planit.business.tripplan.dto.PlaceReviewDto;
 import com.pjt.planit.db.entity.PlaceReview;
 import com.pjt.planit.db.repository.PlaceReviewRepository;
@@ -27,6 +32,7 @@ public class UserReviewsService {
 
     private final PlaceReviewRepository placeReviewRepository;
     private final UploadService uploadService;
+    private final PlaceDetailService placeDetailService;
 
     @Value("${file.fileDir}")
     private String fileDir;
@@ -48,7 +54,10 @@ public class UserReviewsService {
         Integer totalPage = placeReview.getTotalPages();
 
         List<ReviewListDto> result = placeReview.stream()
-                .map(entitiy -> convert(entitiy, totalCount, totalPage, fileDir))
+                .map(entitiy -> {
+                    ReviewListDto convert = convert(entitiy, totalCount, totalPage, fileDir);
+                    return convert;
+                })
                 .toList();
 
         return result;
@@ -109,6 +118,13 @@ public class UserReviewsService {
      */
     private ReviewListDto convert(PlaceReview placeReview, Integer totalCount, Integer totalPage, String fileDir) {
 
+        ApiResponseDto<CommonInfoDto> commonInfo = placeDetailService.commonInfo(placeReview.getContentid(), "Y", "Y", "Y", "Y", "Y");
+        List<CommonInfoDto> dto = commonInfo.getList();
+        String title = dto.stream()
+                .map(o -> o.getTitle())
+                .findAny()
+                .get();
+
         ReviewListDto.ReviewListDtoBuilder list = ReviewListDto.builder()
                 .placeReviewNo(placeReview.getPlaceReviewNo())
                 .contentid(placeReview.getContentid())
@@ -116,7 +132,8 @@ public class UserReviewsService {
                 .review(placeReview.getReview())
                 .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .totalCount(totalCount)
-                .totalPage(totalPage);
+                .totalPage(totalPage)
+                .title(title);
         if (placeReview.getReviewImg1() != null) {
             list.reviewImg1(readFileDir + placeReview.getReviewImg1());
         }
@@ -131,5 +148,4 @@ public class UserReviewsService {
         }
         return list.build();
     }
-
 }
