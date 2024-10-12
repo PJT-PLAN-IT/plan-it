@@ -2,7 +2,7 @@ import {useState} from "react";
 import ReviewFile from "./ReviewFile.jsx";
 
 function ReviewModal({isOpen, closeModal, review, updateOnClick}) {
-    if (!isOpen) return null; // 모달이 열리지 않은 상태면 아무것도 렌더링하지 않음
+    if (!isOpen) return null;
     const [formData, setFormData] = useState(review);
 
     // 기존 저장된 이미지 URL (서버에서 가져옴)
@@ -35,6 +35,14 @@ function ReviewModal({isOpen, closeModal, review, updateOnClick}) {
         }
     };
 
+    //별 클릭
+    const addStarOnChange = (bool) => {
+        setFormData((prev) => ({
+            ...prev,
+            star : bool ? prev.star++ : prev.star--
+        }));
+    };
+
     //리뷰 변경
     const reviewOnChange = (e) => {
         setFormData((prev) => ({
@@ -43,16 +51,38 @@ function ReviewModal({isOpen, closeModal, review, updateOnClick}) {
         }));
     }
 
+    //DB에 파일명이 있던 데이터는 파일로 만들어 주는 작업을한다. (저장시에 결국 엎어쓰여진다)
+    const urlToFile = async (imgUrl, filename) => {
+        const response = await fetch(imgUrl);  // URL에서 이미지 데이터 가져오기
+        const blob = await response.blob();  // Blob 데이터로 변환
+        const file = new File([blob], filename, { type: blob.type });  // Blob을 File 객체로 변환
+        return file;
+    };
+
+    //취소클리
+    const cancelBtnOnClick = () => {
+        setImages([]);
+        setNewImages([]);
+        setImages([]);
+        closeModal();
+    };
+
     //수정버튼클릭
-    const updateBtnOnClick = () => {
+    const updateBtnOnClick = async () => {
+        const totalImages = await Promise.all(images.map(async (image) => {
+            const lastIndexOf = image.lastIndexOf("/");
+            return await urlToFile(image, image.substr(lastIndexOf + 1));
+        }));
+
         const data = {
             ...formData,
-            images : images,
-            newImages : newImages
+            images,
+            newImages,
+            totalImages : totalImages.concat(newImages)
         };
 
         updateOnClick(data);
-    }
+    };
 
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -63,11 +93,15 @@ function ReviewModal({isOpen, closeModal, review, updateOnClick}) {
                     <div className="flex items-center mb-6">
                         <div className="flex ml-2 space-x-2">
                             {[...Array.from({length : formData.star}).map((s, index) => (
-                                <button key={index} type="button" className="text-orange text-2xl">★</button>
+                                <button
+                                    onClick={() => addStarOnChange(false)}
+                                    key={index} type="button" className="text-orange text-2xl">★</button>
                             ))]}
 
                             {[...Array.from({length : 5 - formData.star}).map((s, index) => (
-                                <button key={index} type="button" className="text-gray-400 text-2xl">★</button>
+                                <button
+                                    onClick={() => addStarOnChange(true)}
+                                    key={index} type="button" className="text-gray-400 text-2xl">★</button>
                             ))]}
                         </div>
                     </div>
@@ -105,7 +139,7 @@ function ReviewModal({isOpen, closeModal, review, updateOnClick}) {
                     <div className="flex justify-center mt-10">
                         <button
                             type="button"
-                            onClick={closeModal}
+                            onClick={cancelBtnOnClick}
                             className="w-1/5 bg-white-500 text-orange py-2 border border-orange rounded-full mt-10 mr-5">
                             취소
                         </button>

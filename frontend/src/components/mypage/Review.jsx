@@ -39,7 +39,12 @@ function Review() {
             const response = await axiosInstance.delete("/api/my-page/review/delete", {data : {placeReviewNo : no}});
             if(response.data.code === 200){
                 alert("삭제 성공");
-                fetchReviews();
+                if(page === 0){
+                    fetchReviews();
+                }
+                else{
+                    setPage(0);
+                }
             }
             else{
                 alert("삭제 실패");
@@ -64,15 +69,22 @@ function Review() {
         data.custNo = custNo;
 
         formData.append("placeReviewDto", new Blob([JSON.stringify(data)], { type: "application/json" }));
-        data.newImages.forEach((file, index) => {
+        data.totalImages.forEach((file, index) => {
             formData.append("files", file);  // 파일 하나씩 추가
         });
 
         const response = await axiosInstance.put(`/api/my-page/review/edit`, formData);
-        if(response.data.code === 200){
-
+        if(response.data.status === "OK"){
+            setIsModalOpen(false);
+            if(page === 0){
+                fetchReviews();
+            }
+            else{
+                setPage(0);
+            }
         }
     };
+
 
     // 모달 열기
     const openModal = (review) => {
@@ -95,7 +107,6 @@ function Review() {
                     <div key={index} className="border rounded-lg p-4 shadow-md flex space-x-4 items-start">
                         {/* 이미지 영역 */}
                         <div className="image-container"></div>
-
                         <div>
                             <img src={review.reviewImg1} alt={review.reviewImg1} className="w-20 h-20 rounded-md" />
                         </div>
@@ -105,7 +116,7 @@ function Review() {
                             {/* 리뷰 상단: 작성자 정보와 작성일 */}
                             <div className="flex justify-between items-center mb-2">
                                 <div className="flex items-center space-x-2">
-                                    <span className="font-semibold">{review.name}</span>
+                                    <span className="font-semibold">{review.title}</span>
                                     <span className="text-sm text-gray-500">{review.createDt}</span>
                                     {/* 별점 영역 */}
                                     <div className="flex items-center space-x-1 text-yellow-500">
