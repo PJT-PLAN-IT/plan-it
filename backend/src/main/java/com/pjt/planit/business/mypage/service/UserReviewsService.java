@@ -2,17 +2,22 @@ package com.pjt.planit.business.mypage.service;
 
 import com.pjt.planit.business.mypage.dto.ReviewListDto;
 import com.pjt.planit.business.mypage.dto.ReviewRetrieveDto;
+import com.pjt.planit.business.tripplan.dto.PlaceReviewDto;
 import com.pjt.planit.db.entity.PlaceReview;
 import com.pjt.planit.db.repository.PlaceReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,6 +25,10 @@ import java.util.List;
 public class UserReviewsService {
 
     private final PlaceReviewRepository placeReviewRepository;
+    private final UploadService uploadService;
+
+    @Value("${file.fileDir}")
+    private String fileDir;
 
     /**
      * 내가 작성한 리뷰 조회
@@ -36,7 +45,7 @@ public class UserReviewsService {
         Integer totalPage = placeReview.getTotalPages();
 
         List<ReviewListDto> result = placeReview.stream()
-                .map(entitiy -> convert(entitiy, totalCount, totalPage))
+                .map(entitiy -> convert(entitiy, totalCount, totalPage, fileDir))
                 .toList();
 
         return result;
@@ -49,6 +58,23 @@ public class UserReviewsService {
     @Transactional
     public void reviewDelete(Integer placeReviewNo) {
         placeReviewRepository.deleteByPlaceReviewNo(placeReviewNo);
+    }
+
+    /**
+     * 리뷰 수정
+     * @param placeReviewDto
+     */
+    @Transactional
+    public void updatePlaceReveiw(List<MultipartFile> photos, PlaceReviewDto placeReviewDto) {
+        Optional<PlaceReview> getPlaceReview =  placeReviewRepository.findByPlaceReviewNoAndCustNo(placeReviewDto.getPlaceReviewNo(), placeReviewDto.getCustNo());
+        if(getPlaceReview.isPresent()) {
+            PlaceReview placeReview = getPlaceReview.get();
+            placeReview.setContentid(placeReviewDto.getContentid());
+            placeReview.setStar(placeReviewDto.getStar());
+            placeReview.setReview(placeReviewDto.getReview());
+            uploadService.savePhotos(placeReview, photos);
+            placeReviewRepository.save(placeReview);
+        }
     }
 
     /**
@@ -78,19 +104,29 @@ public class UserReviewsService {
      * @param totalPage
      * @return
      */
-    private ReviewListDto convert(PlaceReview placeReview, Integer totalCount, Integer totalPage) {
+    private ReviewListDto convert(PlaceReview placeReview, Integer totalCount, Integer totalPage, String fileDir) {
 
-        String createDt = placeReview.getCreateDt().format(ReviewListDto.formatter);
-
-        return ReviewListDto.builder()
+        ReviewListDto.ReviewListDtoBuilder list = ReviewListDto.builder()
                 .placeReviewNo(placeReview.getPlaceReviewNo())
                 .contentid(placeReview.getContentid())
                 .star(placeReview.getStar())
                 .review(placeReview.getReview())
-                .reviewImg1(placeReview.getReviewImg1())
-                .createDt(createDt)
+                .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .totalCount(totalCount)
-                .totalPage(totalPage)
-                .build();
+                .totalPage(totalPage);
+        if (placeReview.getReviewImg1() != null) {
+            list.reviewImg1(fileDir + placeReview.getReviewImg1());
+        }
+        if (placeReview.getReviewImg2() != null) {
+            list.reviewImg2(fileDir + placeReview.getReviewImg2());
+        }
+        if (placeReview.getReviewImg3() != null) {
+            list.reviewImg3(fileDir + placeReview.getReviewImg3());
+        }
+        if (placeReview.getReviewImg4() != null) {
+            list.reviewImg4(fileDir + placeReview.getReviewImg4());
+        }
+        return list.build();
     }
+
 }

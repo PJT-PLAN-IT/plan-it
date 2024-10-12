@@ -20,10 +20,12 @@ public class ReviewListDto {
     private Integer star;
     private String review;
     private String reviewImg1;
+    private String reviewImg2;
+    private String reviewImg3;
+    private String reviewImg4;
     private String createDt;
 
     private Integer totalCount;
     private Integer totalPage;
 
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 }

@@ -17,5 +17,6 @@ public class KeyWordDto {
     private String areacode;    //지역코드
     private String contentid;   //콘텐츠Id
     private String contenttypeid;   //관광타입(관광지, 숙박등..)
+    private String firstimage2;
     private String title;   //제목
 }

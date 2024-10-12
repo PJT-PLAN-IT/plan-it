@@ -16,4 +16,6 @@ public interface FindMateRepository extends JpaRepository<FindMate, Integer> {
 
     FindMate findByTitle(String title);
 
+	void deleteByFindMateNo(int findMateNo);
+
 }

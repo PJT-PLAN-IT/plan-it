@@ -1,10 +1,10 @@
 const TripStyles = [
-  { value: "#자유여행", key: 1 },
-  { value: "#관광지", key: 2 },
-  { value: "#문화시설", key: 3 },
-  { value: "#축제", key: 4 },
-  { value: "#레포츠", key: 5 },
-  { value: "#맛집탐방", key: 6 },
+  { value: "#자유여행", key: 10 },
+  { value: "#관광체험", key: 721 },
+  { value: "#문화탐험", key: 13 },
+  { value: "#축제경험", key: 321 },
+  { value: "#레포츠모험", key: 12 },
+  { value: "#맛집탐방", key: 131 },
 ];
 function TripStyle({ formData, trpBtnClick }) {
   return (
