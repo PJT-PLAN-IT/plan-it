@@ -4,7 +4,7 @@ function TourInfo({contentTypeId, item}) {
 
     return (
         <div>
-            <h2 className="text-lg font-semibold bg-orange-500 text-white px-4 py-2 rounded-t-md">관광지</h2>
+            <h2 className="text-lg font-semibold bg-orange text-white px-4 py-2 rounded-t-md">관광지</h2>
             <table className="w-full text-sm border">
                 <tbody>
                 {Data[contentTypeId].map((info, index) => (
