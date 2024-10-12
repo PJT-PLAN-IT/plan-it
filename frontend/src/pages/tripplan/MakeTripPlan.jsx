@@ -67,6 +67,20 @@ function MakeTripPlan() {
                     "starAvg": null,
                     "reviewCount": null,
                     "reviewList": null
+                },
+                {
+                    "title": "가락골마산아구찜",
+                    "addr1": "서울특별시 송파구 송이로19길 3",
+                    "addr2": "(가락동)",
+                    "mapx": "127.1217599348",
+                    "mapy": "37.4975120620",
+                    "mlevel": "6",
+                    "areacode": "1",
+                    "contentid": "2757617",
+                    "contenttypeid": "39",
+                    "starAvg": null,
+                    "reviewCount": null,
+                    "reviewList": null
                 }
             ],
             "numOfRows": 10,
@@ -213,6 +227,7 @@ function MakeTripPlan() {
                                                         )}
                                                     </Draggable>
                                                 ))}
+                                              {provided.placeholder}
                                             </div>
                                         )}
                                     </Droppable>
