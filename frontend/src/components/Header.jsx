@@ -7,7 +7,8 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faFolder } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../context/AuthContext.jsx";
 
 const down = <FontAwesomeIcon className="mb-[2px]" icon={faSortDown} />;
 const folder = <FontAwesomeIcon icon={faFolder} />;
@@ -17,6 +18,13 @@ const env = <FontAwesomeIcon className="size-6" icon={faEnvelope} />;
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { userInfo } = useAuth();
+  const navigate = useNavigate();
+
+  const headerOnClick = (url) => {
+      navigate(url);
+  };
+
   return (
     <div className="font-notosans HeaderWrap">
       <img className="w-[90px]" src={Logo} alt="logo" />
@@ -24,7 +32,7 @@ export function Header() {
         <div className=" m-auto ml-2 HeaderNav">
           <span className="HeaderNavItem">메이트 구하기</span>
           <span className="HeaderNavItem">여행계획</span>
-          <span className="HeaderNavItem">여행정보</span>
+          <span className="HeaderNavItem" onClick={() => headerOnClick("/travel/info")} >여행정보</span>
         </div>
         <div className="mr-2 UserNavWrap">
           <div
@@ -61,14 +69,14 @@ export function Header() {
               text={"메이트 공고 작성하기"}
               link={"/mate"}
             />
-            <DropdownMenu icon={folder} text={"나의 메이트 구하기"} />
-            <DropdownMenu icon={folder} text={"메이트 신청 확인하기"} />
-            <DropdownMenu icon={folder} text={"좋아요 한 메이트 글"} />
+            <DropdownMenu icon={folder} text={"나의 메이트 구하기"} link={`/mypage/mate/${userInfo.custNo}`} />
+            <DropdownMenu icon={folder} text={"메이트 신청 확인하기"} link={`/mypage/applys/${userInfo.custNo}`} />
+            <DropdownMenu icon={folder} text={"좋아요 한 메이트 글"} link={`/mypage/likes/${userInfo.custNo}`} />
             <hr />
-            <DropdownMenu icon={folder} text={"나의 리뷰 확인하기"} />
-            <DropdownMenu icon={folder} text={"나의 댓글 확인하기"} />
+            <DropdownMenu icon={folder} text={"나의 리뷰 확인하기"} link={`/mypage/reviews/${userInfo.custNo}`} />
+            <DropdownMenu icon={folder} text={"나의 댓글 확인하기"} link={`/mypage/replys/${userInfo.custNo}`} />
             <hr />
-            <DropdownMenu icon={folder} text={"개인 정보 수정"} />
+            <DropdownMenu icon={folder} text={"개인 정보 수정"} link={`/editUserInfo/${userInfo.custNo}`} />
           </ul>
         </div>
       </div>

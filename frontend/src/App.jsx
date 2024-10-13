@@ -9,12 +9,13 @@ function App() {
 
   return (
     <>
-      <div className="mx-[300px]">
-          { !noHeaderRoutes.includes(location.pathname) && <Header />}
-      </div>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+        <AuthProvider>
+          <div className="mx-[300px]">
+              { !noHeaderRoutes.includes(location.pathname) && <Header />}
+          </div>
+
+            <AppRoutes />
+        </AuthProvider>
     </>
   );
 }

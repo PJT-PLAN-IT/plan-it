@@ -88,7 +88,7 @@ function Reply() {
                     <div className="flex items-center justify-center my-20">
                         <div className="flex justify-evenly w-[30%] ">
                             <button onClick={() => handlePageChange(page -1)}>{left}</button>
-                            <div className="flex gap-10 ">
+                            <div className="flex">
                                 {[...Array(Math.ceil(totalCount / 10)).keys()].map((pageIndex) => (
                                     <button
                                         key={pageIndex}
