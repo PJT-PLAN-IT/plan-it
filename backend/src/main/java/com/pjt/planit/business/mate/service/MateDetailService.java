@@ -38,12 +38,17 @@ public class MateDetailService {
 		MateDetailDTO detailDTO = new MateDetailDTO();
 		detailDTO.setFindMateNo(findMateNo);
 		detailDTO = detailMapper.getDetail(detailDTO);
-		int tripPlanNo = detailDTO.getTripPlanNo();
-		TripPlanDto tripPlanDto = new TripPlanDto();
-		tripPlanDto.setTripPlanNo(tripPlanNo);
-		tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
-		detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
-		detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
+		detailDTO.getRegionsList();
+		detailDTO.getTripStylesList();
+
+		Integer tripPlanNo = detailDTO.getTripPlanNo();
+		if (tripPlanNo != null) {
+			TripPlanDto tripPlanDto = new TripPlanDto();
+			tripPlanDto.setTripPlanNo(tripPlanNo);
+			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
+			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
+			detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
+		}
 		detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));
 		return detailDTO;
 
@@ -61,7 +66,7 @@ public class MateDetailService {
 	public void updateRegions(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newRegions = detailDTO.getRegions();
+		List<Integer> newRegions = detailDTO.getRegionsList();
 		List<FindMateRegion> oldRegions = regionRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldRegionContentId = oldRegions.stream().map(FindMateRegion::getContentTypeId)
@@ -89,7 +94,7 @@ public class MateDetailService {
 	public void updateStyles(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newStyles = detailDTO.getTripStyles();
+		List<Integer> newStyles = detailDTO.getTripStylesList();
 		List<FindMateStyle> oldStyles = styleRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldStyleContentId = oldStyles.stream().map(FindMateStyle::getTripStyleId)
