@@ -38,8 +38,7 @@ export const useAxiosInstance = () => {
         (error.response && error.response.status === 403)
       ) {
         // 401 Unauthorized 에러가 발생하면 로그인 페이지로 리다이렉트
-        setToken(null); // 만료된 토큰 제거
-
+        //setToken(null);  // 만료된 토큰 제거
         /*TODO 인증오류로 발생했으면 로그인페이지로 리턴 임시 주석*/
         // navigate('/login');  // 로그인 페이지로 이동
       }

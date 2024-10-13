@@ -31,7 +31,7 @@ function Page({totalCount, page, handlePageChange, itemsPerPage = 10, maxPageBut
                     <button onClick={() => onChangePageHandler(page - 1)} disabled={page === 0}>
                         {left}
                     </button>
-                    <div className="flex gap-10 ">
+                    <div className="flex">
                         {Array.from({ length: endPage - startPage }, (_, i) => startPage + i).map((pageIndex) => (
                             <button
                                 key={pageIndex}
