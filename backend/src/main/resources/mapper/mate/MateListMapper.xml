@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pjt.planit.business.mate.mapper.MateListMapper">
+    <select id="getMateList"
+            parameterType="com.pjt.planit.business.mate.dto.MateListDTO"
+            resultType="com.pjt.planit.business.mate.dto.MateListDTO">
+
+    SELECT fm.find_mate_no AS findMateNo
+         , fm.title AS title
+         , fm.gender_type AS genderType
+         , fm.recruits AS recruits
+         , fm.twenty_yn AS twentyYn
+         , fm.thirty_yn AS thirtyYn
+         , fm.forty_yn AS fortyYn
+         , fm.fifty_yn AS fiftyYn
+         , fm.thumbnail_img AS thumbnailImg
+
+         , GROUP_CONCAT(mr.content_type_id) AS regions
+         , GROUP_CONCAT(ms.trip_style_id) AS tripStyles
+
+         , tp.trip_plan_no AS tripPlanNo
+         , tp.start_dt AS startDt
+         , tp.end_dt AS endDt
+
+         , c.name AS name
+
+         , tm.trip_plan_no AS tripMate
+
+    FROM T_FIND_MATE fm
+
+    LEFT JOIN T_FIND_MATE_REGION mr
+    ON fm.find_mate_no = mr.find_mate_no
+
+    LEFT JOIN T_FIND_MATE_STYLE ms
+    ON fm.find_mate_no = ms.find_mate_no
+
+    LEFT JOIN T_TRIP_PLAN tp
+    ON fm. trip_plan_no = tp. trip_plan_no
+
+    LEFT JOIN T_CUST c
+    ON tp.cust_no = c.cust_no
+
+    LEFT JOIN T_TRIP_MATE tm
+    ON fm.trip_plan_no = tm.trip_plan_no
+
+    GROUP BY fm.find_mate_no
+
+    ORDER BY fm.create_dt;
+
+    </select>
+
+    <select id="getTripMateNum"
+            parameterType="com.pjt.planit.business.mate.dto.MateListDTO"
+            resultType="com.pjt.planit.business.mate.dto.MateListDTO">
+
+    SELECT tm.trip_plan_no AS tripPlanNo
+           , COUNT(tm.trip_plan_no) AS tripMateNum
+
+    FROM T_TRIP_MATE tm
+
+    LEFT JOIN T_TRIP_PLAN tp
+    ON tm.trip_plan_no = tp.trip_plan_no
+
+    GROUP BY tp.trip_plan_no
+
+    </select>
+</mapper>
