@@ -1,7 +1,7 @@
 import {CustomOverlayMap, Map, MapMarker, Polyline} from "react-kakao-maps-sdk";
 import {useEffect, useState} from "react";
 
-const MapComponent = ({planCoordinate = [], searchMap}) => {
+const MapComponent = ({planCoordinate = {}, searchMap}) => {
     const [center, setCenter] = useState({
         lat: searchMap.mapy,
         lng: searchMap.mapx,
@@ -14,23 +14,29 @@ const MapComponent = ({planCoordinate = [], searchMap}) => {
         })
     }, [searchMap]);
 
-    const linePath = planCoordinate.map(pos => (
-        {
-            lat: pos.mapy,
-            lng: pos.mapx
-        }
-    ));
+
+    const linePath = Object.keys(planCoordinate).map((day) => (
+        planCoordinate[day].map((pos, index) => (
+            {
+                lat: pos.mapy,
+                lng: pos.mapx,
+                index: index
+            }
+        ))
+    ))
 
     return (
         <Map id="map" center={center} level={searchMap.level} className={`h-full`}
              isPanto={true}>
-            {planCoordinate.map((pos, index) => (
-                <CustomOverlayMap key={index} position={{lat: pos.mapy, lng: pos.mapx}}>
-                    <div
-                        className={`flex items-center justify-center size-7 bg-orange rounded-full font-bold text-white`}>
-                        {index + 1}
-                    </div>
-                </CustomOverlayMap>
+            {Object.keys(planCoordinate).map((day) => (
+                planCoordinate[day].map((pos, index) => (
+                    <CustomOverlayMap key={index} position={{lat: pos.mapy, lng: pos.mapx}}>
+                        <div
+                            className={`flex items-center justify-center size-7 bg-orange rounded-full font-bold text-white`}>
+                            {index + 1}
+                        </div>
+                    </CustomOverlayMap>
+                ))
             ))}
             <Polyline
                 path={linePath}
