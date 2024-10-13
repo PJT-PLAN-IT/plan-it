@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 function Login(){
     const navigate = useNavigate();
-    const {setToken} = useAuth();
+    const {setToken, setUserInfo} = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);  // 로딩 상태 관리
@@ -23,6 +23,7 @@ function Login(){
             // 로그인 성공 시 처리
             if (response.data.data) {
                 const responseData = response.data.data;
+                setUserInfo(responseData);
                 setToken(responseData.token);
 
                 //TODO 메인페이지로 이동
@@ -47,7 +48,7 @@ function Login(){
         <main className="flex-grow flex items-center justify-center mt-40">
             <div className="w-full max-w-md bg-white rounded-lg p-8">
                 <div className="text-center mb-6">
-                    <h2 className="text-4xl font-bold text-orange-500 mb-10">planit</h2>
+                    <h2 className="text-4xl font-bold text-orange mb-10">planit</h2>
                     <h3 className="text-2xl font-bold mb-2">로그인</h3>
                     <p className="text-gray-500 mb-10">로그인 후 플랫폼의 기능을 누려보세요!</p>
                 </div>
