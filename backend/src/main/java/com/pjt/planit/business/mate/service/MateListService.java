@@ -15,8 +15,9 @@ public class MateListService {
 
 	private final MateListMapper mateListMapper;
 
-	@Value("${file.fileDir}")
-	private String fileDir;
+	@Value("${file.readFileDir}")
+	private String readFileDir;
+
 
 	/**
 	 * 메이트 공고리스트 전체 출력
@@ -26,7 +27,7 @@ public class MateListService {
 		MateListDTO mateListDTO = new MateListDTO();
 		List<MateListDTO> list = mateListMapper.getMateList(mateListDTO);
 		for (MateListDTO listDTO : list) {
-			listDTO.setThumbnailImg(fileDir + listDTO.getThumbnailImg());
+			listDTO.setThumbnailImg(readFileDir + listDTO.getThumbnailImg());
 			listDTO.getRegionsList();
 			listDTO.getTripStylesList();
 		}

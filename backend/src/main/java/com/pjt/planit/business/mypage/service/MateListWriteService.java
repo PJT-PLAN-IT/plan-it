@@ -6,6 +6,7 @@ import com.pjt.planit.business.mypage.dto.MateListWriteDto;
 import com.pjt.planit.business.mypage.dto.MateApplyDto;
 import com.pjt.planit.business.mypage.dto.MateApplyUpdateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,9 @@ public class MateListWriteService {
     private final FindMateApplyRepository findMateApplyRepository;
     private final TripMateRepository tripMateRepository;
     private final FindMateRepository findMateRepository;
+
+    @Value("${file.readFileDir}")
+    private String readFileDir;
 
     /**
      * 내가 작성한 메이트글 조회
@@ -85,7 +89,7 @@ public class MateListWriteService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(findMate.getThumbnailImg())
+                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
                     .recruits(findMate.getRecruits())
                     .startDt(tripPlan.getStartDt())
                     .endDt(tripPlan.getEndDt())

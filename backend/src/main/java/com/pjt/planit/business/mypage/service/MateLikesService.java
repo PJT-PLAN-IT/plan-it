@@ -11,6 +11,7 @@ import com.pjt.planit.db.repository.FindMateRepository;
 import com.pjt.planit.db.repository.TripPlanRepository;
 import com.pjt.planit.business.mypage.dto.MateListLikeDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ public class MateLikesService {
     private final TripPlanRepository tripPlanRepository;
     private final FindMateRepository findMateRepository;
     private final CustRepository custRepository;
+
+    @Value("${file.readFileDir}")
+    private String readFileDir;
 
     /**
      * 좋아요한 메이트글 조회
@@ -80,7 +84,7 @@ public class MateLikesService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(findMate.getThumbnailImg())
+                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
                     .startDt(tripPlan.getStartDt())
                     .endDt(tripPlan.getEndDt())
                     .name(cust.getName());
