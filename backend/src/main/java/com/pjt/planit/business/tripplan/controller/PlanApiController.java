@@ -22,11 +22,20 @@ public class PlanApiController {
 
     @PostMapping("/search")
     public ResponseResult<?> getPlaceByAreaCodeAndContentTypeId( @RequestBody BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
+        if(basicInfoDto.getContentTypeId().isEmpty()){
+            basicInfoDto.setContentTypeId(null);
+        }
+        if(basicInfoDto.getAreaCode().isEmpty()){
+            basicInfoDto.setAreaCode(null);
+        }
+        if(basicInfoDto.getKeyword().isEmpty()){
+            basicInfoDto.setKeyword(null);
+        }
          ApiResponseDto<PlaceInfoListDto> result =  planApiService.getPlaceByAreaCodeAndContentTypeId(basicInfoDto);
          return ResponseResult.ofSuccess("success", result);
     }
 
-    @PostMapping("/detail")
+    @GetMapping("/detail")
     public ResponseResult<?> getPlaceDetail(@RequestBody BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
         PlaceInfoListDto result =  planApiService.getPlaceByAreaCodeAndContentTypeIdAndReview(basicInfoDto);
         return ResponseResult.ofSuccess("success", result);

@@ -6,13 +6,15 @@ import MyPage from "../pages/mypage/MyPage.jsx";
 import Applys from "../pages/mypage/Applys.jsx";
 import Likes from "../pages/mypage/Likes.jsx";
 import Write from "../pages/mate/Write.jsx";
-import MateTripPlan from "../pages/tripplan/MakeTripPlan.jsx";
+import MakeTripPlan from "../pages/tripplan/MakeTripPlan.jsx";
 import Detail from "../pages/mate/Detail.jsx";
 import MainPage from "../pages/MainPage.jsx";
 import MyReply from "../pages/mypage/MyReply.jsx";
 import TravelInfo from "../pages/travel/TravelInfo.jsx";
 import TravelDetail from "../pages/travel/TravelDetail.jsx";
 import MyReview from "../pages/mypage/MyReview.jsx";
+import MyTripPlanList from "../pages/tripplan/MyTripPlanList.jsx";
+import MyTripPlanDetail from "../pages/tripplan/MyTripPlanDetail.jsx";
 
 
 function AppRoutes() {
@@ -43,7 +45,10 @@ function AppRoutes() {
       <Route path="/mate" element={<Write />} />
 
       {/*  트립플랜  */}
-      <Route path="/trip-plan" element={<MateTripPlan />} />
+      <Route path="/trip-plan" element={<MakeTripPlan />} />
+      <Route path="/trip-plan/list" element={<MyTripPlanList />} />
+      <Route path="/plan/:tripPlanNo" element={<MyTripPlanDetail />} />
+
 
     </Routes>
   );

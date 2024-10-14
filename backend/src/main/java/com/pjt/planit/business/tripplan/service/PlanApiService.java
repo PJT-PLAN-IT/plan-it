@@ -43,7 +43,7 @@ public class PlanApiService {
             params += "&keyword=" + keyword;
         }
 
-        DataDto<PlaceInfoListDto> response = null;
+        DataDto<PlaceInfoListDto> response = new DataDto<>();
 
         if(basicInfoDto.getKeyword() != null){
             response = webClientHelper.findPlaceByKeyword(params);
