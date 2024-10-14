@@ -45,8 +45,8 @@ function AppRoutes() {
       <Route path="/mate" element={<Write />} />
 
       {/*  트립플랜  */}
-      <Route path="/trip-plan" element={<MakeTripPlan />} />
-      <Route path="/trip-plan/list" element={<MyTripPlanList />} />
+      <Route path="/plan" element={<MakeTripPlan />} />
+      <Route path="/plan/list/:custNo/:year" element={<MyTripPlanList />} />
       <Route path="/plan/:tripPlanNo" element={<MyTripPlanDetail />} />
 
 

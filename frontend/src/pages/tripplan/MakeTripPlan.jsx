@@ -133,7 +133,7 @@ function MakeTripPlan() {
                     seq: index,
                     contentid: data.contentid,
                     contentTypeId: data.contenttypeid,
-                    placeTitle: data.title,
+                    title: data.title,
                     address: data.addr1 + " " + data.addr2,
                     mapx: data.mapx,
                     mapy: data.mapy,

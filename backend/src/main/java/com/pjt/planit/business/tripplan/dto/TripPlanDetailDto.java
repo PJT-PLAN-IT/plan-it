@@ -23,7 +23,7 @@ public class TripPlanDetailDto {
 
     private String contentTypeId;
 
-    private String placeTitle;
+    private String title;
 
     private String address;
 

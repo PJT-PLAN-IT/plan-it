@@ -59,7 +59,7 @@
         WHERE trip_plan_no = #{tripPlanNo};
     </select>
 
-    <select id="getDetailList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="hashmap">
+    <select id="getDetailList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDetailDto">
         SELECT ttd.trip_detail_no AS tripDetailNo
              , ttd.trip_plan_no AS tripPlanNo
              , ttd.plan_dt AS planDt
@@ -82,6 +82,31 @@
         ON ttd.trip_detail_no = tpr.trip_detail_no
         WHERE ttd.trip_plan_no = #{tripPlanNo}
     </select>
+
+    <select id="getDetailList2" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
+        SELECT ttd.trip_detail_no AS tripDetailNo
+             , ttd.trip_plan_no AS tripPlanNo
+             , ttd.plan_dt AS planDt
+             , ttd.seq  AS seq
+             , ttd.contentid AS contentid
+             , ttd.content_type_id AS contentTypeId
+             , ttd.title AS title
+             , ttd.address AS address
+             , ttd.mapx AS mapx
+             , ttd.mapy AS mapy
+             , tpr.place_review_no AS placeReviewNo
+             , tpr.cust_no AS custNo
+             , tpr.star AS star
+             , tpr.review AS review
+             , tpr.review_img1 AS reviewImg1
+             , tpr.review_img2 AS reviewImg2
+             , tpr.review_img3 AS reviewImg3
+        FROM T_TRIP_DETAIL ttd
+        LEFT OUTER JOIN T_PLACE_REVIEW tpr
+        ON ttd.trip_detail_no = tpr.trip_detail_no
+        WHERE ttd.trip_plan_no = #{tripPlanNo}
+    </select>
+
     <select id="getReviewList" parameterType="com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoListDto" resultType="com.pjt.planit.business.tripplan.dto.openapi.PlaceInfoReviewDto">
         SELECT tpr.place_review_no AS placeReviewNo
              , tpr.star AS star
