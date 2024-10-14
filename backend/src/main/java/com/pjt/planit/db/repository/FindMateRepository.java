@@ -2,8 +2,11 @@ package com.pjt.planit.db.repository;
 
 import com.pjt.planit.db.entity.FindMate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FindMateRepository extends JpaRepository<FindMate, Integer> {
@@ -17,5 +20,7 @@ public interface FindMateRepository extends JpaRepository<FindMate, Integer> {
     FindMate findByTitle(String title);
 
 	void deleteByFindMateNo(int findMateNo);
+
+    List<FindMate> findAllByOrderByCreateDtDesc();
 
 }
