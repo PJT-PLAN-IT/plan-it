@@ -1,10 +1,55 @@
-import RegionSel from "../../components/mate/RegionSel.jsx";
 import {useEffect, useState} from "react";
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import SearchBox from "../../components/travel/SearchBox.jsx";
 import Page from "../../components/travel/Page.jsx";
 import Card from "../../components/travel/Card.jsx";
 import TripCategory from "../../components/travel/TripCategory.jsx";
+
+
+const Regions = [
+    { value: "#전체", key: 0 },
+    { value: "#서울", key: 1 },
+    { value: "#부산", key: 6 },
+    { value: "#대구", key: 4 },
+    { value: "#인천", key: 2 },
+    { value: "#광주", key: 5 },
+    { value: "#대전", key: 3 },
+    { value: "#울산", key: 7 },
+    { value: "#세종", key: 8 },
+    { value: "#경기", key: 31 },
+    { value: "#강원", key: 32 },
+    { value: "#충북", key: 33 },
+    { value: "#충남", key: 34 },
+    { value: "#경북", key: 35 },
+    { value: "#경남", key: 36 },
+    { value: "#전북", key: 37 },
+    { value: "#전남", key: 38 },
+    { value: "#제주", key: 39 },
+];
+
+const Region = ({ formData, regBtnClick }) => {
+    return (
+        <div className="border-t-2">
+            <div className="py-[10px] px-[30px] my-[9px]">
+                <h1 className="TitleLabel">지역:</h1>
+                {Regions.map((region) => (
+                    <button
+                        type="button"
+                        key={region.key}
+                        onClick={() => regBtnClick(region.key)}
+                        className={`button ${
+                            formData.regButtonStates[region.key] ? "on" : ""
+                        }`}
+                    >
+                        {region.value}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export {Region};
 
 function TravelInfo() {
     const initData = {
@@ -155,7 +200,7 @@ function TravelInfo() {
             {/* 카테고리 탭 */}
             <div className="text-center mb-6 mt-10">
                 <h2 className="text-3xl font-bold mb-4">여행정보</h2>
-                <RegionSel formData={formData} regBtnClick={regBtnClick}></RegionSel>
+                <Region formData={formData} regBtnClick={regBtnClick}></Region>
                 <TripCategory category={category} onChangeCategory={handleCategory}></TripCategory>
             </div>
             {/*검색어*/}

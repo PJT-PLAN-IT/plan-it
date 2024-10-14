@@ -3,8 +3,7 @@ function MyCard({item, component}) {
     return (
 
         <div className="bg-white rounded-lg shadow-md">
-            <img src="https://via.placeholder.com/300x200" alt="이미지"
-                 className="w-full h-40 object-cover"/>
+            <img src={item.thumbnailImg} alt="이미지" className="w-full h-40 object-cover"/>
             <div className="p-4">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
