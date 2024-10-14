@@ -36,7 +36,7 @@ public class FindMateReply extends BaseEntity {
     @NotNull
     @Column(name = "reply")
     private String reply;
-
+    
     @NotNull
     @Column(name = "public_yn")
     private String publicYn;

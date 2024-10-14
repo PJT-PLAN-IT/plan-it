@@ -5,12 +5,14 @@ import Calender from "../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../components/mate/AgeAndGender";
 import { ThumbSelect } from "../components/mate/PopUps";
 import { RegBtnBg, CancelBtnBg } from "../components/mate/Buttons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { btnVal } from "./validCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function SubmitForm() {
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
@@ -57,8 +59,38 @@ function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
+    tripPlanList: [],
+    tripPlanDetailList: [],
   });
+
   const navigate = useNavigate();
+
+  const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+  useEffect(() => {
+    axios
+      .get(`/api/mate/tripPlans?custNo=${custNo}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const tripPlanList = response.data.tripPlanList || [];
+        const tripPlanDetailList = response.data.tripPlanDetailList || [];
+
+        if (tripPlanList.length > 0) {
+          const tripPlan = tripPlanList[0];
+
+          console.log("Fetched Trip Plan:", tripPlan);
+          console.log("Fetched Trip Plan Details:", tripPlanDetailList);
+        }
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching trip plans:",
+          error.response ? error.response.data : error.message
+        );
+      });
+  }, []);
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -181,6 +213,8 @@ function SubmitForm() {
       .post("/api/mate", finalFormData, {
         headers: {
           "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJ5ZSIsImlhdCI6MTcyODgyNTY4OCwiZXhwIjoxNzI4ODI5Mjg4fQ.LXDaXlJzlInhm5TrYxo_ZjgwI1ZImggKJmb4h0KVdIg",
         },
       })
       .then((response) => {

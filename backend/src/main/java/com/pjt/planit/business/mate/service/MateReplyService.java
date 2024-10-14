@@ -17,16 +17,18 @@ public class MateReplyService {
 		this.replyRepository = replyRepository;
 	}
 
-	public void submitReply(MateReplyDTO replyDTO) {
+	public int submitReply(MateReplyDTO replyDTO) {
 
 		FindMateReply findMateReply = new FindMateReply();
 		findMateReply.setFindMateNo(replyDTO.getFindMateNo());
-//		findMateReply.setUpperFindMateReplyNo(replyDTO.getUpperFindMateReplyNo());
 		findMateReply.setCustNo(replyDTO.getCustNo());
 		findMateReply.setReply(replyDTO.getReply());
 		findMateReply.setPublicYn(replyDTO.getPublicYn());
 		findMateReply.setSeq(replyDTO.getSeq());
+//		findMateReply.setCreateBy(replyDTO.getCreateBy());
 		replyRepository.save(findMateReply);
+		int replyNo = findMateReply.getFindMateReplyNo();
+		return replyNo;
 	}
 
 	public void editReply(MateReplyDTO replyDTO) {
@@ -38,11 +40,10 @@ public class MateReplyService {
 		replyRepository.save(findMateReply);
 	}
 
-	public void deleteReply(MateReplyDTO dto) {
-		FindMateReply reply = replyRepository.findByFindMateReplyNo(dto.getFindMateReplyNo());
-		if (reply.getCustNo() == dto.getCustNo()) {
-			replyRepository.deleteById(dto.getFindMateReplyNo());
-		}
+	public void deleteReply(int findMateReplyNo) {
+	
+			replyRepository.deleteById(findMateReplyNo);
+		
 	}
 
 	public List<FindMateReply> getRepliesByFindMateNo(int findMateNo) {

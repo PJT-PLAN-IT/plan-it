@@ -2,7 +2,6 @@ import "../../App.css";
 import "../../assets/css/Write.css";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -10,28 +9,33 @@ import { Regions } from "../../data/regions";
 import { TripStyles } from "../../data/tripStyle";
 import { genderInfo } from "../../data/gender";
 import { MyTripPlans, MyTripMap } from "../../components/mate/MyTrip";
-import { MateReqBtn, MateCnlBtn } from "../../components/mate/Buttons";
-// import { CommentForm, ShowComment } from "../../components/mate/Comments";
+import { useAuth } from "../../context/AuthContext";
 import CommentSection from "../../components/mate/DetailComment";
-import { useAxiosInstance } from "../../utils/axiosConfig";
+import axios from "axios";
+import { MateApplyBtn } from "../../hooks/MateApplyBtn";
 
 export default function Detail() {
+  const { token } = useAuth();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const findMateNo = queryParams.get("findMateNo");
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const axiosInstance = useAxiosInstance();
+  // const userInfo = JSON.parse(localStorage.getItem("userInfo")).nickname;
+  const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
   useEffect(() => {
-    console.log("Fetching data for findMateNo:", findMateNo);
     if (findMateNo) {
-      axiosInstance
-        .get(`/api/planit/mates/details?findMateNo=${findMateNo}`)
+      axios
+        .get(`/api/planit/mates/details?findMateNo=${findMateNo}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
-          // console.log("Detail Response:", JSON.stringify(response.data));
           const { tripPlanList, tripPlanDetailList, mateReplyList } =
             response.data.data;
+
           setFormDetails({
             data: {
               ...response.data.data,
@@ -75,15 +79,20 @@ export default function Detail() {
     {}
   );
 
+  console.log(JSON.stringify(formDetails.data));
   return (
     <div className="mx-[300px]">
       <div>
         {formDetails.data ? (
           <div className="p-[30px] h-[400px]  relative">
-            <div className=" justify-around flex w-[5%] absolute top-4 right-6 text-xs underline">
-              <button onClick={editDetail}>수정</button>
-              <button>삭제</button>
-            </div>
+            {userNo == formDetails.data.cust ? (
+              <div className=" justify-around flex w-[5%] absolute top-4 right-6 text-xs underline">
+                <button onClick={editDetail}>수정</button>
+                <button>삭제</button>
+              </div>
+            ) : (
+              ""
+            )}
             <div>
               <div className="">
                 <div className="flex justify-between mt-5">
@@ -94,8 +103,9 @@ export default function Detail() {
                     <p className="text-xs font-semibold">
                       {formDetails.data.custName}님
                     </p>
+                    <a></a>
                     <div className="flex gap-2 text-xs font-light">
-                      <p>{formDetails.data.findMateCreateDate.slice(0, 10)}</p>
+                      <p>{formDetails.data.findMateCreateDate}</p>
                     </div>
                   </div>
                 </div>
@@ -170,38 +180,14 @@ export default function Detail() {
                         {heart}
                       </span>
                     </div>
-                    <button
-                      className="button border border-orange text-sm "
-                      onClick={() => {
-                        setOpen(!open);
-                      }}
-                    >
-                      참여자 보기
-                    </button>
-                  </div>
-
-                  <div
-                    className={` w-[300px] relative z-50 left-2/4 top-[50%] -translate-x-2/4 -translate-y-2/4 bg-white border-2 DropDownMenu ${
-                      open ? "active" : "inactive"
-                    }`}
-                  >
-                    <h3 className="border-b-2 text-center p-2">
-                      현재 참여자 수는 <b>{formDetails.data.mateNum}</b>명 중
-                      <b>2</b>명 입니다
-                    </h3>
-                    <div className="p-2">
-                      <p className="text-sm">지우지우님</p>
-                      <p className="text-sm">초코우유님</p>
-                      <p className="text-sm">소원님</p>
-                    </div>
-                    <div className="flex items-center justify-center mb-5">
-                      <button className="button on">참여하기</button>
-                      <button className="button gen">닫기</button>
-                    </div>
+                    <CheckTripMate
+                      tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
+                      formDetails={formDetails}
+                    />
                   </div>
                 </div>
               </div>
-              {formDetails.data.tripPlanList.title != null ? (
+              {formDetails.data.tripPlan != null ? (
                 <>
                   <div className="flex flex-col pt-10">
                     <div className="font-semibold p-[30px] mb-10 border-t-2">
@@ -222,9 +208,8 @@ export default function Detail() {
                             day {index + 1}
                           </h2>
 
-                          {/* Sort each group by seq and display the details */}
                           {groupedByDate[date]
-                            .sort((a, b) => a.seq - b.seq) // Sort by sequence within each date group
+                            .sort((a, b) => a.seq - b.seq)
                             .map((detail) => (
                               <div key={detail.tripDetailNo}>
                                 <div className="flex-3 mt-3.5 font-bold text-xl">
@@ -248,29 +233,16 @@ export default function Detail() {
               ) : (
                 ""
               )}
+
               <div className="flex justify-center align-middle gap-10 my-[70px]">
-                <MateReqBtn />
-                <MateCnlBtn />
+                <MateApplyBtn
+                  findMateNo={findMateNo}
+                  startDate={formDetails.data.startDate}
+                  expiredDate={formDetails.data.endDate}
+                  tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
+                />
               </div>
-
-              {/* <CommentForm /> */}
               <CommentSection findMateNo={findMateNo} />
-              {/* <div className="my-20">
-                <h1 className="border-b-2 p-2">
-                  댓글 <b>{formDetails.data.mateReplyList.length}</b>
-                </h1>
-
-                {formDetails.data.mateReplyList.map((reply) => {
-                  return (
-                    <ShowComment
-                      key={reply.find_mate_reply_no}
-                      name={reply.cust_no}
-                      reply={reply.reply}
-                      date={reply.date}
-                    />
-                  );
-                })}
-              </div> */}
             </div>
           </div>
         ) : (
@@ -280,3 +252,83 @@ export default function Detail() {
     </div>
   );
 }
+
+const CheckTripMate = ({ tripPlanNo, formDetails }) => {
+  const [open, setOpen] = useState(false);
+  const [participants, setParticipants] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { token } = useAuth();
+  console.log(tripPlanNo);
+  const fetchParticipants = async () => {
+    try {
+      console.log("making tripmate request");
+      setLoading(true);
+      const response = await axios.get(
+        `/api/mate/participate/getMateNum?tripPlanNo=${tripPlanNo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setParticipants(response.data);
+    } catch (error) {
+      console.error("Error fetching participants:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenClick = () => {
+    setOpen(!open);
+    if (!open) {
+      fetchParticipants();
+    }
+  };
+
+  return (
+    <div>
+      <button
+        className="button border border-orange text-sm"
+        onClick={handleOpenClick}
+      >
+        참여자 보기
+      </button>
+      {open && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={() => setOpen(false)} // Clicking on overlay closes the popup
+        ></div>
+      )}
+      <div
+        className={`popup z-50 bg-white border-2 DropDownMenu ${
+          open ? "block" : "hidden"
+        }`}
+      >
+        <h3 className="border-b-2 text-center p-2">
+          현재 참여자 수는 <b>{formDetails.data.mateNum}</b>명 중
+          <b>{participants.length}</b>명 입니다
+        </h3>
+
+        <div className="p-2">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            participants.map((participant, index) => (
+              <p className="text-sm" key={index}>
+                {participant.name}
+              </p>
+            ))
+          )}
+        </div>
+
+        <div className="flex items-center justify-center mb-5">
+          <button className="button gen" onClick={() => setOpen(false)}>
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

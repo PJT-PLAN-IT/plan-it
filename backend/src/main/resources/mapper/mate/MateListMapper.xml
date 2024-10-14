@@ -8,17 +8,20 @@
 
 		SELECT
 		fm.find_mate_no AS findMateNo,
-		fm.trip_plan_no AS tripPlanNo,
+		fm.trip_plan_no AS
+		tripPlanNo,
 		fm.title
 		as title,
 		fm.start_dt AS startDate,
-		fm.end_dt AS endDate,
+		fm.end_dt AS
+		endDate,
 		fm.thumbnail_img AS thumbnailImg,
 		fm.gender_type AS gender,
 		fm.recruits
 		AS recruits,
 		fm.twenty_yn AS twentyYN,
-		fm.thirty_yn AS thirtyYN,
+		fm.thirty_yn AS
+		thirtyYN,
 		fm.forty_yn AS fortyYN,
 		fm.fifty_yn AS
 		fiftyYN,
@@ -59,6 +62,15 @@
 		fm.find_mate_no;
 
 	</select>
+
+	<select id="getCustDetailsByTripPlanNo" parameterType="Integer"
+		resultType="com.pjt.planit.business.mate.dto.TripMateNumDTO">
+		SELECT tm.trip_plan_no AS tripPlanNo, c.name
+		FROM T_TRIP_MATE tm
+		JOIN T_CUST c ON tm.cust_no = c.cust_no
+		WHERE tm.trip_plan_no = #{tripPlanNo}
+	</select>
+
 
 
 </mapper>

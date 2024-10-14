@@ -18,7 +18,9 @@ public class RequestMatcherHolder {
             "mate/**",
             "/planit/mates/details",
             "api/images/upload",
-            "api/mate/reply/**"
+            "api/mate/reply/**",
+            "api/mate/participate/**",
+            "api/mate/tripPlans"
     );
 
 }

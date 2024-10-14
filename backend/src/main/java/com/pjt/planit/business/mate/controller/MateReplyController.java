@@ -41,9 +41,9 @@ public class MateReplyController {
 	 **/
 	@PostMapping
 	public ApiResponse submitReply(@RequestBody MateReplyDTO replyDTO) {
-
-		mateReplyService.submitReply(replyDTO);
-		return ApiResponse.ok("submit reply");
+		System.out.println(replyDTO);
+		int replyNo = mateReplyService.submitReply(replyDTO);
+		return ApiResponse.ok("submit reply", replyNo);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class MateReplyController {
 	 **/
 	@PutMapping
 	public ApiResponse editReply(@RequestBody MateReplyDTO replyDTO) {
-
+		System.out.println(replyDTO);
 		mateReplyService.editReply(replyDTO);
 		return ApiResponse.ok("edit reply");
 	}
@@ -60,8 +60,8 @@ public class MateReplyController {
 	 * 공고 댓글 삭제
 	 **/
 	@DeleteMapping
-	public ApiResponse deleteReply(@RequestBody MateReplyDTO dto) {
-		mateReplyService.deleteReply(dto);
+	public ApiResponse deleteReply(@RequestParam("findMateReplyNo") int findMateReplyNo) {
+		mateReplyService.deleteReply(findMateReplyNo);
 		return ApiResponse.ok("comment deleted");
 	}
 

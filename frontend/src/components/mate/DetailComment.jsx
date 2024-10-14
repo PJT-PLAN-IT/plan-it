@@ -2,24 +2,30 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 
-export const CommentForm = ({ addNewComment }) => {
-  const [comment, setComment] = useState(""); // State to hold the comment input
+const userName = JSON.parse(localStorage.getItem("userInfo")).nickname;
+const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+console.log(userNo);
+export const CommentForm = ({ addNewComment, findMateNo }) => {
   const { token } = useAuth();
+  const [comment, setComment] = useState(""); // State to hold the comment input
 
   const handleChange = (e) => {
     setComment(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleSubmit = async (e) => {
+    console.log(comment);
     e.preventDefault();
 
     const formData = {
-      findMateNo: 43,
+      find_mate_no: findMateNo,
       reply: comment,
-      publicYn: "Y",
-      custNo: 2,
+      public_yn: "Y",
       seq: 1,
-      createDt: new Date(),
+      cust_no: userNo,
+      create_dt: new Date().toISOString(),
+      create_by: "swon",
     };
 
     try {
@@ -29,18 +35,30 @@ export const CommentForm = ({ addNewComment }) => {
           "Content-Type": "application/json", // Set the content type to JSON
         },
       });
-      console.log(response.data);
-      addNewComment(response.data); // Add the new comment to the comment list
-      setComment(""); // Clear the textarea after submission
+
+      console.log("Response from API after posting comment:", response.data);
+
+      if (response.status === 200 && response.data) {
+        const newComment = {
+          ...formData,
+          find_mate_reply_no: response.data,
+        };
+        addNewComment(newComment); // Add the new comment to the comment list
+        setComment(""); // Clear the textarea after submission
+        console.log("comment successfully logged");
+        console.log(comment);
+      } else {
+        console.error("Failed to add the comment");
+      }
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
   };
-  console.log(comment.data);
+
   return (
     <div className="border-2 py-2 my-20 flex-col relative">
       <div className="w-[100%] h-[30%] mb-5 pb-5">
-        <p className="pl-2 pb-1 border-b text-lg font-semibold">윤님</p>
+        <p className="pl-2 pb-1 border-b text-lg font-semibold">{userName}님</p>
         <form onSubmit={handleSubmit}>
           <textarea
             className="w-[100%] min-h-[120px] p-2 focus:outline-none"
@@ -62,57 +80,57 @@ export const CommentForm = ({ addNewComment }) => {
 };
 
 const CommentSection = ({ findMateNo }) => {
+  const { token } = useAuth();
   const [comments, setComments] = useState([]); // State to store all comments
+  const [loading, setLoading] = useState(true);
   // console.log(findMateNo);
   // Function to fetch comments when the component mounts
   useEffect(() => {
     const fetchComments = async () => {
       if (findMateNo) {
+        setLoading(true);
         axios
-          .get(`/api/mate/reply?findMateNo=${findMateNo}`)
+          .get(`/api/mate/reply?findMateNo=${findMateNo}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          })
           .then((response) => {
-            console.log("reply response", JSON.stringify(response.data));
-            setComments(response.data); // Assuming the response contains an array of comments
+            console.log("API response:", response.data);
+            setComments(response.data.data); // Set the data to the state
+            setLoading(false); // Turn off loading after data is fetched
           })
           .catch((error) => {
             console.error(error);
+            setLoading(false);
           });
-        // try {
-        //   const response = await axios.get(
-        //     `api/mate/reply?findMateNo=${findMateNo}`
-        //   );
-        //   console.log("response: ", response.data);
-        // } catch (error) {
-        //   console.error("Error fetching comments:", error);
-        // }
       }
     };
-
     fetchComments(); // Fetch comments on component mount
   }, [findMateNo]); // Dependency array to run this effect when `findMateNo` changes
 
-  // Function to add a new comment to the comments list
-  const addNewComment = (newComment) => {
-    setComments((prevComments) => [...prevComments, newComment]);
-  };
-
   // Function to update an existing comment
   const editComment = async (updatedComment) => {
+    // console.log("updatedComment (before stringifying):", updatedComment);
+    // console.log("JSON version:", JSON.stringify(updatedComment));
     try {
-      const response = await axios.put(
-        `/mate/reply/${updatedComment.find_mate_reply_no}`,
-        updatedComment,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.put("/api/mate/reply", updatedComment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const updatedCommentData = {
+        ...updatedComment,
+        findMateReplyNo: response.data.data || updatedComment.findMateReplyNo,
+      };
 
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.find_mate_reply_no === updatedComment.find_mate_reply_no
-            ? response.data
+            ? updatedCommentData
             : comment
         )
       );
@@ -122,88 +140,134 @@ const CommentSection = ({ findMateNo }) => {
   };
 
   // Function to delete a comment
-  const deleteComment = async (commentId) => {
+  const deleteComment = async (deletedCommentId) => {
     try {
-      await axios.delete(`/mate/reply/${commentId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.delete(
+        `/api/mate/reply?findMateReplyNo=${deletedCommentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      // Remove the comment from the state
       setComments((prevComments) =>
         prevComments.filter(
-          (comment) => comment.find_mate_reply_no !== commentId
+          (comment) => comment.find_mate_reply_no !== deletedCommentId
         )
       );
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
   };
+  // Function to add a new comment to the comments list
+  const addNewComment = (newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]);
+  };
 
   return (
     <div>
-      {/* Comment Form for Adding New Comment */}
-      <CommentForm addNewComment={addNewComment} />
-
-      {/* Show all comments */}
-      <div className="my-20">
-        <h1 className="border-b-2 p-2">
-          댓글 <b>{comments.length}</b>
-        </h1>
-        {Array.isArray(comments) && comments.length > 0 ? (
-          comments.map((comment) => (
-            <ShowComment
-              key={comment.find_mate_reply_no}
-              name={comment.cust_no}
-              reply={comment.reply}
-              date={comment.date}
-            />
-          ))
-        ) : (
-          <p>No comments available.</p>
-        )}
-      </div>
+      <CommentForm addNewComment={addNewComment} findMateNo={findMateNo} />
+      <h1 className="border-b-2 p-2">
+        댓글 <b>{comments.length}</b>
+      </h1>
+      {loading ? ( // Show loading message while data is being fetched
+        <p>Loading comments...</p>
+      ) : comments.length > 0 ? ( // Render comments once available
+        comments.map((comment) => (
+          <ShowComment
+            key={comment.find_mate_reply_no}
+            comment={comment}
+            editComment={editComment}
+            deleteComment={deleteComment} // Pass deleteComment to ShowComment
+          />
+        ))
+      ) : (
+        <p>No comments available.</p>
+      )}
     </div>
   );
 };
-export const ShowComment = ({
-  name,
-  reply,
-  date,
-  editComment,
-  deleteComment,
-}) => {
-  // Handle comment editing (logic can be expanded as per your requirements)
-  const handleEdit = () => {
+
+export const ShowComment = ({ comment, editComment, deleteComment }) => {
+  const [isEditing, setIsEditing] = useState(false); // Track if comment is being edited
+  const [updatedReply, setUpdatedReply] = useState(comment.reply); // Store the updated text
+
+  // Handle edit form submission
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+
     const updatedComment = {
-      find_mate_reply_no: 1, // Replace with real comment ID
-      reply: "Updated comment text", // Replace with actual edited text
-      cust_no: name,
-      date: new Date().toISOString().slice(0, 10),
+      ...comment, // Keep existing fields like IDs
+      reply: updatedReply, // Update the reply with new content
     };
+
+    // Call the parent function to update the comment in the backend
     editComment(updatedComment);
+
+    // After submitting the edited comment, exit edit mode
+    setIsEditing(false);
   };
 
-  // Handle comment deletion
+  // Handle delete button click
   const handleDelete = () => {
-    deleteComment(1); // Replace with the actual comment ID
+    const deletedComment = comment.find_mate_reply_no;
+    console.log(deletedComment);
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      deleteComment(deletedComment); // Call the parent function to delete the comment
+    }
   };
 
   return (
-    <div className="p-2 py-[40px] border-b-2">
-      <div className="relative ">
-        <p className="font-semibold pt-1">{name}</p>
-        <div className="flex justify-around w-[5%] absolute top-4 right-6 text-xs underline">
-          <button onClick={handleEdit}>수정</button>
-          <button onClick={handleDelete}>삭제</button>
+    <div className="p-2 py-[40px] border-b-2 relative">
+      <div>
+        <p className="font-semibold mb-2"> {comment.create_by}</p>
+        <div className="flex justify-around w-[10%] absolute top-4 right-6 text-xs underline">
+          {userNo == comment.cust_no ? (
+            <>
+              <button onClick={() => setIsEditing(true)}>수정</button>
+              <button onClick={handleDelete} style={{ color: "red" }}>
+                삭제
+              </button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      <h3 className="py-5">{reply}</h3>
+
+      {isEditing ? (
+        <form onSubmit={handleEditSubmit}>
+          <textarea
+            className="w-[100%] p-2"
+            autoFocus
+            value={updatedReply}
+            onChange={(e) => setUpdatedReply(e.target.value)}
+            required
+          />
+          <div className="absolute right-2 bottom-2">
+            <button className="button" type="submit">
+              저장
+            </button>
+            <button
+              className="button"
+              type="button"
+              onClick={() => setIsEditing(false)}
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      ) : (
+        <h3 className="py-5">{comment.reply}</h3>
+      )}
+
       <div>
-        <div className="flex justify-between ">
-          <span className="font-light">{date}</span>
-          <a className="underline font-medium">답글</a>
-        </div>
+        <span className="font-light">
+          {new Date(comment.create_dt).toLocaleDateString()}
+        </span>
       </div>
     </div>
   );
