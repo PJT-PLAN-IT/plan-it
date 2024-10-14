@@ -6,6 +6,7 @@ import com.pjt.planit.business.mypage.dto.TripMateSecessionDto;
 import com.pjt.planit.db.entity.*;
 import com.pjt.planit.db.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ public class MateApplyService {
     private final CustRepository custRepository;
     private final TripPlanRepository tripPlanRepository;
     private final TripMateRepository tripMateRepository;
+
+    @Value("${file.readFileDir}")
+    private String readFileDir;
 
     /**
      * 내가 신청한 메이트글 조회
@@ -87,7 +91,7 @@ public class MateApplyService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(findMate.getThumbnailImg())
+                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
                     .allowYn(allowYn)
                     .tripPlanNo(tripPlan.getTripPlanNo())
                     .startDt(tripPlan.getStartDt())
