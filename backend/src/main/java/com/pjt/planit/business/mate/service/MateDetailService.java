@@ -47,14 +47,15 @@ public class MateDetailService {
 
 	public MateDetailDTO getDetail(int findMateNo) {
 
-		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
-		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
-		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
-		detailDTO.setRegions(regions);
-		detailDTO.setTripStyles(styles);
+		MateDetailDTO detailDTO = new MateDetailDTO();
+		detailDTO.setFindMateNo(findMateNo);
+		detailDTO = detailMapper.getDetail(detailDTO);
+		detailDTO.getRegionsList();
+		detailDTO.getTripStylesList();
 
-		if (detailDTO.getTripPlanNo() != null) {
-			int tripPlanNo = detailDTO.getTripPlanNo();
+		Integer tripPlanNo = detailDTO.getTripPlanNo();
+		if (tripPlanNo != null) {
+
 			TripPlanDto tripPlanDto = new TripPlanDto();
 			tripPlanDto.setTripPlanNo(tripPlanNo);
 			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
@@ -62,7 +63,9 @@ public class MateDetailService {
 			detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
 		}
 
-	return detailDTO;
+		detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));
+		return detailDTO;
+
 
 	}
 
@@ -79,7 +82,7 @@ public class MateDetailService {
 	public void updateRegions(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newRegions = detailDTO.getRegions();
+		List<Integer> newRegions = detailDTO.getRegionsList();
 		List<FindMateRegion> oldRegions = regionRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldRegionContentId = oldRegions.stream().map(FindMateRegion::getContentTypeId)
@@ -107,7 +110,7 @@ public class MateDetailService {
 	public void updateStyles(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newStyles = detailDTO.getTripStyles();
+		List<Integer> newStyles = detailDTO.getTripStylesList();
 		List<FindMateStyle> oldStyles = styleRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldStyleContentId = oldStyles.stream().map(FindMateStyle::getTripStyleId)

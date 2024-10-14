@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.pjt.planit.business.mate.mapper.MateDetailMapper">
-	<select id="getDetail" parameterType="int"
+	<select id="getDetail"
+		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO"
 		resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
 		SELECT
 		fm.find_mate_no AS findMateNo,
