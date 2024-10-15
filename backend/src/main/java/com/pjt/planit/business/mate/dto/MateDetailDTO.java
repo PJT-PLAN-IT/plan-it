@@ -59,7 +59,7 @@ public class MateDetailDTO {
     private String fiftyYN;
     private String thumbnailImg;
     private List<TripPlanDto> tripPlanList = new ArrayList<>();
-	private List<TripPlanDetailDto> tripPlanDetailList = new ArrayList<>();
+	private List<MateDetailDTO> tripPlanDetailList = new ArrayList<>();
 	private List<FindMateReply> mateReplyList = new ArrayList<>();
 	private Integer findMateAppNo;
 	private String appAllowYn;
