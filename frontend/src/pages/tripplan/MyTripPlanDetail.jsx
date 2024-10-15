@@ -148,7 +148,7 @@ function MyTripPlanDetail() {
                         {resultList.title}
                     </h1>
                     <h1 className={`ml-10 text-sm`}>
-                        {/*{resultList.data.startDt.split("T")[0]} ~ {resultList.data.endDt.split("T")[0]}*/}
+                        {resultList.startDt.split("T")[0]} ~ {resultList.endDt.split("T")[0]}
                     </h1>
                 </div>
                 {isBefore === false && (
