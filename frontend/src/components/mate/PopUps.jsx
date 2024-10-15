@@ -38,7 +38,6 @@ const ThumbSelect = ({ thumbSelChange }) => {
     { img: "https://imgur.com/H4Y6H6u.jpg", key: "img3" },
     { img: "https://imgur.com/j98DCIf.jpg", key: "img4" },
     { img: "https://imgur.com/sFynFpK.jpg", key: "img5" },
-    { img: "https://imgur.com/cyL7WCh.jpg", key: "img6" },
   ];
 
   const imageClick = (e) => {
@@ -97,7 +96,7 @@ const ThumbSelect = ({ thumbSelChange }) => {
             </div>
           ))}
         </div>
-        <div className="flex h-9 items-center mt-10">
+        {/* <div className="flex h-9 items-center mt-10">
           <h1 className="text-lg font-medium my-5  px-16 py-2 ">
             {camera} 직접 썸네일 올리기:
           </h1>
@@ -115,7 +114,7 @@ const ThumbSelect = ({ thumbSelChange }) => {
           onClick={submitImage}
         >
           저장하기
-        </button>
+        </button> */}
       </div>
     </div>
   );

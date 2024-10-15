@@ -6,33 +6,28 @@
 		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO"
 		resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
 		SELECT
-		fm.find_mate_no AS findMateNo,
-		c.cust_no AS CustNo,
-		c.name AS custName,
-		fm.create_by AS findMateCreateBy,
-		fm.trip_plan_no AS
-		tripPlanNo,
-		fm.title AS title,
-		fm.start_dt AS startDate,
-		fm.end_dt AS
-		endDate,
-		fm.update_dt AS updateDate,
-		fm.create_dt AS findMateCreateDate,
-		fm.recruits AS mateNum,
-		fm.content as content,
-		fm.gender_type AS gender,
-		fm.twenty_yn AS twentyYN,
-		fm.thirty_yn AS thirtyYN,
-		fm.forty_yn AS
-		fortyYN,
-		fm.fifty_yn AS
-		fiftyYN,
-		tp.thumbnail_img AS thumbnail_img,
-		fa.find_mate_apply_no AS
-		findMateAppNo,
-		fa.allow_yn AS appAllowYn,
-		fa.expired_dt AS expiredDt,
-		fl.find_mate_like_no AS findMateLikeNo
+			fm.find_mate_no AS findMateNo,
+			c.cust_no AS CustNo,
+			c.name AS custName,
+			fm.create_by AS findMateCreateBy,
+			fm.trip_plan_no AS tripPlanNo,
+			fm.title AS title,
+			fm.start_dt AS startDate,
+			fm.end_dt AS endDate,
+			fm.update_dt AS updateDate,
+			fm.create_dt AS findMateCreateDate,
+			fm.recruits AS mateNum,
+			fm.content as content,
+			fm.gender_type AS gender,
+			fm.twenty_yn AS twentyYN,
+			fm.thirty_yn AS thirtyYN,
+			fm.forty_yn AS fortyYN,
+			fm.fifty_yn AS fiftyYN,
+			tp.thumbnail_img AS thumbnail_img,
+			fa.find_mate_apply_no AS findMateAppNo,
+			fa.allow_yn AS appAllowYn,
+			fa.expired_dt AS expiredDt,
+			fl.find_mate_like_no AS findMateLikeNo
 		FROM
 		T_FIND_MATE fm
 		LEFT JOIN
@@ -51,8 +46,6 @@
 		fm.find_mate_no = #{findMateNo}
 		GROUP BY
 		fm.find_mate_no;
-
-
 	</select>
 
 

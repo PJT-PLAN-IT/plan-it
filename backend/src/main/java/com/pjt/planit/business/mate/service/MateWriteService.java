@@ -37,6 +37,7 @@ public class MateWriteService {
 		findMate.setThirtyYn(writeDTO.getThirtyYN());
 		findMate.setFortyYn(writeDTO.getFortyYN());
 		findMate.setFiftyYn(writeDTO.getFiftyYN());
+		findMate.setTripPlanNo(writeDTO.getTripPlanNo());
 		findMateRepository.save(findMate);
 
 		for (Integer regionId : writeDTO.getRegions()) {

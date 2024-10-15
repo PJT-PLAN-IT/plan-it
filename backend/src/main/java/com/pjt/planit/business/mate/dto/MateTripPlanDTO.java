@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MateTripPlanDTO {
-	private String custName;
-	private List<TripPlanDto> tripPlanList = new ArrayList<>();
-	private List<TripPlanDetailDto> tripPlanDetailList = new ArrayList<>();
+	private int tripPlanNo;
+	private String title;
 }

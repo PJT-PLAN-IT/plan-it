@@ -10,9 +10,11 @@ import { btnVal } from "./validCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
+import TripDetails from "../components/mate/TripDetails";
 function SubmitForm() {
   const { token } = useAuth();
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
@@ -59,38 +61,130 @@ function SubmitForm() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
+    selectedTrip: null,
     tripPlanList: [],
     tripPlanDetailList: [],
   });
 
-  const navigate = useNavigate();
-
   const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+
   useEffect(() => {
-    axios
-      .get(`/api/mate/tripPlans?custNo=${custNo}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        const tripPlanList = response.data.tripPlanList || [];
-        const tripPlanDetailList = response.data.tripPlanDetailList || [];
+    const fetchTripPlans = async () => {
+      try {
+        const response = await axios.get(
+          `/api/mate/tripplans?custNo=${custNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        if (tripPlanList.length > 0) {
-          const tripPlan = tripPlanList[0];
+        const extractedTripPlans = response.data.data
+          .filter((tripPlan) => tripPlan.public_yn === "Y")
+          .map((tripPlan) => ({
+            tripPlanNo: tripPlan.trip_plan_no,
+            title: tripPlan.title,
+            startDt: tripPlan.start_dt,
+            endDt: tripPlan.end_dt,
+          }));
 
-          console.log("Fetched Trip Plan:", tripPlan);
-          console.log("Fetched Trip Plan Details:", tripPlanDetailList);
-        }
-      })
-      .catch((error) => {
+        setFormData((prevData) => ({
+          ...prevData,
+          tripPlanList: extractedTripPlans,
+        }));
+
+        console.log("Fetched Trip Plans: ", extractedTripPlans);
+      } catch (error) {
         console.error(
           "Error fetching trip plans:",
           error.response ? error.response.data : error.message
         );
-      });
-  }, []);
+      }
+    };
+
+    // Fetch trip plans only once when component is mounted
+    fetchTripPlans();
+
+    // The empty array ensures this only runs once
+  }, [custNo, token]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`/api/mate/tripplans?custNo=${custNo}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       const extractedTripPlans = response.data.data
+  //         .filter((tripPlan) => tripPlan.public_yn === "Y")
+  //         .map((tripPlan) => ({
+  //           tripPlanNo: tripPlan.trip_plan_no,
+  //           title: tripPlan.title,
+  //           startDt: tripPlan.start_dt,
+  //           endDt: tripPlan.end_dt,
+  //         }));
+
+  //       setFormData((prevData) => ({
+  //         ...prevData,
+  //         tripPlanList: extractedTripPlans,
+  //       }));
+  //     })
+  //     .catch((error) => {
+  //       console.error(
+  //         "Error fetching trip plans:",
+  //         error.response ? error.response.data : error.message
+  //       );
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    if (formData.selectedTrip) {
+      // Clear previous trip details before fetching new ones
+      setFormData((prevData) => ({
+        ...prevData,
+        tripPlanDetailList: [], // Reset the trip details
+      }));
+
+      axios
+        .get(
+          `/api/mate/tripdetails?tripPlanNo=${formData.selectedTrip.tripPlanNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          setFormData((prevData) => ({
+            ...prevData,
+            tripPlanDetailList: response.data.data, // Update tripPlanDetailList in formData
+          }));
+        })
+        .catch((error) => {
+          console.error(
+            "Error fetching trip details:",
+            error.response ? error.response.data : error.message
+          );
+        });
+    }
+  }, [formData.selectedTrip, token]);
+
+  // Handle trip selection
+  const handleSelectedTripUpdate = (trip) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      selectedTrip: trip, // Update selectedTrip in formData
+    }));
+  };
+
+  // Handle trip details update (if needed)
+  const handleTripDetailsUpdate = (details) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      tripPlanDetailList: details, // Update tripPlanDetailList in formData
+    }));
+  };
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -205,6 +299,7 @@ function SubmitForm() {
       thirtyYN: formData.ageButtonStates.thirty ? "Y" : "N",
       fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
       fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
+      tripPlanNo: formData.selectedTrip.tripPlanNo,
     };
 
     console.log("sending json: ", finalFormData);
@@ -229,17 +324,38 @@ function SubmitForm() {
         );
       });
   };
-
+  // console.log(formData.tripPlanDetailList.data);
+  // const groupedByDate = formData?.data?.tripPlanDetails?.reduce(
+  //   (acc, detail) => {
+  //     const date = detail.planDt; // Assuming 'date' is the field for the trip date
+  //     if (!acc[date]) {
+  //       acc[date] = []; // Initialize an array for this date if it doesn't exist
+  //     }
+  //     acc[date].push(detail);
+  //     return acc;
+  //   },
+  //   {}
+  // );
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <TripScroll />
+        <TripScroll
+          tripPlanList={formData.tripPlanList}
+          onSelectedTripUpdate={handleSelectedTripUpdate}
+        />
         <TextBox
           formData={formData}
           setFormData={setFormData}
           titleChange={titleChange}
           contentChange={contentChange}
         />
+        {formData.tripPlanDetailList.length > 0 && (
+          <TripDetails
+            tripDetails={formData.tripPlanDetailList}
+            selectedTrip={formData.selectedTrip}
+          />
+        )}
+
         <RegionSel formData={formData} regBtnClick={regBtnClick} />
         <TripStyle formData={formData} trpBtnClick={trpBtnClick} />
         <Calender

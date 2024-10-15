@@ -20,7 +20,8 @@ public class RequestMatcherHolder {
             "api/images/upload",
             "api/mate/reply/**",
             "api/mate/participate/**",
-            "api/mate/tripPlans",
+            "api/mate/tripplans",
+            "api/mate/tripDetails",
             "/images/**"
 
     );

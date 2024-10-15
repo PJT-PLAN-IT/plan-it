@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-function MyTrip() {
+const MyTrip = () => {
   return (
     <div className="flex flex-col ">
       <div className="font-semibold p-[30px] mb-10">
@@ -16,7 +16,7 @@ function MyTrip() {
       <MyTripDay />
     </div>
   );
-}
+};
 
 const MyTripDay = () => {
   return (
@@ -29,10 +29,10 @@ const MyTripDay = () => {
       </div> */}
       <div className="flex-1 relative ">
         <div className="border-l-2 w-inherit"></div>
+        {/* <MyTripPlans />
         <MyTripPlans />
         <MyTripPlans />
-        <MyTripPlans />
-        <MyTripPlans />
+        <MyTripPlans /> */}
       </div>
     </div>
   );
@@ -45,10 +45,10 @@ const MyTripPlans = (prop) => {
   );
   return (
     <div
-      className=" mb-5 flex gap-10"
-      onClick={() => {
-        setOpen(!open);
-      }}
+      className=" mb-5 flex gap-10 "
+      // onClick={() => {
+      //   setOpen(!open);
+      // }}
     >
       <p className="bg-orange w-[22px] h-[22px] leading-tight text-center text-white rounded-full  ml-10 flex-6 mt-5">
         {prop.seq}
@@ -57,7 +57,7 @@ const MyTripPlans = (prop) => {
         <div className="border p-2 pl-3 rounded-sm relative ">
           <h3 className="text-sm font-semibold pb-1">{prop.title}</h3>
           <p className="text-xs font-normal text-gray-500">{prop.address}</p>
-          <i className="absolute top-4 right-7">{chevdown}</i>
+          {/* <i className="absolute top-4 right-7">{chevdown}</i> */}
         </div>
         <div
           className={`border flex py-4 justify-around DropDownMenu ${
@@ -86,6 +86,6 @@ const MyTripMap = () => {
   );
 };
 
-export default MyTrip;
+// export default MyTrip;
 
-export { MyTripDay, MyTripPlans, MyTripMap };
+export { MyTripDay, MyTripPlans, MyTripMap, MyTrip };

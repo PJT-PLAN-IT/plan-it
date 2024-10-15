@@ -21,7 +21,6 @@ public class MateDetailController {
 	 * **/
 	@GetMapping("/details")
 	public ApiResponse showDetail(@RequestParam("findMateNo") int findMateNo) {
-		System.out.println(findMateNo);
 		MateDetailDTO result = detailService.getDetail(findMateNo);
 		return ApiResponse.ok("sent detail", result);
 	}
