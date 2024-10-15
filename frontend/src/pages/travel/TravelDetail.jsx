@@ -17,6 +17,7 @@ function TravelDetail(){
     const [detailInfoData, setDetailInfoData] = useState({});
     const [reviewList, setReviewList] = useState([]);
     const [reviewStarAvg, setReviewStarAvg] = useState(0);
+    const [selectedReviewIndex, setSelectedReviewIndex] = useState(null);
 
     useEffect(() => {
         Promise.all([axiosInstance.get(`/api/place/commonInfo?contentId=${contentId}`),
@@ -56,6 +57,12 @@ function TravelDetail(){
         }
     };
 
+    const moreViewImageOnClick = (index) => {
+        console.log(index);
+        console.log(selectedReviewIndex);
+        setSelectedReviewIndex(selectedReviewIndex === index ? null : index);
+    }
+
 
     return (
         <div className="App mx-[300px]">
@@ -85,24 +92,48 @@ function TravelDetail(){
 
                 <div className="space-y-4">
                     {reviewList.map((review, index) => (
-                        <div key={index} className="border rounded-lg p-4 shadow-md flex space-x-4">
-                            <div className="flex-1">
-                                {/* 별점 영역 */}
-                                <div className="flex items-center space-x-1 text-yellow-500 mb-2">
-                                    {Array.from({length: Math.floor(review.star)}).map((_, i) => (
-                                        <span key={i}>★</span>
-                                    ))}
+                        <div key={index}>
+                            <div className="border rounded-lg p-4 shadow-md flex space-x-4">
+                                <div className="flex-1">
+                                    {/* 별점 영역 */}
+                                    <div className="flex items-center space-x-1 text-yellow-500 mb-2">
+                                        {Array.from({length: Math.floor(review.star)}).map((_, i) => (
+                                            <span key={i}>★</span>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex items-center space-x-2">
+                                        <span className="font-semibold">{review.name}</span>
+                                        <span className="text-sm text-gray-500">{review.createDt}</span>
+                                    </div>
+                                    <p className="text-sm text-gray-700 mt-2">
+                                        {review.review}
+                                    </p>
+                                </div>
+                                <img src={review.reviewImg1 || ''}
+                                     alt={review.reviewImg1 || ''}
+                                     onClick={() => moreViewImageOnClick(index)}
+                                     className={`w-20 h-20 rounded-md ${review.reviewImg1  ? 'cursor-pointer' : ''} `} />
+                            </div>
+                            <div className={`mt-8 ${selectedReviewIndex === index ? '' : 'hidden'}`}>
+                                <div className="flex flex-wrap gap-4">
+                                    {review.reviewImg1 && (
+                                        <img src={review.reviewImg1} alt="추가 이미지" className="w-[23%] object-cover rounded-lg"/>
+                                    )}
+                                    {review.reviewImg2 && (
+                                        <img src={review.reviewImg2} alt="추가 이미지" className="w-[23%] object-cover rounded-lg"/>
+                                    )}
+                                    {review.reviewImg3 && (
+                                        <img src={review.reviewImg3} alt="추가 이미지" className="w-[23%] object-cover rounded-lg"/>
+                                    )}
+                                    {review.reviewImg4 && (
+                                        <img src={review.reviewImg4} alt="추가 이미지" className="w-[23%] object-cover rounded-lg"/>
+                                    )}
                                 </div>
 
-                                <div className="flex items-center space-x-2">
-                                    <span className="font-semibold">{review.name}</span>
-                                    <span className="text-sm text-gray-500">{review.createDt}</span>
-                                </div>
-                                <p className="text-sm text-gray-700 mt-2">
-                                    {review.review}
-                                </p>
+                                <button onClick={() => setSelectedReviewIndex(null)} className="text-blue-500 mt-2">접기
+                                </button>
                             </div>
-                            <img src={review.reviewImg1} alt={review.reviewImg1} className="w-20 h-20 rounded-md"/>
                         </div>
                     ))}
                 </div>

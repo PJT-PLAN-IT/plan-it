@@ -1,5 +1,6 @@
-import {useEffect, useState} from "react";
-import {useAxiosInstance} from "../../utils/axiosConfig.js";
+import RegionSel from "../../components/mate/RegionSel.jsx";
+import { useEffect, useState } from "react";
+import { useAxiosInstance } from "../../utils/axiosConfig.js";
 import SearchBox from "../../components/travel/SearchBox.jsx";
 import Page from "../../components/travel/Page.jsx";
 import Card from "../../components/travel/Card.jsx";
@@ -47,7 +48,7 @@ const Region = ({ formData, regBtnClick }) => {
   );
 };
 
-export {Region};
+export { Region };
 
 function TravelInfo() {
   const initData = {
