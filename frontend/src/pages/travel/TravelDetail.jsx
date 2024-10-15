@@ -110,8 +110,8 @@ function TravelDetail(){
                                         {review.review}
                                     </p>
                                 </div>
-                                <img src={review.reviewImg1}
-                                     alt={review.reviewImg1}
+                                <img src={review.reviewImg1 || ''}
+                                     alt={review.reviewImg1 || ''}
                                      onClick={() => moreViewImageOnClick(index)}
                                      className={`w-20 h-20 rounded-md ${review.reviewImg1  ? 'cursor-pointer' : ''} `} />
                             </div>
