@@ -60,7 +60,7 @@ import axios from "axios";
 
 const CommentForm = ({ addNewComment }) => {
   const [comment, setComment] = useState(""); // State to hold the comment input
-
+  const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
   // Handle input change
   const handleChange = (e) => {
     setComment(e.target.value);
@@ -75,7 +75,7 @@ const CommentForm = ({ addNewComment }) => {
       findMateNo: 43,
       reply: comment,
       publicYn: "Y",
-      custNo: 2,
+      custNo: custNo,
       seq: 1,
     };
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 //import com.pjt.planit.business.ImageConverter.ImageController;
 import com.pjt.planit.business.mate.dto.MateWriteDTO;
+import com.pjt.planit.db.entity.Cust;
 import com.pjt.planit.db.entity.FindMate;
 import com.pjt.planit.db.entity.FindMateRegion;
 import com.pjt.planit.db.entity.FindMateStyle;
@@ -39,7 +40,7 @@ public class MateWriteService {
 		findMate.setFiftyYn(writeDTO.getFiftyYN());
 		findMate.setTripPlanNo(writeDTO.getTripPlanNo());
 		findMateRepository.save(findMate);
-
+		
 		for (Integer regionId : writeDTO.getRegions()) {
 			FindMateRegion region = new FindMateRegion();
 			region.setFindMateNo(findMate.getFindMateNo());

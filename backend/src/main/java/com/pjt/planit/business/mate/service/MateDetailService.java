@@ -60,7 +60,7 @@ public class MateDetailService {
 			tripPlanDto.setTripPlanNo(tripPlanNo);
 			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
 			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
-			detailDTO.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
+			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
 		}
 
 		detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));

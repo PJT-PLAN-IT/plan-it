@@ -8,7 +8,7 @@
 		SELECT
 			fm.find_mate_no AS findMateNo,
 			c.cust_no AS CustNo,
-			c.name AS custName,
+			c.nickname AS custName,
 			fm.create_by AS findMateCreateBy,
 			fm.trip_plan_no AS tripPlanNo,
 			fm.title AS title,

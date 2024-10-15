@@ -5,8 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { Regions } from "../../data/regions";
-import { TripStyles } from "../../data/tripStyle";
 import { genderInfo } from "../../data/gender";
 import { MyTripPlans, MyTripMap } from "../../components/mate/MyTrip";
 import { useAuth } from "../../context/AuthContext";
@@ -69,9 +67,9 @@ export default function Detail() {
 
   const groupedByDate = formDetails?.data?.tripPlanDetails?.reduce(
     (acc, detail) => {
-      const date = detail.planDt; // Assuming 'date' is the field for the trip date
+      const date = detail.planDt;
       if (!acc[date]) {
-        acc[date] = []; // Initialize an array for this date if it doesn't exist
+        acc[date] = [];
       }
       acc[date].push(detail);
       return acc;
@@ -110,7 +108,7 @@ export default function Detail() {
                   </div>
                 </div>
                 <div className="flex justify-evenly min-w-[30%] max-w-[50%] flex-wrap text-xs mt-2 ml-[-19px] mb-10">
-                  {formDetails.data.regions.map((region) => {
+                  {/* {formDetails.data.regions.map((region) => {
                     const regionVar = Regions.find((r) => r.key == region);
                     return (
                       <p key={regionVar.key} className="px-3 border-r-2">
@@ -126,7 +124,7 @@ export default function Detail() {
                         {styleVar.value}
                       </p>
                     );
-                  })}
+                  })} */}
                   <p className="px-3 border-r-2">
                     {formDetails.data.startDate.slice(0, 10)}-{" "}
                     {formDetails.data.endDate.slice(0, 10)}
@@ -195,15 +193,14 @@ export default function Detail() {
                         {formDetails.data.tripPlan.title}
                       </h1>
                       <p>
-                        {formDetails.data.tripPlan.start_dt} to
+                        {formDetails.data.tripPlan.start_dt.slice(0, 10)} to
                         <span> </span>
-                        {formDetails.data.tripPlan.end_dt}
+                        {formDetails.data.tripPlan.end_dt.slice(0, 10)}
                       </p>
                     </div>
                     <div className="flex-col ml-8 mb-20 ">
                       {Object.keys(groupedByDate).map((date, index) => (
                         <div key={index} className="pb-5">
-                          {/* Display the date */}
                           <h2 className="text-2xl font-bold mt-4">
                             day {index + 1}
                           </h2>

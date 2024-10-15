@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const userName = JSON.parse(localStorage.getItem("userInfo")).nickname;
 const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
-console.log(userNo);
+const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
 export const CommentForm = ({ addNewComment, findMateNo }) => {
   const { token } = useAuth();
   const [comment, setComment] = useState(""); // State to hold the comment input
@@ -24,8 +24,7 @@ export const CommentForm = ({ addNewComment, findMateNo }) => {
       public_yn: "Y",
       seq: 1,
       cust_no: userNo,
-      create_dt: new Date().toISOString(),
-      create_by: "swon",
+      create_by: userEmail,
     };
 
     try {
@@ -81,10 +80,9 @@ export const CommentForm = ({ addNewComment, findMateNo }) => {
 
 const CommentSection = ({ findMateNo }) => {
   const { token } = useAuth();
-  const [comments, setComments] = useState([]); // State to store all comments
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  // console.log(findMateNo);
-  // Function to fetch comments when the component mounts
+
   useEffect(() => {
     const fetchComments = async () => {
       if (findMateNo) {
@@ -98,8 +96,8 @@ const CommentSection = ({ findMateNo }) => {
           })
           .then((response) => {
             console.log("API response:", response.data);
-            setComments(response.data.data); // Set the data to the state
-            setLoading(false); // Turn off loading after data is fetched
+            setComments(response.data.data);
+            setLoading(false);
           })
           .catch((error) => {
             console.error(error);
@@ -107,13 +105,10 @@ const CommentSection = ({ findMateNo }) => {
           });
       }
     };
-    fetchComments(); // Fetch comments on component mount
-  }, [findMateNo]); // Dependency array to run this effect when `findMateNo` changes
+    fetchComments();
+  }, [findMateNo]);
 
-  // Function to update an existing comment
   const editComment = async (updatedComment) => {
-    // console.log("updatedComment (before stringifying):", updatedComment);
-    // console.log("JSON version:", JSON.stringify(updatedComment));
     try {
       const response = await axios.put("/api/mate/reply", updatedComment, {
         headers: {
@@ -174,7 +169,7 @@ const CommentSection = ({ findMateNo }) => {
         댓글 <b>{comments.length}</b>
       </h1>
       {loading ? ( // Show loading message while data is being fetched
-        <p>Loading comments...</p>
+        <p>로딩중...</p>
       ) : comments.length > 0 ? ( // Render comments once available
         comments.map((comment) => (
           <ShowComment
@@ -185,45 +180,44 @@ const CommentSection = ({ findMateNo }) => {
           />
         ))
       ) : (
-        <p>No comments available.</p>
+        <p></p>
       )}
     </div>
   );
 };
 
 export const ShowComment = ({ comment, editComment, deleteComment }) => {
-  const [isEditing, setIsEditing] = useState(false); // Track if comment is being edited
-  const [updatedReply, setUpdatedReply] = useState(comment.reply); // Store the updated text
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedReply, setUpdatedReply] = useState(comment.reply);
 
-  // Handle edit form submission
   const handleEditSubmit = (e) => {
     e.preventDefault();
 
     const updatedComment = {
-      ...comment, // Keep existing fields like IDs
-      reply: updatedReply, // Update the reply with new content
+      ...comment,
+      reply: updatedReply,
     };
 
-    // Call the parent function to update the comment in the backend
     editComment(updatedComment);
 
-    // After submitting the edited comment, exit edit mode
     setIsEditing(false);
   };
 
-  // Handle delete button click
   const handleDelete = () => {
     const deletedComment = comment.find_mate_reply_no;
     console.log(deletedComment);
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      deleteComment(deletedComment); // Call the parent function to delete the comment
+      deleteComment(deletedComment);
     }
   };
-
+  console.log(updatedReply);
   return (
     <div className="p-2 py-[40px] border-b-2 relative">
       <div>
-        <p className="font-semibold mb-2"> {comment.create_by}</p>
+        <p className="font-semibold mb-2">
+          {" "}
+          {comment.create_by.slice(0, comment.create_by.indexOf("@"))}
+        </p>
         <div className="flex justify-around w-[10%] absolute top-4 right-6 text-xs underline">
           {userNo == comment.cust_no ? (
             <>

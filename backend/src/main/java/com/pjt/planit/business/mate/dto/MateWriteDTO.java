@@ -21,5 +21,6 @@ public class MateWriteDTO {
     private String thirtyYN;
     private String fortyYN;
     private String fiftyYN;
+    private String nickName;
    
 }

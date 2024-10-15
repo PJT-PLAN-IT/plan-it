@@ -1,5 +1,6 @@
 package com.pjt.planit.business.mate.controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,15 @@ public class MateDetailController {
 	@GetMapping("/details")
 	public ApiResponse showDetail(@RequestParam("findMateNo") int findMateNo) {
 		MateDetailDTO result = detailService.getDetail(findMateNo);
+		System.out.println(result);
 		return ApiResponse.ok("sent detail", result);
 	}
 
+//	@GetMapping("/details/{findMateNo}")
+//	public ApiResponse showDetail(@PathVariable int findMateNo) {
+//
+//		MateDetailDTO result = detailService.getDetail(findMateNo);
+//		System.out.println(result);
+//		return ApiResponse.ok("", result);
+//	}
 }

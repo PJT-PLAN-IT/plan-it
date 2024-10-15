@@ -67,6 +67,7 @@ function SubmitForm() {
   });
 
   const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+  const custName = JSON.parse(localStorage.getItem("userInfo")).custName;
 
   useEffect(() => {
     const fetchTripPlans = async () => {
@@ -300,6 +301,7 @@ function SubmitForm() {
       fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
       fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
       tripPlanNo: formData.selectedTrip.tripPlanNo,
+      nickName: custName,
     };
 
     console.log("sending json: ", finalFormData);
@@ -308,8 +310,7 @@ function SubmitForm() {
       .post("/api/mate", finalFormData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJ5ZSIsImlhdCI6MTcyODgyNTY4OCwiZXhwIjoxNzI4ODI5Mjg4fQ.LXDaXlJzlInhm5TrYxo_ZjgwI1ZImggKJmb4h0KVdIg",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -377,7 +378,7 @@ function SubmitForm() {
           setFormData={setFormData}
         />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
-          <RegBtnBg type="button" />
+          <RegBtnBg type="button" onClick={handleSubmit} />
           <CancelBtnBg />
         </div>
       </form>
