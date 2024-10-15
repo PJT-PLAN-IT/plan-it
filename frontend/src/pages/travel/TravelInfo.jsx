@@ -5,7 +5,6 @@ import SearchBox from "../../components/travel/SearchBox.jsx";
 import Page from "../../components/travel/Page.jsx";
 import Card from "../../components/travel/Card.jsx";
 import TripCategory from "../../components/travel/TripCategory.jsx";
-
 const Regions = [
   { value: "#전체", key: 0 },
   { value: "#서울", key: 1 },
@@ -29,23 +28,23 @@ const Regions = [
 
 const Region = ({ formData, regBtnClick }) => {
   return (
-    <div className="border-t-2">
-      <div className="py-[10px] px-[30px] my-[9px]">
-        <h1 className="TitleLabel">지역:</h1>
-        {Regions.map((region) => (
-          <button
-            type="button"
-            key={region.key}
-            onClick={() => regBtnClick(region.key)}
-            className={`button ${
-              formData.regButtonStates[region.key] ? "on" : ""
-            }`}
-          >
-            {region.value}
-          </button>
-        ))}
+      <div className="border-t-2">
+        <div className="py-[10px] px-[30px] my-[9px]">
+          <h1 className="TitleLabel">지역:</h1>
+          {Regions.map((region) => (
+              <button
+                  type="button"
+                  key={region.key}
+                  onClick={() => regBtnClick(region.key)}
+                  className={`button ${
+                      formData.regButtonStates[region.key] ? "on" : ""
+                  }`}
+              >
+                {region.value}
+              </button>
+          ))}
+        </div>
       </div>
-    </div>
   );
 };
 
@@ -89,25 +88,22 @@ function TravelInfo() {
   //지역클릭
   const regBtnClick = (btnState) => {
     setFormData((prev) => {
-      const isCurrentlyActive = prev.regButtonStates[btnState]; // 현재 클릭한 버튼이 활성화 상태인지 확인
+      const isCurrentlyActive = prev.regButtonStates[btnState];  // 현재 클릭한 버튼이 활성화 상태인지 확인
 
-      const updatedRegButtonStates = Object.keys(prev.regButtonStates).reduce(
-        (newStates, key) => {
-          // 클릭한 버튼이 이미 활성화된 상태라면 전체(0)만 true로 설정
-          if (isCurrentlyActive || btnState === 0) {
-            newStates[key] = key === "0"; // 전체 버튼만 활성화
+      const updatedRegButtonStates = Object.keys(prev.regButtonStates).reduce((newStates, key) => {
+        // 클릭한 버튼이 이미 활성화된 상태라면 전체(0)만 true로 설정
+        if (isCurrentlyActive || btnState === 0) {
+          newStates[key] = key === '0';  // 전체 버튼만 활성화
+        }
+        // 클릭한 버튼이 비활성화된 상태라면 그 버튼을 활성화하고 전체를 비활성화
+        else {
+          newStates[key] = parseInt(key) === btnState;
+          if (key === '0') {
+            newStates[0] = false;  // 다른 버튼이 활성화되면 전체 버튼은 비활성화
           }
-          // 클릭한 버튼이 비활성화된 상태라면 그 버튼을 활성화하고 전체를 비활성화
-          else {
-            newStates[key] = parseInt(key) === btnState;
-            if (key === "0") {
-              newStates[0] = false; // 다른 버튼이 활성화되면 전체 버튼은 비활성화
-            }
-          }
-          return newStates;
-        },
-        {}
-      );
+        }
+        return newStates;
+      }, {});
 
       return {
         ...prev,
@@ -149,37 +145,38 @@ function TravelInfo() {
   //여행정보 데이터 가져오기
   const fetchDataList = async () => {
     const trueKeys = Object.entries(formData.regButtonStates)
-      .filter(([key, value]) => value === true)
-      .map(([key]) => key);
+        .filter(([key, value]) => value === true)
+        .map(([key]) => key);
 
     const response = await axiosInstance.get("/api/place/region/type", {
-      params: {
-        pageNo: page + 1,
-        contentTypeId: category,
-        areaCode: trueKeys[0] === "0" ? "" : trueKeys[0],
-      },
+      params : {
+        pageNo : page + 1,
+        contentTypeId : category,
+        areaCode : trueKeys[0] === "0" ? "" : trueKeys[0],
+      }
     });
     apiCallback(response);
   };
 
   //검색어 입력 클릭
   const fetchKeywordDataList = async () => {
-    try {
+    try{
       const response = await axiosInstance.get("/api/place/keyword", {
-        params: {
-          pageNo: page + 1,
-          keyword: searchInput,
-        },
+        params : {
+          pageNo : page + 1,
+          keyword : searchInput
+        }
       });
       apiCallback(response);
-    } catch (error) {
+    }
+    catch (error){
       console.log(error);
     }
   };
 
   //api 응답처리
   const apiCallback = (response) => {
-    if (response.data.code === 200 && response.data.data.totalCount > 0) {
+    if(response.data.code === 200 && response.data.data.totalCount > 0){
       setTravelList(response.data.data.list || []);
       setTotalCount(response.data.data.totalCount || 0);
     }
@@ -191,38 +188,26 @@ function TravelInfo() {
       fetchDataList();
       setSkipFetch(false); // 이후에는 API 호출을 허용
     }
-    if (isSearchBtnClick) {
+    if(isSearchBtnClick){
       fetchKeywordDataList();
       setSkipFetch(true); // 이후에는 API 호출을 허용
     }
   }, [formData.regButtonStates, category, page]);
 
   return (
-    <div className="App mx-[300px]">
-      {/* 카테고리 탭 */}
-      <div className="text-center mb-20 mt-10">
-        <h2 className="text-3xl font-bold mb-4">여행정보</h2>
-        <RegionSel formData={formData} regBtnClick={regBtnClick}></RegionSel>
-        <TripCategory
-          category={category}
-          onChangeCategory={handleCategory}
-        ></TripCategory>
+      <div className="App mx-[300px]">
+        {/* 카테고리 탭 */}
+        <div className="text-center mb-6 mt-10">
+          <h2 className="text-3xl font-bold mb-4">여행정보</h2>
+          <Region formData={formData} regBtnClick={regBtnClick}></Region>
+          <TripCategory category={category} onChangeCategory={handleCategory}></TripCategory>
+        </div>
+        {/*검색어*/}
+        <SearchBox searchValue={searchInput} setSearchValue={setSearchInput} onSearchClick={searchBtnClick}></SearchBox>
+        {/* 여행정보 카드 리스트 */}
+        <Card travelList={travelList}></Card>
+        <Page page={page} totalCount={totalCount} itemsPerPage={12} handlePageChange={handlePageChange} ></Page>
       </div>
-      {/*검색어*/}
-      <SearchBox
-        searchValue={searchInput}
-        setSearchValue={setSearchInput}
-        onSearchClick={searchBtnClick}
-      ></SearchBox>
-      {/* 여행정보 카드 리스트 */}
-      <Card travelList={travelList}></Card>
-      <Page
-        page={page}
-        totalCount={totalCount}
-        itemsPerPage={12}
-        handlePageChange={handlePageChange}
-      ></Page>
-    </div>
   );
 }
 
