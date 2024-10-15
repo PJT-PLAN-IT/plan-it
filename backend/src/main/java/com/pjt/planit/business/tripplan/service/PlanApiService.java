@@ -28,10 +28,18 @@ public class PlanApiService {
 
 
     public ApiResponseDto<PlaceInfoListDto> getPlaceByAreaCodeAndContentTypeId(BasicInfoDto basicInfoDto) throws UnsupportedEncodingException {
-
+        /**
+         *  String params : open-api에 보낼 params값 설정
+         *  https://apis.data.go.kr/B551011/KorService1/areaBasedList1?MobileOS=AND&MobileApp=Planit&_type=json&serviceKey=EtYjTDxd2toVo6%2FPdXG7vTkcC56PrgsfxSDr2bC4SvITA2pWeqcIgcmcgMCA41x%2F8ahVNdfcQnV%2BtlIPDQfoHw%3D%3D
+         *  &arrange=A&contentTypeId=39&areaCode=1
+         */
         String params = "numOfRows=" + basicInfoDto.getNumOfRows()
                     + "&pageNo=" + basicInfoDto.getPageNo()
                     + "&arrange="+ basicInfoDto.getArrange();
+        /**
+         * 각 if절에 데이터가 없으면 params에 검색을 넣을 필요가 없으므로
+         * null이 아니면 params에 검색 조건을 붙임
+         */
         if (basicInfoDto.getContentTypeId() != null){
             params += "&contentTypeId=" + basicInfoDto.getContentTypeId();
         }
@@ -43,14 +51,21 @@ public class PlanApiService {
             params += "&keyword=" + keyword;
         }
 
-        DataDto<PlaceInfoListDto> response = null;
+        /**
+         * 결과값을 받을 dto 초기화
+         */
+        DataDto<PlaceInfoListDto> response = new DataDto<>();
 
+        /**
+         * open-api는 키워드 있을때와 없을때가 검색 url이 달라서 keyword 여부에 따라 url 찾아오는 조건을 정해줌
+         */
         if(basicInfoDto.getKeyword() != null){
             response = webClientHelper.findPlaceByKeyword(params);
         }else{
             response = webClientHelper.findPlaceByAreaAndContent(params);
         }
 
+        //결과를 dto에 담는 부분
         BodyDto<PlaceInfoListDto> body = response.getResponse().getBody();
         List<PlaceInfoListDto> list = body.getItems().getItem();
         List<PlaceInfoListDto> result = new ArrayList<>();
@@ -68,6 +83,17 @@ public class PlanApiService {
             placeInfoListDto.setMlevel(dto.getMlevel());
             result.add(placeInfoListDto);
         }
+
+        /**
+         * ApiResponseDto를 확인해 보면
+         *
+         *    private List<T> list;
+         *     private int numOfRows;
+         *     private int pageNo;
+         *     private int totalCount;
+         *     위와 같이 선언되어 있는 것을 확인할 수 있음.
+         *    open-api에서 보내준 결과값을 각각 데이터에 담아 클라이언트 단으로 리턴
+         */
 
         return ApiResponseDto.<PlaceInfoListDto>builder()
                 .numOfRows(body.getNumOfRows())

@@ -128,7 +128,7 @@ public class PlanService {
         tripDetail.setSeq( detailDto.getSeq() == null ? tripDetail.getSeq() : detailDto.getSeq());
         tripDetail.setContentid( detailDto.getContentid() == null ? tripDetail.getContentid() : detailDto.getContentid());
         tripDetail.setContentTypeId(detailDto.getContentTypeId() == null ? tripDetail.getContentTypeId() : detailDto.getContentTypeId());
-        tripDetail.setTitle( detailDto.getPlaceTitle() == null ?  tripDetail.getTitle() : detailDto.getPlaceTitle());
+        tripDetail.setTitle( detailDto.getTitle() == null ?  tripDetail.getTitle() : detailDto.getTitle());
         tripDetail.setAddress( detailDto.getAddress() == null ?  tripDetail.getAddress() : detailDto.getAddress());
         tripDetail.setMapx( detailDto.getMapx() == null ?  tripDetail.getMapx() : detailDto.getMapx());
         tripDetail.setMapy( detailDto.getMapy() == null ?  tripDetail.getMapy() : detailDto.getMapy());
@@ -184,7 +184,7 @@ public class PlanService {
                 .seq(detailList.getSeq())
                 .contentid(detailList.getContentid())
                 .contentTypeId(detailList.getContentTypeId())
-                .title(detailList.getPlaceTitle())
+                .title(detailList.getTitle())
                 .address(detailList.getAddress())
                 .mapx(detailList.getMapx())
                 .mapy(detailList.getMapy())
