@@ -12,7 +12,7 @@ import com.pjt.planit.db.entity.FindMateReply;
 @Mapper
 public interface MateDetailMapper {
 
-public MateDetailDTO getDetail(MateDetailDTO detailDTO);
+public MateDetailDTO getDetail(int findMateNo);
 public List<TripPlanDto> getTripPlan (TripPlanDto param);
 public void editDetail(MateDetailDTO detailDTO);
 public List<FindMateReply> getMateReply(Integer findMateNo);

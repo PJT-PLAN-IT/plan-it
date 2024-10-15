@@ -3,12 +3,12 @@
 <mapper
 	namespace="com.pjt.planit.business.mate.mapper.MateDetailMapper">
 	<select id="getDetail"
-		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO"
+		 parameterType="int"
 		resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
 		SELECT
 			fm.find_mate_no AS findMateNo,
 			c.cust_no AS CustNo,
-			c.nickname AS custName,
+			c.name AS custName,
 			fm.create_by AS findMateCreateBy,
 			fm.trip_plan_no AS tripPlanNo,
 			fm.title AS title,

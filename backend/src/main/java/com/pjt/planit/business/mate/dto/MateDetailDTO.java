@@ -31,30 +31,8 @@ public class MateDetailDTO {
     private Integer mateNum;
     private String content;
     private String gender;
-
-    private String regions;
-    public List<Integer> getRegionsList() {
-        if (this.regions != null && !this.regions.isEmpty()) {
-            return Arrays.stream(this.regions.split(","))
-                    .map(Integer::parseInt) // 문자열을 Integer로 변환
-                    .distinct()
-                    .collect(Collectors.toList());
-        }
-        return List.of();
-    }
-
-    private String tripStyles;
-    public List<Integer> getTripStylesList() {
-        if (this.tripStyles != null && !this.tripStyles.isEmpty()) {
-            return Arrays.stream(this.tripStyles.split(","))
-                    .map(Integer::parseInt) // 문자열을 Integer로 변환
-                    .distinct()
-                    .collect(Collectors.toList());
-        }
-        return List.of();
-    }
-
-
+    private List<Integer> regions;
+    private List<Integer> tripStyles;
     private String twentyYN;
     private String thirtyYN;
     private String fortyYN;
