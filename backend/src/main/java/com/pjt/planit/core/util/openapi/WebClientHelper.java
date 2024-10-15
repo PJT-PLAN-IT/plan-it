@@ -58,7 +58,8 @@ public class WebClientHelper {
     }
 
     public DataDto<PlaceInfoListDto> findPlaceByKeyword(String params){
-        return fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
+        DataDto<PlaceInfoListDto> data = fechData("/searchKeyword1", params, new ParameterizedTypeReference<>() {});
+        return data;
     }
 
 

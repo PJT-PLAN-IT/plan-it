@@ -18,7 +18,7 @@ public class WebClientUtil {  //외부 api와 통신하기 위한 클래스 정�
     private String apiUrl;
 
     //API 요청에 포함되는 공통 쿼리 매개변수를 정의
-    private final static String COMMON_INFO = "?MobileOS=AND&MobileApp=Planit&_type=json&serviceKey=gxeOoeUZIhZaBpBE%2BokwhAY%2BOAuSYLSuCSG44ImsxwmbmT1M76pVGwITi641yb%2FN%2FkXNwqQ6uhCuae4ameM8gg%3D%3D";
+    private final static String COMMON_INFO = "?MobileOS=AND&MobileApp=Planit&_type=json&serviceKey=EtYjTDxd2toVo6%2FPdXG7vTkcC56PrgsfxSDr2bC4SvITA2pWeqcIgcmcgMCA41x%2F8ahVNdfcQnV%2BtlIPDQfoHw%3D%3D";
 
     //외부 api와 통신사는데 사용하는 설정
     private final WebClientConfig webClientConfig;
