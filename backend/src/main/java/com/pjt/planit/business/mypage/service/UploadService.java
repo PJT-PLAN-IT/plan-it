@@ -22,6 +22,7 @@ public class UploadService {
 
     public PlaceReview savePhotos(PlaceReview placeReview, List<MultipartFile> photos) {
         if (photos == null || photos.size() == 0) {
+            placeReview.review(null, null, null, null);
             return placeReview;
         }
 

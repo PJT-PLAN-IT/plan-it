@@ -1,16 +1,53 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 const AddPlaceReviewModal = ({data, onSave, onClose}) => {
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState('');
-    const [images, setImages] = useState([]);
+    const [imageUrls, setImageUrls] = useState([]); // 기존 이미지 리스트(URL)
+    const [newImages, setNewImages] = useState([]); // 신규 이미지 리스트(FILE)
+    const [newImageUrls, setNewImageUrls] = useState([]); // 신규 이미지 리스트(URL)
 
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages((prevImages) => [...prevImages, ...files]);
+    useEffect(() => {
+        if (data.placeReviewNo) {
+            setRating(data.star);
+            setReviewText(data.review);
+            setImageUrls([data.reviewImg1, data.reviewImg2, data.reviewImg3, data.reviewImg4].filter(Boolean));
+        }
+    }, []);
+
+    const urlToFile = async (imgUrl, filename) => {
+        const response = await fetch(imgUrl); // URL에서 이미지 데이터 가져오기
+        const blob = await response.blob(); // Blob 데이터로 변환
+        return new File([blob], filename, {type: blob.type}); // Blob을 File 객체로 변환
     };
 
-    const handleSubmit = (e) => {
+    const handleImageChange = (e) => {
+        if (e.target.files.length === 0) {
+            return;
+        }
+        const newImages = Array.from(e.target.files);
+        const newImageUrls = newImages.map(file => URL.createObjectURL(file));
+
+        if (imageUrls.length + newImages.length <= 4) {
+            setNewImages((prev) => [...prev, ...newImages]);
+            setNewImageUrls((prev) => [...prev, ...newImageUrls]);
+        } else {
+            alert('이미지는 최대 4개까지 저장 가능합니다.');
+        }
+    };
+
+    const handleRemoveImage = (index, type) => {
+        if (type === "prev") {
+            // 기존 이미지
+            setImageUrls((prevImages) => prevImages.filter((_, i) => i !== index));
+        } else {
+            // 신규 이미지
+            setNewImages((prevImages) => prevImages.filter((_, i) => i !== index));
+            setNewImageUrls((prevImages) => prevImages.filter((_, i) => i !== index));
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (rating < 0 || rating > 5) {
             alert('별점을 선택해주세요.');
@@ -20,23 +57,33 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
             alert('리뷰를 적어주세요.');
             return;
         }
-        if (images.length > 4) {
+        if (imageUrls.length + newImages.length > 4) {
             alert('이미지는 최대 4개까지 저장 가능합니다.');
             return;
         }
-        onSave({
+
+        const images = await Promise.all(imageUrls.map(async (imgUrl) => {
+            const lastIndexOf = imgUrl.lastIndexOf("/");
+            return await urlToFile(imgUrl, imgUrl.substr(lastIndexOf + 1));
+        }));
+
+        let returnData = {
             star: rating,
             review: reviewText,
-            reviewImg1: images[0],
-            reviewImg2: images[1],
-            reviewImg3: images[2],
-            reviewImg4: images[3],
-        });
-        onClose(); // 모달 닫기
-    };
+            images: images,
+            newImages: newImages,
+            totalImages: images.concat(newImages)
+        };
 
-    const handleRemoveImage = (index) => {
-        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        if (data.placeReviewNo) {
+            returnData = {
+                ...returnData,
+                placeReviewNo: data.placeReviewNo
+            };
+        }
+
+        onSave(returnData);
+        onClose(); // 모달 닫기
     };
 
     return (
@@ -80,12 +127,28 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
                             className="border border-gray-300 rounded w-full p-2"
                         />
                         <div className="mt-2">
-                            {images.map((image, index) => (
+                            {imageUrls.map((imageUrl, index) => (
                                 <div key={index} className="flex items-center justify-between">
-                                    <span>{image.name}</span>
+                                    <img src={imageUrl} alt="첨부된 사진"
+                                         className="w-20 h-20 object-cover rounded-lg"/>
+                                    <span>{"Image" + index}</span>
                                     <button
                                         type="button"
-                                        onClick={() => handleRemoveImage(index)}
+                                        onClick={() => handleRemoveImage(index, "prev")}
+                                        className="text-red-500"
+                                    >
+                                        제거
+                                    </button>
+                                </div>
+                            ))}
+                            {newImageUrls.map((newImageUrl, index) => (
+                                <div key={index} className="flex items-center justify-between">
+                                    <img src={newImageUrl} alt="첨부된 사진"
+                                         className="w-20 h-20 object-cover rounded-lg"/>
+                                    <span>{newImages[index].name}</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveImage(index, "new")}
                                         className="text-red-500"
                                     >
                                         제거
