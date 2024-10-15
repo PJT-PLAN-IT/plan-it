@@ -1,5 +1,5 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 /**
  *
@@ -11,44 +11,59 @@ import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
  * @returns {JSX.Element}
  * @constructor
  */
-function Page({totalCount, page, handlePageChange, itemsPerPage = 10, maxPageButtons = 5}) {
-    const left = <FontAwesomeIcon icon={faArrowLeft} />;
-    const right = <FontAwesomeIcon icon={faArrowRight} />;
+function Page({
+  totalCount,
+  page,
+  handlePageChange,
+  itemsPerPage = 10,
+  maxPageButtons = 5,
+}) {
+  const left = <FontAwesomeIcon icon={faArrowLeft} />;
+  const right = <FontAwesomeIcon icon={faArrowRight} />;
 
-    // 페이지 번호 구간 계산
-    const totalPages = Math.ceil(totalCount / itemsPerPage); // 전체 페이지 수 계산
-    const startPage = Math.floor(page / maxPageButtons) * maxPageButtons; // 현재 페이지 그룹의 시작 페이지
-    const endPage = Math.min(startPage + maxPageButtons, totalPages); // 현재 페이지 그룹의 마지막 페이지
+  // 페이지 번호 구간 계산
+  const totalPages = Math.ceil(totalCount / itemsPerPage); // 전체 페이지 수 계산
+  const startPage = Math.floor(page / maxPageButtons) * maxPageButtons; // 현재 페이지 그룹의 시작 페이지
+  const endPage = Math.min(startPage + maxPageButtons, totalPages); // 현재 페이지 그룹의 마지막 페이지
 
-    const onChangePageHandler = (page) => {
-        handlePageChange(page);
-    };
+  const onChangePageHandler = (page) => {
+    handlePageChange(page);
+  };
 
-    return(
-        <div className="flex justify-center mt-10">
-            <div className="flex items-center justify-center my-20">
-                <div className="flex justify-evenly w-[30%] ">
-                    <button onClick={() => onChangePageHandler(page - 1)} disabled={page === 0}>
-                        {left}
-                    </button>
-                    <div className="flex">
-                        {Array.from({ length: endPage - startPage }, (_, i) => startPage + i).map((pageIndex) => (
-                            <button
-                                key={pageIndex}
-                                onClick={() => onChangePageHandler(pageIndex)}
-                                className={`p-2 px-4 rounded-lg ${pageIndex === page ? 'bg-orange text-white' : ''}`}
-                            >
-                                {pageIndex + 1}
-                            </button>
-                        ))}
-                    </div>
-                    <button onClick={() => onChangePageHandler(page + 1)} disabled={page + 1 >= totalPages}>
-                        {right}
-                    </button>
-                </div>
-            </div>
+  return (
+    <div className="flex justify-center mt-10">
+      <div className="flex items-center justify-center my-20">
+        <div className="flex justify-evenly w-[100%] ">
+          <button
+            onClick={() => onChangePageHandler(page - 1)}
+            disabled={page === 0}
+          >
+            {left}
+          </button>
+          <div className="flex">
+            {Array.from(
+              { length: endPage - startPage },
+              (_, i) => startPage + i
+            ).map((pageIndex) => (
+              <button
+                key={pageIndex}
+                onClick={() => onChangePageHandler(pageIndex)}
+                className={`p-2 px-4 rounded-lg ${pageIndex === page ? "bg-orange text-white" : ""}`}
+              >
+                {pageIndex + 1}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => onChangePageHandler(page + 1)}
+            disabled={page + 1 >= totalPages}
+          >
+            {right}
+          </button>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Page;

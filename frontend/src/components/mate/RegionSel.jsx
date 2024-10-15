@@ -21,7 +21,7 @@ const Regions = [
 
 function RegionSel({ formData, regBtnClick }) {
   return (
-    <div className="border-t-2">
+    <div>
       <div className="w-[900px] p-[30px] mb-[35px]">
         <h1 className="TitleLabel">지역:</h1>
         {Regions.map((region) => (
