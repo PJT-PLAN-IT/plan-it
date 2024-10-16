@@ -9,13 +9,14 @@ import Write from "../pages/mate/Write.jsx";
 import MakeTripPlan from "../pages/tripplan/MakeTripPlan.jsx";
 import Detail from "../pages/mate/Detail.jsx";
 import MainPage from "../pages/MainPage.jsx";
+import DetailEdit from "../pages/mate/DetailEdit.jsx";
 import MyReply from "../pages/mypage/MyReply.jsx";
 import TravelInfo from "../pages/travel/TravelInfo.jsx";
 import TravelDetail from "../pages/travel/TravelDetail.jsx";
 import MyReview from "../pages/mypage/MyReview.jsx";
 import MyTripPlanList from "../pages/tripplan/MyTripPlanList.jsx";
 import MyTripPlanDetail from "../pages/tripplan/MyTripPlanDetail.jsx";
-
+import MateList from "../pages/mate/MateList.jsx";
 
 function AppRoutes() {
   return (
@@ -26,15 +27,13 @@ function AppRoutes() {
       <Route path="/join" element={<Join />} />
       <Route path="/login" element={<Login />} />
 
-        {/* 마이페이지 */}
+      {/* 마이페이지 */}
       <Route path="/editUserInfo/:custNo" element={<EditUserInfo />} />
       <Route path="/mypage/mate/:custNo" element={<MyPage />} />
       <Route path="/mypage/applys/:custNo" element={<Applys />} />
       <Route path="/mypage/likes/:custNo" element={<Likes />} />
       <Route path="/mypage/replys/:custNo" element={<MyReply />} />
       <Route path="/mypage/reviews/:custNo" element={<MyReview />} />
-      <Route path="/mate" element={<Write />} />
-      <Route path="/details/:findMateNo" element={<Detail />} />
       <Route path="/planit" element={<MainPage />} />
 
       {/* 여행 정보 */}
@@ -43,13 +42,14 @@ function AppRoutes() {
 
       {/* 메이트 */}
       <Route path="/mate" element={<Write />} />
+      <Route path="/mate/edit" element={<DetailEdit />} />
+      <Route path="planit/mates/details" element={<Detail />} />
+      <Route path="/planit/mates" element={<MateList />} />
 
       {/*  트립플랜  */}
       <Route path="/plan" element={<MakeTripPlan />} />
       <Route path="/plan/list/:custNo/:year" element={<MyTripPlanList />} />
       <Route path="/plan/:tripPlanNo" element={<MyTripPlanDetail />} />
-
-
     </Routes>
   );
 }

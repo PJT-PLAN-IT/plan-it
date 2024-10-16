@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+
 <mapper namespace="com.pjt.planit.business.mate.mapper.MateListMapper">
     <select id="getMateList"
             parameterType="com.pjt.planit.business.mate.dto.MateListDTO"
@@ -48,6 +53,16 @@
     ORDER BY fm.create_dt;
 
     </select>
+    
+    
+	<select id="getCustDetailsByTripPlanNo" parameterType="Integer"
+		resultType="com.pjt.planit.business.mate.dto.TripMateNumDTO">
+		SELECT tm.trip_plan_no AS tripPlanNo, c.name
+		FROM T_TRIP_MATE tm
+		JOIN T_CUST c ON tm.cust_no = c.cust_no
+		WHERE tm.trip_plan_no = #{tripPlanNo}
+	</select>
+    
 
     <select id="getTripMateNum"
             parameterType="com.pjt.planit.business.mate.dto.MateListDTO"
@@ -64,4 +79,5 @@
     GROUP BY tp.trip_plan_no
 
     </select>
+
 </mapper>

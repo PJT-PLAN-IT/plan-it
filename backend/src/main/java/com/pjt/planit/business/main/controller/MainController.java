@@ -32,7 +32,7 @@ public class MainController {
      */
     @GetMapping("/planit/newest-place")
     public ApiResponse newestPlace(@RequestParam(defaultValue = "5") String numOfRows,
-                                   @RequestParam(defaultValue = "D") String arrange) {
+                                   @RequestParam(defaultValue = "R") String arrange) {
         return ApiResponse.ok("ok", mainService.newestPlace(numOfRows, arrange));
     }
 

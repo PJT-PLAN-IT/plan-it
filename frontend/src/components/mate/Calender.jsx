@@ -1,10 +1,16 @@
 import Calendar from "react-calendar";
 import "../../assets/css/Calender.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import moment from "moment/moment";
 
-export default function Calender({ dateChange }) {
+export default function Calender({ dateChange, initialDate }) {
   const [date, setDate] = useState([null, null]);
+
+  useEffect(() => {
+    if (initialDate) {
+      setDate(initialDate);
+    }
+  }, [initialDate]);
 
   const handleDateChange = (selectedDate) => {
     setDate(selectedDate);
@@ -30,6 +36,7 @@ export default function Calender({ dateChange }) {
           selectRange={true}
           firstDate={date[0]}
           endDate={date[1]}
+          value={date}
         />
       </div>
     </div>

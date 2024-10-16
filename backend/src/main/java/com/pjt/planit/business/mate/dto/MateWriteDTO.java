@@ -11,6 +11,7 @@ public class MateWriteDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int mateNum;
+    private int tripPlanNo;
     private String content;
     private String gender;
     private String thumbnail;
@@ -20,5 +21,6 @@ public class MateWriteDTO {
     private String thirtyYN;
     private String fortyYN;
     private String fiftyYN;
+    private String nickName;
    
 }
