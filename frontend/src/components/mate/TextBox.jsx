@@ -1,18 +1,99 @@
 import { Editor } from "@tinymce/tinymce-react";
+import { useState } from "react";
 
-const TripScroll = () => {
+const TripScroll = ({ tripPlanList, onSelectedTripUpdate }) => {
+  const [selectedTrip, setSelectedTrip] = useState(null);
+
+  const handleSelectChange = (event) => {
+    const selectedTripPlanNo = event.target.value;
+
+    const selectedTrip = tripPlanList.find(
+      (trip) => trip.tripPlanNo === parseInt(selectedTripPlanNo)
+    );
+    setSelectedTrip(selectedTrip);
+    onSelectedTripUpdate(selectedTrip); // Notify the parent about the selected trip
+  };
+
   return (
     <div className="flex justify-start">
-      <select className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10  ">
-        <option className="">내가 가고싶은 여행1 </option>
-        <option className="">내가 가고싶은 여행2 </option>
-        <option className="">내가 가고싶은 여행3</option>
+      <select
+        className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10"
+        onChange={handleSelectChange}
+        value={selectedTrip?.tripPlanNo || ""}
+      >
+        <option value="" disabled>
+          여행계획 선택
+        </option>
+        {tripPlanList.map((trip) => (
+          <option key={trip.tripPlanNo} value={trip.tripPlanNo}>
+            {trip.title}
+          </option>
+        ))}
       </select>
     </div>
   );
 };
 
-function Textbox({ formData, titleChange, contentChange }) {
+// const TripScroll = ({
+//   tripPlanList,
+//   onTripDetailsUpdate,
+//   onSelectedTripUpdate,
+// }) => {
+//   const [selectedTrip, setSelectedTrip] = useState(null);
+//   const { token } = useAuth();
+//   const fetchTripDetails = async (tripPlanNo) => {
+//     console.log(tripPlanNo);
+//     try {
+//       const response = await axios.get(
+//         `/api/mate/tripdetails?tripPlanNo=${tripPlanNo}`,
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+
+//       onTripDetailsUpdate(response.data);
+
+//       console.log("Trip details fetched: ", JSON.stringify(response.data));
+//     } catch (error) {
+//       console.error("Error fetching trip details: ", error);
+//     }
+//   };
+
+//   const handleSelectChange = (event) => {
+//     const selectedTripPlanNo = event.target.value;
+
+//     const selectedTrip = tripPlanList.find(
+//       (trip) => trip.tripPlanNo === parseInt(selectedTripPlanNo)
+//     );
+//     setSelectedTrip(selectedTrip);
+//     console.log(selectedTrip);
+//     onSelectedTripUpdate(selectedTrip);
+//     // fetchTripDetails(selectedTripPlanNo);
+//   };
+
+//   return (
+//     <div className="flex justify-start">
+//       <select
+//         className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10"
+//         onChange={handleSelectChange}
+//         value={selectedTrip?.tripPlanNo || ""}
+//       >
+//         <option value="" disabled>
+//           여행계획 선택
+//         </option>
+//         {tripPlanList.map((trip) => (
+//           <option key={trip.tripPlanNo} value={trip.tripPlanNo}>
+//             {trip.title}
+//           </option>
+//         ))}
+//       </select>
+//     </div>
+//   );
+// };
+
+function Textbox({ title, content, titleChange, contentChange }) {
   return (
     <div className=" flex-col border border-gray-400  mb-[70px] ">
       <input
@@ -20,6 +101,7 @@ function Textbox({ formData, titleChange, contentChange }) {
         name="title"
         className=" w-[400px] h-10 p-2 my-2 justify-start block focus:outline-none"
         type="text"
+        value={title}
         placeholder="제목을 입력하세요"
         maxLength={14}
       />
@@ -27,7 +109,7 @@ function Textbox({ formData, titleChange, contentChange }) {
       <Editor
         apiKey="xrrohkv0t2zqx94m985ll5nay89i4r3tppwr17zjeg2igtg6"
         onEditorChange={contentChange}
-        value={formData}
+        value={content}
         init={{
           forced_root_block: "",
           force_br_newlines: true,

@@ -85,7 +85,7 @@
         WHERE ttd.trip_plan_no = #{tripPlanNo}
     </select>
 
-    <select id="getDetailList2" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
+    <select id="getDetailList2" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDetailDto">
         SELECT ttd.trip_detail_no AS tripDetailNo
              , ttd.trip_plan_no AS tripPlanNo
              , ttd.plan_dt AS planDt
