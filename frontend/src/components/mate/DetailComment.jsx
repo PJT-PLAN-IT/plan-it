@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 
-const userName = JSON.parse(localStorage.getItem("userInfo")).nickname;
-const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
-const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
 export const CommentForm = ({ addNewComment, findMateNo }) => {
+  const userName = JSON.parse(localStorage.getItem("userInfo")).nickname;
+  const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
   const { token } = useAuth();
   const [comment, setComment] = useState(""); // State to hold the comment input
 
