@@ -59,4 +59,5 @@ public class MateListDTO {
 	//T_TRIP_MATE 확정된 인원
 	private Integer tripMateNum;
 
+
 }

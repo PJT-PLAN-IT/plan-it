@@ -1,4 +1,5 @@
 package com.pjt.planit.db.repository;
+
 import com.pjt.planit.db.entity.FindMateRegion;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -16,6 +17,11 @@ public interface FindMateRegionRepository extends JpaRepository<FindMateRegion, 
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM FindMateRegion r WHERE r.findMateNo = :findMateNo AND r.contentTypeId = :contentTypeId")
-	void deleteByFindMateNoAndContentTypeId(@Param("findMateNo")Integer findMateNo, @Param("contentTypeId")Integer contentTypeId);
+	void deleteByFindMateNoAndContentTypeId(@Param("findMateNo") Integer findMateNo,
+			@Param("contentTypeId") Integer contentTypeId);
+
 	void deleteAllByFindMateNo(int findMateNo);
+
+	@Query("SELECT r.contentTypeId FROM FindMateRegion r WHERE r.findMateNo = :findMateNo")
+	List<Integer> findContentTypeIdsByFindMateNo(@Param("findMateNo") int findMateNo);
 }

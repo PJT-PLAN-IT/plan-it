@@ -20,5 +20,6 @@ public class MateApplyDTO {
 	private LocalDateTime applyDt;
 	private LocalDateTime expiredDt;
 	
+	
 
 }

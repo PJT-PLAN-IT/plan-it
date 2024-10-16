@@ -22,4 +22,7 @@ public interface FindMateStyleRepository extends JpaRepository<FindMateStyle, In
 
 	void deleteAllByFindMateNo(int findMateNo);
 
+	@Query("SELECT s.tripStyleId FROM FindMateStyle s WHERE s.findMateNo = :findMateNo")
+	List<Integer> findTripStyleIdsByFindMateNo(@Param("findMateNo") int findMateNo);
+
 }

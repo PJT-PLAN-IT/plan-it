@@ -1,10 +1,19 @@
 package com.pjt.planit.business.mate.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.pjt.planit.business.mate.dto.MateDetailDTO;
-import com.pjt.planit.business.mate.mapper.DetailMapper;
+import com.pjt.planit.business.mate.dto.ReplyGroupDTO;
+import com.pjt.planit.business.mate.mapper.MateDetailMapper;
 import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import com.pjt.planit.db.entity.FindMateRegion;
@@ -13,19 +22,22 @@ import com.pjt.planit.db.entity.FindMateStyle;
 import com.pjt.planit.db.repository.FindMateRegionRepository;
 import com.pjt.planit.db.repository.FindMateRepository;
 import com.pjt.planit.db.repository.FindMateStyleRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class MateDetailService {
 
 	private final FindMateRepository mateRepository;
 	private final FindMateStyleRepository styleRepository;
 	private final FindMateRegionRepository regionRepository;
-	private final DetailMapper detailMapper;
+	private final MateDetailMapper detailMapper;
 	private final PlanMapper planMapper;
-
+	
+	@Autowired
 	public MateDetailService(FindMateRepository mateRepository, FindMateStyleRepository styleRepository,
-			FindMateRegionRepository regionRepository, DetailMapper detailMapper, PlanMapper planMapper) {
+			FindMateRegionRepository regionRepository, MateDetailMapper detailMapper, PlanMapper planMapper) {
 		this.mateRepository = mateRepository;
 		this.styleRepository = styleRepository;
 		this.regionRepository = regionRepository;
@@ -35,30 +47,36 @@ public class MateDetailService {
 
 	public MateDetailDTO getDetail(int findMateNo) {
 
-		MateDetailDTO detailDTO = new MateDetailDTO();
-		detailDTO.setFindMateNo(findMateNo);
-		detailDTO = detailMapper.getDetail(detailDTO);
-		detailDTO.getRegionsList();
-		detailDTO.getTripStylesList();
+		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
+		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
+		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
+		System.out.println(regions);
+		System.out.println(styles);
+		detailDTO.setRegions(regions);
+		detailDTO.setTripStyles(styles);
 
-		Integer tripPlanNo = detailDTO.getTripPlanNo();
-		if (tripPlanNo != null) {
+		if (detailDTO.getTripPlanNo() != null) {
+			int tripPlanNo = detailDTO.getTripPlanNo();
 			TripPlanDto tripPlanDto = new TripPlanDto();
 			tripPlanDto.setTripPlanNo(tripPlanNo);
 			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
 			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
 			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
 		}
-		detailDTO.setMateReplyList(detailMapper.getMateReply(findMateNo));
-		return detailDTO;
+		
+		System.out.println(detailDTO.getTripPlanList());
+		System.out.println(detailDTO.getTripPlanDetailList());
+
+	return detailDTO;
 
 	}
 
-	public void editDetail(MateDetailDTO detailDTO) {
+	public int editDetail(MateDetailDTO detailDTO) {
 
 		detailMapper.editDetail(detailDTO);
 		updateRegions(detailDTO);
 		updateStyles(detailDTO);
+		return detailDTO.getFindMateNo();
 
 	}
 
@@ -66,7 +84,7 @@ public class MateDetailService {
 	public void updateRegions(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newRegions = detailDTO.getRegionsList();
+		List<Integer> newRegions = detailDTO.getRegions();
 		List<FindMateRegion> oldRegions = regionRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldRegionContentId = oldRegions.stream().map(FindMateRegion::getContentTypeId)
@@ -94,7 +112,7 @@ public class MateDetailService {
 	public void updateStyles(MateDetailDTO detailDTO) {
 
 		Integer findMateNo = detailDTO.getFindMateNo();
-		List<Integer> newStyles = detailDTO.getTripStylesList();
+		List<Integer> newStyles = detailDTO.getTripStyles();
 		List<FindMateStyle> oldStyles = styleRepository.findByFindMateNo(findMateNo);
 
 		List<Integer> oldStyleContentId = oldStyles.stream().map(FindMateStyle::getTripStyleId)

@@ -46,7 +46,7 @@ const GenderSel = ({ formData, handleGenderChange }) => {
   );
 };
 
-const AgeSel = ({ ageButtonChange }) => {
+const AgeSel = ({ ageButtonChange, ageButtonStates }) => {
   const ageGroup = [
     { demo: " 20대", key: "twenty" },
     { demo: " 30대", key: "thirty" },
@@ -63,7 +63,8 @@ const AgeSel = ({ ageButtonChange }) => {
               type="checkbox"
               name="age"
               key={age.key}
-              onClick={() => ageButtonChange(age.key)}
+              // checked={ageButtonStates[age.key]}
+              onChange={() => ageButtonChange(age.key)}
             />
             <span className="SpanGap"> {age.demo}</span>
           </div>
@@ -73,14 +74,14 @@ const AgeSel = ({ ageButtonChange }) => {
   );
 };
 
-const MateNum = ({ mateNumChange }) => {
+const MateNum = ({ mateNum, mateNumChange }) => {
   return (
     <div className="p-[30px] pb-20 border-b-2">
       <h1 className="TitleLabel">모집 인원 수:</h1>
       <input
         type="number"
         min="1"
-        defaultValue={1}
+        value={mateNum}
         className="border-2 mt-5 p-1"
         onChange={mateNumChange}
       />
