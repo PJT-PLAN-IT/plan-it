@@ -1,8 +1,15 @@
+import {useNavigate} from "react-router-dom";
+
 function MyCard({item, component}) {
+    const navigate = useNavigate();
+
+    const goPage = () => {
+        navigate(`/plan/${item.tripPlanNo}`)
+    }
 
     return (
 
-        <div className="bg-white rounded-lg shadow-md">
+        <div className="bg-white rounded-lg shadow-md cursor-pointer" onClick={goPage}>
             <img src={item.thumbnailImg} alt="이미지" className="w-full h-40 object-cover"/>
             <div className="p-4">
                 <div className="flex justify-between items-center mb-4">
