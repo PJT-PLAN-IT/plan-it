@@ -79,7 +79,7 @@ export default function Detail() {
     {}
   );
 
-  console.log(JSON.stringify(formDetails.data));
+  console.log(formDetails.data);
   return (
     <div className="mx-[300px]">
       <div>
