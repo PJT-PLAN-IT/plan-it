@@ -8,7 +8,7 @@ const TripStyles = [
 ];
 function TripStyle({ formData, trpBtnClick }) {
   return (
-    <div className="border-t-2">
+    <div className="border-t-2 pt-5">
       <div className="py-[10px] px-[30px] my-[9px]">
         <h1 className="TitleLabel">여행 스타일:</h1>
         {TripStyles.map((trips) => (

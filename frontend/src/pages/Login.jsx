@@ -27,7 +27,7 @@ function Login() {
         setToken(responseData.token);
 
         //TODO 메인페이지로 이동
-        navigate("/editUserInfo/" + `${responseData.custNo}`);
+        navigate("/planit");
       } else {
         alert("로그인에 실패했습니다.");
       }

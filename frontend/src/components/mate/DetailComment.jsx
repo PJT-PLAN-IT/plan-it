@@ -214,10 +214,7 @@ export const ShowComment = ({ comment, editComment, deleteComment }) => {
   return (
     <div className="p-2 py-[40px] border-b-2 relative">
       <div>
-        <p className="font-semibold mb-2">
-          {" "}
-          {comment.create_by.slice(0, comment.create_by.indexOf("@"))}
-        </p>
+        <p className="font-semibold mb-2"> {comment.create_by}</p>
         <div className="flex justify-around w-[10%] absolute top-4 right-6 text-xs underline">
           {userNo == comment.cust_no ? (
             <>

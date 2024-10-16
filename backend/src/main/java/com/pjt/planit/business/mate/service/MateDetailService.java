@@ -46,7 +46,6 @@ public class MateDetailService {
 	}
 
 	public MateDetailDTO getDetail(int findMateNo) {
-
 		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
 		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
 		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);

@@ -9,7 +9,6 @@ export function MateApplyBtn({
   expiredDate,
   tripPlanNo,
 }) {
-  console.log(tripPlanNo);
   const [applyMateInfo, setApplyMateInfo] = useState("");
   const { token } = useAuth();
   const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
@@ -30,11 +29,9 @@ export function MateApplyBtn({
       }
     };
 
-    // Fetch the data when component mounts or when findMateNo or userNo changes
     fetchApplyMateInfo();
-  }, [findMateNo, userNo, token]); // Adding dependencies here
+  }, [findMateNo, userNo, token]);
 
-  console.log(applyMateInfo);
   const infoExist = applyMateInfo == true;
   return (
     <div>
@@ -63,7 +60,6 @@ const useApplyMate = (setApplyMateInfo) => {
   const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
 
   const applyMate = async (findMateNo, startDate, expiredDate) => {
-    console.log(startDate, expiredDate);
     const applyInfo = {
       findMateNo: Number(findMateNo),
       custNo: userNo,
@@ -72,14 +68,12 @@ const useApplyMate = (setApplyMateInfo) => {
     };
 
     try {
-      console.log(applyInfo);
       const response = await axios.post("/api/mate/participate", applyInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-      console.log("request sent", response);
       if (response.data.code === 200) {
         setApplyMateInfo(true);
       }
@@ -101,10 +95,8 @@ const useCancelMate = (setApplyMateInfo) => {
       custNo: userNo,
       tripPlanNo: tripPlanNo,
     };
-    console.log(cancelInfo);
 
     try {
-      // Assuming the cancellation endpoint is a DELETE or POST request
       const response = await axios.post(
         "/api/mate/participate/cancel",
         cancelInfo,
@@ -116,15 +108,10 @@ const useCancelMate = (setApplyMateInfo) => {
         }
       );
 
-      console.log("cancellation request sent", response);
-
-      // Assume response.data.code === 200 means successful cancellation
       if (response.data.code === 200) {
-        // Update the state to reflect that the user has canceled their application
-        setApplyMateInfo(false); // This will trigger a re-render to show the apply button again
+        setApplyMateInfo(false);
       }
     } catch (error) {
-      console.log(cancelInfo);
       console.error("Error sending cancellation request:", error);
     }
   };

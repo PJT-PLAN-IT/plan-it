@@ -49,7 +49,7 @@ public class MateReplyService {
 
 	public List<FindMateReply> getRepliesByFindMateNo(int findMateNo) {
 		List<FindMateReply> replies = replyRepository.findByFindMateNo(findMateNo);
-		System.out.println(replies);
+		
 		return replies;
 	}
 

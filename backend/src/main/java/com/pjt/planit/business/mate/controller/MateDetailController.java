@@ -34,4 +34,5 @@ public class MateDetailController {
 //		System.out.println(result);
 //		return ApiResponse.ok("", result);
 //	}
+	
 }

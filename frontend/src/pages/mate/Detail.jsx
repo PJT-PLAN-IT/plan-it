@@ -3,7 +3,6 @@ import "../../assets/css/Write.css";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { genderInfo } from "../../data/gender";
 import { Regions } from "../../data/regions";
@@ -13,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import CommentSection from "../../components/mate/DetailComment";
 import axios from "axios";
 import { MateApplyBtn } from "../../hooks/MateApplyBtn";
+// import DetailPageMap from "../../components/tripplan/DetailPageMap";
 
 export default function Detail() {
   const { token } = useAuth();
@@ -51,12 +51,8 @@ export default function Detail() {
     }
   }, [findMateNo]);
 
-  const share = (
-    <FontAwesomeIcon
-      className="text-gray-500 text-[25px]"
-      icon={faPaperPlane}
-    />
-  );
+  // console.log(formDetails.tripPlanDetails);
+
   const heart = (
     <FontAwesomeIcon className="text-gray-500 text-[25px]" icon={faHeart} />
   );
@@ -79,7 +75,22 @@ export default function Detail() {
     {}
   );
 
-  console.log(formDetails.data);
+  const deleteDetail = (findMateNo) => {
+    if (findMateNo) {
+      axios
+        .delete(`/api/mate?findMateNo=${findMateNo}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(alert("공고가 삭제되었습니다."), navigate("/planit/mates"))
+        .catch((error) => {
+          alert("공고 삭제를 실패하였습니다. 다시 시도해주세요");
+          console.error("Error fetching form details:", error);
+        });
+    }
+  };
+
   return (
     <div className="mx-[300px]">
       <div>
@@ -88,7 +99,7 @@ export default function Detail() {
             {userEmail == formDetails.data.findMateCreateBy ? (
               <div className=" justify-around flex w-[5%] absolute top-4 right-6 text-xs underline">
                 <button onClick={editDetail}>수정</button>
-                <button>삭제</button>
+                <button onClick={() => deleteDetail(findMateNo)}>삭제</button>
               </div>
             ) : (
               ""
@@ -168,14 +179,6 @@ export default function Detail() {
                           setOpen(!open);
                         }}
                       >
-                        {share}
-                      </span>
-                      <span
-                        className="inline-block mr-4 "
-                        onClick={() => {
-                          setOpen(!open);
-                        }}
-                      >
                         {heart}
                       </span>
                     </div>
@@ -226,7 +229,7 @@ export default function Detail() {
                       ))}
                     </div>
                   </div>
-                  <MyTripMap />
+                  {/* <DetailPageMap /> */}
                 </>
               ) : (
                 ""
@@ -256,10 +259,9 @@ const CheckTripMate = ({ tripPlanNo, formDetails }) => {
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
-  console.log(tripPlanNo);
+
   const fetchParticipants = async () => {
     try {
-      console.log("making tripmate request");
       setLoading(true);
       const response = await axios.get(
         `/api/mate/participate/getMateNum?tripPlanNo=${tripPlanNo}`,
@@ -269,7 +271,6 @@ const CheckTripMate = ({ tripPlanNo, formDetails }) => {
           },
         }
       );
-      console.log(response.data);
       setParticipants(response.data);
     } catch (error) {
       console.error("Error fetching participants:", error);
