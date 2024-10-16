@@ -61,9 +61,9 @@ export function Header() {
             <hr />
             <DropdownMenuHead text={"여행관리"} />
             <hr />
-            <DropdownMenu icon={folder} text={"여행 계획 작성"} />
-            <DropdownMenu icon={folder} text={"나의 여행 계획 보기"} />
-            <DropdownMenu icon={folder} text={"좋아요 한 여행 후기"} />
+            <DropdownMenu icon={folder} text={"여행 계획 작성"} link={`/plan`}/>
+            <DropdownMenu icon={folder} text={"나의 여행 계획 보기"} link={`/plan/list/${userInfo.custNo}/${new Date().getFullYear()}`} />
+            {/*<DropdownMenu icon={folder} text={"좋아요 한 여행 후기"} link={`/plan`} />*/}
             <hr />
             <DropdownMenuHead text={"메이트 관리"} />
             <hr />

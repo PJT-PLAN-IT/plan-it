@@ -1,16 +1,19 @@
 package com.pjt.planit.business.tripplan.service;
 
-import com.pjt.planit.business.tripplan.dto.*;
-import com.pjt.planit.db.entity.Cust;
-import com.pjt.planit.db.entity.Invite;
+import com.pjt.planit.business.tripplan.dto.TripPlanDetailDto;
+import com.pjt.planit.business.tripplan.dto.TripPlanDto;
+import com.pjt.planit.business.tripplan.dto.TripPublicYnDto;
+import com.pjt.planit.business.tripplan.dto.TripReviewDto;
+import com.pjt.planit.business.tripplan.mapper.PlanMapper;
 import com.pjt.planit.db.entity.TripDetail;
 import com.pjt.planit.db.entity.TripPlan;
-import com.pjt.planit.db.repository.*;
-import com.pjt.planit.business.tripplan.mapper.PlanMapper;
+import com.pjt.planit.db.repository.PlaceReviewRepository;
+import com.pjt.planit.db.repository.TripDetailRepository;
+import com.pjt.planit.db.repository.TripPlanRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +25,21 @@ public class PlanService {
     private final TripPlanRepository tripPlanRepository;
     private final TripDetailRepository tripDetailRepository;
     private final PlanMapper planMapper;
-    private final CustRepository custRepository;
-    private final InviteRepository inviteRepository;
     private final PlaceReviewRepository placeReviewRepository;
 
-    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper, CustRepository custRepository, InviteRepository inviteRepository, PlaceReviewRepository placeReviewRepository) {
+    @Value("${file.readFileDir}")
+    private String readFileDir;
+
+    public PlanService(TripPlanRepository tripPlanRepository, TripDetailRepository tripDetailRepository, PlanMapper planMapper, PlaceReviewRepository placeReviewRepository) {
         this.tripPlanRepository = tripPlanRepository;
         this.tripDetailRepository = tripDetailRepository;
         this.planMapper = planMapper;
-        this.custRepository = custRepository;
-        this.inviteRepository = inviteRepository;
         this.placeReviewRepository = placeReviewRepository;
     }
 
     /**
      * 여행 게획 상세 내용 리턴
+     *
      * @return TripPlanDto
      */
     public TripPlanDto getPlanDetail(int tripPlanNo) {
@@ -44,12 +47,31 @@ public class PlanService {
         tripPlanDto.setTripPlanNo(tripPlanNo);
         tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
         tripPlanDto.setTripPlanMateList(planMapper.getMateList(tripPlanDto));
-        tripPlanDto.setTripPlanDetailList(planMapper.getDetailList(tripPlanDto));
+        tripPlanDto.setTripPlanDetailList(convertTripPlanDetailDto(planMapper.getDetailList(tripPlanDto)));
         return tripPlanDto;
+    }
+
+    public List<TripPlanDetailDto> convertTripPlanDetailDto(List<TripPlanDetailDto> tripPlanDetailDtoList) {
+        return tripPlanDetailDtoList.stream().map(tripPlanDetailDto -> {
+            if (tripPlanDetailDto.getReviewImg1() != null) {
+                tripPlanDetailDto.setReviewImg1(readFileDir + tripPlanDetailDto.getReviewImg1());
+            }
+            if (tripPlanDetailDto.getReviewImg2() != null) {
+                tripPlanDetailDto.setReviewImg2(readFileDir + tripPlanDetailDto.getReviewImg2());
+            }
+            if (tripPlanDetailDto.getReviewImg3() != null) {
+                tripPlanDetailDto.setReviewImg3(readFileDir + tripPlanDetailDto.getReviewImg3());
+            }
+            if (tripPlanDetailDto.getReviewImg4() != null) {
+                tripPlanDetailDto.setReviewImg4(readFileDir + tripPlanDetailDto.getReviewImg4());
+            }
+            return tripPlanDetailDto;
+        }).toList();
     }
 
     /**
      * 사용자가 만든 여행 리스트 리턴
+     *
      * @return TripPlanDto
      */
     public List<TripPlanDto> getPlanList(Integer custNo, Integer year) {
@@ -63,14 +85,13 @@ public class PlanService {
 
     /**
      * 사용자의 여행 계획 추가
-     *
      */
     public void addTripPlan(TripPlanDto tripPlanDto) {
 
         addTripPlanEntity(tripPlanDto);
         TripPlan getRecentTripPlan = findRecentTripPlan(tripPlanDto.getCustNo());
 
-        for(TripPlanDetailDto detailList : tripPlanDto.getTripPlanDetailList()){
+        for (TripPlanDetailDto detailList : tripPlanDto.getTripPlanDetailList()) {
             addPlanDetail(detailList, getRecentTripPlan.getTripPlanNo());
         }
     }
@@ -78,6 +99,7 @@ public class PlanService {
 
     /**
      * 여행 계획 수정
+     *
      * @param tripPlanDto
      */
     public void updateTripPlan(TripPlanDto tripPlanDto) {
@@ -86,8 +108,8 @@ public class PlanService {
         if (getPlan.isPresent()) {
             TripPlan tripPlan = getPlan.get();
             tripPlan.setTitle(tripPlanDto.getTitle() == null ? tripPlan.getTitle() : tripPlanDto.getTitle());
-            tripPlan.setStartDt(tripPlanDto.getStartDt() == null ? tripPlan.getStartDt(): tripPlanDto.getStartDt());
-            tripPlan.setEndDt(tripPlanDto.getEndDt() == null ? tripPlan.getEndDt(): tripPlanDto.getEndDt());
+            tripPlan.setStartDt(tripPlanDto.getStartDt() == null ? tripPlan.getStartDt() : tripPlanDto.getStartDt());
+            tripPlan.setEndDt(tripPlanDto.getEndDt() == null ? tripPlan.getEndDt() : tripPlanDto.getEndDt());
             tripPlanRepository.save(tripPlan);
         }
 
@@ -111,6 +133,7 @@ public class PlanService {
 
     /**
      * TripDetail 수정 및 신규 객체 생성 메소드
+     *
      * @param detailDto p1
      * @return TripDetail
      */
@@ -124,28 +147,29 @@ public class PlanService {
             tripDetail = tripDetailOptional.orElseGet(TripDetail::new);
         }
 
-        tripDetail.setPlanDt( detailDto.getPlanDt() == null ?  tripDetail.getPlanDt() : detailDto.getPlanDt());
-        tripDetail.setSeq( detailDto.getSeq() == null ? tripDetail.getSeq() : detailDto.getSeq());
-        tripDetail.setContentid( detailDto.getContentid() == null ? tripDetail.getContentid() : detailDto.getContentid());
+        tripDetail.setPlanDt(detailDto.getPlanDt() == null ? tripDetail.getPlanDt() : detailDto.getPlanDt());
+        tripDetail.setSeq(detailDto.getSeq() == null ? tripDetail.getSeq() : detailDto.getSeq());
+        tripDetail.setContentid(detailDto.getContentid() == null ? tripDetail.getContentid() : detailDto.getContentid());
         tripDetail.setContentTypeId(detailDto.getContentTypeId() == null ? tripDetail.getContentTypeId() : detailDto.getContentTypeId());
-        tripDetail.setTitle( detailDto.getTitle() == null ?  tripDetail.getTitle() : detailDto.getTitle());
-        tripDetail.setAddress( detailDto.getAddress() == null ?  tripDetail.getAddress() : detailDto.getAddress());
-        tripDetail.setMapx( detailDto.getMapx() == null ?  tripDetail.getMapx() : detailDto.getMapx());
-        tripDetail.setMapy( detailDto.getMapy() == null ?  tripDetail.getMapy() : detailDto.getMapy());
+        tripDetail.setTitle(detailDto.getTitle() == null ? tripDetail.getTitle() : detailDto.getTitle());
+        tripDetail.setAddress(detailDto.getAddress() == null ? tripDetail.getAddress() : detailDto.getAddress());
+        tripDetail.setMapx(detailDto.getMapx() == null ? tripDetail.getMapx() : detailDto.getMapx());
+        tripDetail.setMapy(detailDto.getMapy() == null ? tripDetail.getMapy() : detailDto.getMapy());
 
         return tripDetail;
     }
 
     /**
      * 여행 계획 삭제
+     *
      * @param tripPlanNo
      */
     @Transactional
     public void deleteTripPlan(Integer tripPlanNo) {
 
         Optional<List<TripDetail>> detailList = tripDetailRepository.findAllByTripPlanNo(tripPlanNo);
-        if(detailList.isPresent()) {
-            for(TripDetail tripDetail : detailList.get()){
+        if (detailList.isPresent()) {
+            for (TripDetail tripDetail : detailList.get()) {
                 placeReviewRepository.deleteAllByTripDetailNo(tripDetail.getTripDetailNo());
             }
         }
@@ -155,6 +179,7 @@ public class PlanService {
 
     /**
      * 여행 계획 기본 정보 추가
+     *
      * @param tripPlanDto
      */
     public void addTripPlanEntity(TripPlanDto tripPlanDto) {
@@ -174,6 +199,7 @@ public class PlanService {
 
     /**
      * 사용자의 여행 계획 디테일 내용 추가
+     *
      * @param detailList
      * @param tripPlanNo
      */
@@ -194,23 +220,25 @@ public class PlanService {
 
     /**
      * 사용자가 가장 최근에 저장한 여행 내역 리턴
+     *
      * @param custNo
      */
     public TripPlan findRecentTripPlan(Integer custNo) {
         TripPlan tripPlan;
-        tripPlan =  tripPlanRepository.findFirstByCustNoOrderByTripPlanNoDesc(custNo);
+        tripPlan = tripPlanRepository.findFirstByCustNoOrderByTripPlanNoDesc(custNo);
         return tripPlan;
     }
 
 
     /**
      * 여행 리뷰 추가
+     *
      * @param tripReviewDto
      */
     public void addReview(TripReviewDto tripReviewDto) {
-        Optional<TripPlan> getTripPlan =  tripPlanRepository.findById(tripReviewDto.getTripPlanNo());
+        Optional<TripPlan> getTripPlan = tripPlanRepository.findById(tripReviewDto.getTripPlanNo());
 
-        if(getTripPlan.isPresent()) {
+        if (getTripPlan.isPresent()) {
             TripPlan tripPlan = getTripPlan.get();
             tripPlan.setReview(tripReviewDto.getReview());
             tripPlanRepository.save(tripPlan);
@@ -219,12 +247,13 @@ public class PlanService {
 
     /**
      * 공개설정 수정
+     *
      * @param tripPublicYnDto
      */
     public void changePublic(TripPublicYnDto tripPublicYnDto) {
-        Optional<TripPlan> getTripPlan =  tripPlanRepository.findById(tripPublicYnDto.getTripPlanNo());
+        Optional<TripPlan> getTripPlan = tripPlanRepository.findById(tripPublicYnDto.getTripPlanNo());
 
-        if(getTripPlan.isPresent()) {
+        if (getTripPlan.isPresent()) {
             TripPlan tripPlan = getTripPlan.get();
             tripPlan.setPublicYn(tripPublicYnDto.getPublicYn());
             tripPlanRepository.save(tripPlan);
