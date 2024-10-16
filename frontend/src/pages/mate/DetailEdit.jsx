@@ -55,6 +55,11 @@ export default function DetailEdit() {
       fifty: false,
     },
 
+    dateChangeStates: {
+      startDate: "",
+      endDate: "",
+    },
+
     findMateNoState: "",
     titleState: "",
     mateNumState: 1,
@@ -96,6 +101,11 @@ export default function DetailEdit() {
           fifty: detailsData.fiftyYN === "Y",
         },
 
+        dateChangeStates: {
+          startDate: detailsData.startDate,
+          endDate: detailsData.endDate,
+        },
+
         findMateNoState: detailsData.findMateNo || "",
         titleState: detailsData.title || "",
         mateNumState: detailsData.mateNum || 1,
@@ -103,6 +113,7 @@ export default function DetailEdit() {
         genderState: detailsData.gender,
         thumbnailSel: detailsData.thumbnailImg,
         selectedTrip: detailsData.selectedTrip,
+        tripPlanNo: detailsData.tripPlanNo,
         tripPlanList: detailsData.tripPlanList || {},
         tripPlanDetailList: detailsData.tripPlanDetailList || {},
       }));
@@ -176,6 +187,7 @@ export default function DetailEdit() {
     }
   }, [formData.selectedTrip, token]);
 
+  console.log(formData);
   function regBtnClick(btnState) {
     setFormData((prev) => ({
       ...prev,
@@ -283,6 +295,8 @@ export default function DetailEdit() {
     const finalFormData = {
       findMateNo: formData.findMateNoState,
       title: formData.titleState,
+      startDate: formData.selectedTrip.startDt,
+      endDate: formData.selectedTrip.endDt,
       mateNum: formData.mateNumState,
       content: formData.contentState,
       gender: formData.genderState,
@@ -321,6 +335,7 @@ export default function DetailEdit() {
         <TripScroll
           tripPlanList={formData.tripPlanList}
           onSelectedTripUpdate={handleSelectedTripUpdate}
+          oriTripPlan={formData.tripPlanNo}
         />
         <TextBox
           title={formData.titleState}

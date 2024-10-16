@@ -54,6 +54,11 @@ function SubmitForm() {
       fifty: false,
     },
 
+    dateChangeStates: {
+      startDate: "",
+      endDate: "",
+    },
+
     titleState: "",
     mateNumState: 1,
     contentState: "",
@@ -169,6 +174,7 @@ function SubmitForm() {
   const mateNumChange = (e) => {
     setFormData({ ...formData, mateNumState: e.target.value });
   };
+
   const contentChange = (content) => {
     setFormData({ ...formData, contentState: content });
   };
@@ -227,6 +233,8 @@ function SubmitForm() {
 
     const finalFormData = {
       title: formData.titleState,
+      startDate: formData.selectedTrip.startDt,
+      endDate: formData.selectedTrip.endDt,
       mateNum: formData.mateNumState,
       content: formData.contentState,
       gender: formData.genderState,
