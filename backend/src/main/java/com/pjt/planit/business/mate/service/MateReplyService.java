@@ -1,5 +1,6 @@
 package com.pjt.planit.business.mate.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class MateReplyService {
 		findMateReply.setReply(replyDTO.getReply());
 		findMateReply.setPublicYn(replyDTO.getPublicYn());
 		findMateReply.setSeq(replyDTO.getSeq());
-//		findMateReply.setCreateBy(replyDTO.getCreateBy());
+		findMateReply.setCreateDt(LocalDateTime.now());
 		replyRepository.save(findMateReply);
 		int replyNo = findMateReply.getFindMateReplyNo();
 		return replyNo;

@@ -21,10 +21,15 @@ public class JoinCustService {
     }
 
     // return값 변경하기 true/false
+    /**
+     * 회원가입
+     * @param custJoinDto
+     */
     public void signup(CustJoinDto custJoinDto) {
-        Boolean isExist = custRepository.existsByEmail(custJoinDto.getEmail());
+        boolean existsByEmail = custRepository.existsByEmail(custJoinDto.getEmail());
+        boolean existsByNickname = custRepository.existsByNickname(custJoinDto.getNickname());
 
-        if(isExist) {
+        if(existsByEmail || existsByNickname) {
             return;
         }
         Cust cust = Cust.builder()
@@ -44,5 +49,22 @@ public class JoinCustService {
 
     }
 
+    /**
+     * 이메일 중복확인
+     * @param email
+     * @return
+     */
+    public Boolean emailCheck(String email) {
+        return custRepository.existsByEmail(email);
+    }
+
+    /**
+     * 닉네임 중복확인
+     * @param nickname
+     * @return
+     */
+    public Boolean nickNameCheck(String nickname) {
+        return custRepository.existsByNickname(nickname);
+    }
 
 }

@@ -23,7 +23,8 @@ public class RequestMatcherHolder {
             "api/mate/tripplans",
             "api/mate/tripDetails",
             "/images/**",
-            "api/planit/mates"
+            "api/planit/mates",
+            "/**"
        
 
     );
