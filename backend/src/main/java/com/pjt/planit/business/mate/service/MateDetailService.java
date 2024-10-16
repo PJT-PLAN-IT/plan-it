@@ -34,7 +34,7 @@ public class MateDetailService {
 	private final FindMateRegionRepository regionRepository;
 	private final MateDetailMapper detailMapper;
 	private final PlanMapper planMapper;
-	
+
 	@Autowired
 	public MateDetailService(FindMateRepository mateRepository, FindMateStyleRepository styleRepository,
 			FindMateRegionRepository regionRepository, MateDetailMapper detailMapper, PlanMapper planMapper) {
@@ -45,10 +45,10 @@ public class MateDetailService {
 		this.planMapper = planMapper;
 	}
 
-	public MateDetailDTO getDetail(int findMateNo) {
-		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
-		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
-		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
+	public MateDetailDTO getDetail(MateDetailDTO dto) {
+		MateDetailDTO detailDTO = detailMapper.getDetail(dto);
+		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(dto.getFindMateNo());
+		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(dto.getFindMateNo());
 		System.out.println(regions);
 		System.out.println(styles);
 		detailDTO.setRegions(regions);
@@ -62,13 +62,37 @@ public class MateDetailService {
 			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
 			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
 		}
-		
+
 		System.out.println(detailDTO.getTripPlanList());
 		System.out.println(detailDTO.getTripPlanDetailList());
 
-	return detailDTO;
+		return detailDTO;
 
 	}
+//	public MateDetailDTO getDetail(int findMateNo) {
+//		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
+//		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
+//		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
+//		System.out.println(regions);
+//		System.out.println(styles);
+//		detailDTO.setRegions(regions);
+//		detailDTO.setTripStyles(styles);
+//		
+//		if (detailDTO.getTripPlanNo() != null) {
+//			int tripPlanNo = detailDTO.getTripPlanNo();
+//			TripPlanDto tripPlanDto = new TripPlanDto();
+//			tripPlanDto.setTripPlanNo(tripPlanNo);
+//			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
+//			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
+//			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
+//		}
+//		
+//		System.out.println(detailDTO.getTripPlanList());
+//		System.out.println(detailDTO.getTripPlanDetailList());
+//		
+//		return detailDTO;
+//		
+//	}
 
 	public int editDetail(MateDetailDTO detailDTO) {
 

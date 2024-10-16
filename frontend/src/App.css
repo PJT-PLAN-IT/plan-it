@@ -103,21 +103,21 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .slider-container {
-  width: 100%; /* The width of the slider container */
-  height: 400px; /* Adjust the height as needed */
-  position: relative; /* Ensure that the images stay within the container */
-  overflow: hidden; /* Prevent images from overflowing outside the slider container */
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
 }
 
 .slider-container .slick-slide {
-  height: 100%; /* Make each slide take full height */
-  display: flex; /* Align items inside the slide properly */
-  justify-content: center; /* Center the image horizontally */
-  align-items: flex-end; /* Center the image vertically */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .slider-container img {
-  width: auto; /* Ensure the image fills the container's width */
-  height: 100%; /* Ensure the image fills the container's height */
-  object-fit: contain; /* Maintains the aspect ratio while filling the container */
+  width: auto;
+  height: 100%;
+  object-fit: contain;
 }

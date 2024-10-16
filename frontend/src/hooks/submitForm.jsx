@@ -196,6 +196,8 @@ function SubmitForm() {
     }));
   }
 
+  console.log(formData.selectedTrip);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const regArr = Object.values(formData.regButtonStates);

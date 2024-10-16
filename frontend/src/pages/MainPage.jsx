@@ -61,11 +61,11 @@ const SectionPlace = ({ title, newestPlace }) => {
     });
   };
   return (
-    <section
-      className="section h-[40vh] py-[30px] hover:cursor-pointer "
-      onClick={viewTravel}
-    >
-      <h2 className="font-semibold flex w-[260px] justify-between pl-5 text-2xl ">
+    <section className="section h-[40vh] py-[30px] hover:cursor-pointer ">
+      <h2
+        className="font-semibold flex w-[260px] justify-between pl-5 text-2xl "
+        onClick={viewTravel}
+      >
         {title}
 
         <span className="text-orange "> {right}</span>
@@ -94,8 +94,11 @@ const SectionMate = ({ title, matesLike }) => {
     });
   };
   return (
-    <section className="section h-[40vh] py-[30px] mt-10" onClick={viewMate}>
-      <h2 className="font-semibold flex w-[265px] justify-between pl-4 text-2xl ">
+    <section className="section h-[40vh] py-[30px] mt-10">
+      <h2
+        className="font-semibold flex w-[265px] justify-between pl-4 text-2xl "
+        onClick={viewMate}
+      >
         {title}
         <span className="text-orange"> {right}</span>
       </h2>
@@ -140,7 +143,33 @@ const PostCard2 = ({ item, onClickMate }) => {
         style={{ backgroundImage: `url(${item.thumbnailImg})` }}
         className={` rounded-lg border-2 bg-cover bg-center relative overflow-hidden w-[220px] h-[220px]`}
       >
-        <div className=" rounded-lg w-[220px] h-[220px] z-10 bg-black opacity-40"></div>
+        <div className=" rounded-lg w-[220px] h-[220px] z-10 bg-black opacity-40 "></div>
+      </div>
+      <div className="text-white z-20 absolute top-0 p-4 w-[100%] h-[100%] ">
+        <div className="flex justify-between">
+          <p className="text-sm ">{item.name}</p>
+        </div>
+        <p className="font-light text-sm my-2">
+          {item.startDt} ~ {item.endDt}
+        </p>
+        <h1 className="text-xl my-24 font-semibold overflow-hidden">
+          {item.title}
+        </h1>
+      </div>
+    </div>
+  );
+};
+const PostCard3 = ({ item, onClickMate }) => {
+  return (
+    <div
+      className={` rounded-lg bg-cover bg-center relative overflow-hidden self-center justify-self-center `}
+      onClick={() => onClickMate(item.findMateNo)}
+    >
+      <div
+        style={{ backgroundImage: `url(${item.thumbnailImg})` }}
+        className={` rounded-lg border-2 bg-cover bg-center relative overflow-hidden w-[350px] h-[350px]`}
+      >
+        <div className=" rounded-lg  w-[350px] h-[350px] z-10 bg-black opacity-40 "></div>
       </div>
       <div className="text-white z-20 absolute top-0 p-4 w-[100%] h-[100%] ">
         <div className="flex justify-between">
@@ -159,7 +188,7 @@ const PostCard2 = ({ item, onClickMate }) => {
 
 export default MainPage;
 
-export { PostCard2, SectionMate };
+export { PostCard2, PostCard3, SectionMate };
 {
   /* <div
 className="aspect-square border-2 overflow-hidden justify-evenly p-2 "

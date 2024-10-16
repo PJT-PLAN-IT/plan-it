@@ -7,12 +7,12 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { genderInfo } from "../../data/gender";
 import { Regions } from "../../data/regions";
 import { TripStyles } from "../../data/tripStyle";
-import { MyTripPlans, MyTripMap } from "../../components/mate/MyTrip";
+import { MyTripPlans } from "../../components/mate/MyTrip";
 import { useAuth } from "../../context/AuthContext";
 import CommentSection from "../../components/mate/DetailComment";
 import axios from "axios";
 import { MateApplyBtn } from "../../hooks/MateApplyBtn";
-// import DetailPageMap from "../../components/tripplan/DetailPageMap";
+import DetailPageMap from "../../components/tripplan/DetailPageMap";
 
 export default function Detail() {
   const { token } = useAuth();
@@ -22,12 +22,18 @@ export default function Detail() {
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+  // const custNo = localStorage.getItem("userInfo").custNo;
+
+  // console.log(findMateNo, custNo);
 
   useEffect(() => {
+    const dto = {
+      findMateNo: findMateNo,
+      custNo: custNo,
+    };
     if (findMateNo) {
       axios
-        .get(`/api/planit/mates/details?findMateNo=${findMateNo}`, {
+        .post(`/api/planit/mates/details`, dto, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -51,8 +57,7 @@ export default function Detail() {
     }
   }, [findMateNo]);
 
-  // console.log(formDetails.tripPlanDetails);
-
+  console.log(formDetails.data);
   const heart = (
     <FontAwesomeIcon className="text-gray-500 text-[25px]" icon={faHeart} />
   );
@@ -90,14 +95,16 @@ export default function Detail() {
         });
     }
   };
-
+  // const writeDate = formDetails.data.findMateCreateDate;
+  console.log(groupedByDate);
+  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
   return (
     <div className="mx-[300px]">
       <div>
         {formDetails.data ? (
           <div className="p-[30px] h-[400px]  relative">
             {userEmail == formDetails.data.findMateCreateBy ? (
-              <div className=" justify-around flex w-[5%] absolute top-4 right-6 text-xs underline">
+              <div className=" justify-around flex gap-4 absolute top-4 right-7 text-xs underline">
                 <button onClick={editDetail}>수정</button>
                 <button onClick={() => deleteDetail(findMateNo)}>삭제</button>
               </div>
@@ -110,17 +117,17 @@ export default function Detail() {
                   <h1 className="font-semibold text-base">
                     {formDetails.data.title}
                   </h1>
-                  <div className=" flex justify-between w-[15%]">
-                    <p className="text-xs font-semibold">
+                  <div className="flex justify-between gap-2">
+                    <p className="text-xs font-semibold ">
                       {formDetails.data.custName}님
                     </p>
                     <a></a>
                     <div className="flex gap-2 text-xs font-light">
-                      <p>{formDetails.data.findMateCreateDate}</p>
+                      <p>{formDetails.data.findMateCreateDate.slice(0, 10)}</p>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-evenly min-w-[30%] max-w-[50%] flex-wrap text-xs mt-2 ml-[-19px] mb-10">
+                <div className="flex flex-wrap text-xs mt-2 ml-[-19px] mb-10">
                   {formDetails.data.regions.map((region) => {
                     const regionVar = Regions.find((r) => r.key == region);
                     return (
@@ -229,12 +236,15 @@ export default function Detail() {
                       ))}
                     </div>
                   </div>
-                  {/* <DetailPageMap /> */}
                 </>
               ) : (
                 ""
               )}
-
+              <div
+                className={`flex w-full h-[600px] border-gray-200 border-2 `}
+              >
+                <DetailPageMap planCoordinate={groupedByDate} />
+              </div>
               <div className="flex justify-center align-middle gap-10 my-[70px]">
                 <MateApplyBtn
                   findMateNo={findMateNo}
