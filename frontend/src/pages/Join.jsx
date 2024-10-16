@@ -17,7 +17,6 @@ function Join() {
         gender: '',
         privacy: ''
     });
-    const [authCode, setAuthCode] = useState("");
     const navigate = useNavigate();
 
     // 입력 값 변경 시 호출되는 함수
@@ -27,10 +26,6 @@ function Join() {
             ...formData,
             [name]: value
         });
-    };
-
-    const authCodeInputChange = (e) => {
-        setAuthCode(e.target.value);
     };
 
     // 폼 제출 시 호출되는 함수
@@ -68,6 +63,25 @@ function Join() {
         }
     };
 
+    //이메일 중복체크
+    const emailDupOnClick = async (e) => {
+        e.preventDefault();
+        try{
+            const response = await axios.post('/api/join/emailCheck', null, {
+                params : {
+                    email : formData.email
+                }
+            });
+            if(response.data.status === "OK" && response.data.data === true){
+                alert("이메일이 중복되었습니다.");
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+    };
+
 
     return (
         <div className="bg-white min-h-screen flex justify-center items-center">
@@ -91,26 +105,10 @@ function Join() {
                             maxLength="45"
                             required
                         />
-                        <button type="button" className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
-                            인증번호
-                        </button>
-                    </div>
-
-                    {/* 인증번호 입력 및 버튼 */}
-                    <div className="flex items-center gap-4">
-                        <label htmlFor="authCode" className="w-1/5 text-gray-700 font-semibold">인증번호</label>
-                        <input
-                            type="text"
-                            id="authCode"
-                            name="authCode"
-                            className="w-3/5 p-2 border border-gray-300 rounded-full focus:outline-none"
-                            placeholder="인증번호를 입력하세요"
-                            value={authCode}
-                            onChange={authCodeInputChange}
-                            required
-                        />
-                        <button type="button" className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
-                            확인
+                        <button type="button"
+                                onClick={emailDupOnClick}
+                                className="w-1/5 bg-transparent text-orange border border-orange px-4 py-2 rounded-full hover:bg-orange hover:text-white">
+                            중복체크
                         </button>
                     </div>
 
