@@ -99,6 +99,8 @@
 		#{title},
 		update_dt =
 		#{updateDate},
+		start_dt = #{startDate},
+		end_dt = #{endDate},
 		thumbnail_img = #{thumbnail_img},
 		recruits = #{mateNum},
 		content = #{content},
