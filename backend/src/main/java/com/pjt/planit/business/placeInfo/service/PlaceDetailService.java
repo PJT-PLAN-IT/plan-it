@@ -146,20 +146,30 @@ public class PlaceDetailService {
      */
     private PlaceReviewDto convert(String formattedStarAvg, PlaceReview placeReview, Cust cust, Integer totalCount, Integer totalPage) {
 
-        return PlaceReviewDto.builder()
+        PlaceReviewDto.PlaceReviewDtoBuilder review = PlaceReviewDto.builder()
                 .placeReviewNo(placeReview.getPlaceReviewNo())
                 .contentid(placeReview.getContentid())
                 .star(placeReview.getStar())
                 .starAvg(formattedStarAvg)
                 .review(placeReview.getReview())
-                .reviewImg1(readFileDir + placeReview.getReviewImg1())
-                .reviewImg2(readFileDir + placeReview.getReviewImg2())
-                .reviewImg3(readFileDir + placeReview.getReviewImg3())
-                .reviewImg4(readFileDir + placeReview.getReviewImg4())
                 .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .name(cust.getName())
                 .totalCount(totalCount)
-                .totalPage(totalPage)
-                .build();
+                .totalPage(totalPage);
+
+                if (placeReview.getReviewImg1() != null) {
+                    review.reviewImg1(readFileDir + placeReview.getReviewImg1());
+                }
+                if (placeReview.getReviewImg2() != null) {
+                    review.reviewImg2(readFileDir + placeReview.getReviewImg2());
+                }
+                if (placeReview.getReviewImg3() != null) {
+                    review.reviewImg3(readFileDir + placeReview.getReviewImg3());
+                }
+                if (placeReview.getReviewImg4() != null) {
+                    review.reviewImg4(readFileDir + placeReview.getReviewImg4());
+                }
+
+                return review.build();
     }
 }
