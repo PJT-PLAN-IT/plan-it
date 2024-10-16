@@ -2,7 +2,9 @@ package com.pjt.planit.business.mate.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,19 +22,19 @@ public class MateListService {
 
 	private final MateListMapper mateListMapper;
 
-	@Value("${file.readFileDir}")
-	private String readFileDir;
 
 
 	/**
 	 * 메이트 공고리스트 전체 출력
 	 * @return
 	 */
-	public List<MateListDTO> getMateList() {
+	public Page<MateListDTO> getMateList(Pageable pageable) {
+		
 		MateListDTO mateListDTO = new MateListDTO();
 		List<MateListDTO> list = mateListMapper.getMateList(mateListDTO);
+		
 		for (MateListDTO listDTO : list) {
-			listDTO.setThumbnailImg(readFileDir + listDTO.getThumbnailImg());
+			listDTO.setThumbnailImg(listDTO.getThumbnailImg());
 			listDTO.getRegionsList();
 			listDTO.getTripStylesList();
 		}
@@ -50,7 +52,12 @@ public class MateListService {
 				}
 			}
 		}
-		return list;
+		
+		int start = (int) pageable.getOffset();
+		int end = Math.min(start + pageable.getPageSize(), list.size());
+		List<MateListDTO> paginatedList = list.subList(start, end);
+		
+		return new PageImpl(paginatedList, pageable, list.size());
 	}
 
 

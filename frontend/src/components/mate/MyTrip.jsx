@@ -51,7 +51,7 @@ const MyTripPlans = (prop) => {
       // }}
     >
       <p className="bg-orange w-[22px] h-[22px] leading-tight text-center text-white rounded-full  ml-10 flex-6 mt-5">
-        {prop.seq}
+        {prop.seq + 1}
       </p>
       <div className="flex flex-col flex-1">
         <div className="border p-2 pl-3 rounded-sm relative ">

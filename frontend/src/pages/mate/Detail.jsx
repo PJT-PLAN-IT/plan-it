@@ -22,8 +22,8 @@ export default function Detail() {
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  // const userInfo = JSON.parse(localStorage.getItem("userInfo")).nickname;
-  const userNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+
   useEffect(() => {
     if (findMateNo) {
       axios
@@ -85,7 +85,7 @@ export default function Detail() {
       <div>
         {formDetails.data ? (
           <div className="p-[30px] h-[400px]  relative">
-            {userNo == formDetails.data.cust ? (
+            {userEmail == formDetails.data.findMateCreateBy ? (
               <div className=" justify-around flex w-[5%] absolute top-4 right-6 text-xs underline">
                 <button onClick={editDetail}>수정</button>
                 <button>삭제</button>
@@ -128,8 +128,7 @@ export default function Detail() {
                     );
                   })}
                   <p className="px-3 border-r-2">
-                    {formDetails.data.startDate.slice(0, 10)}-{" "}
-                    {formDetails.data.endDate.slice(0, 10)}
+                    {formDetails.data.startDate}- {formDetails.data.endDate}
                   </p>
                   {genderInfo
                     .filter((gender) => gender.key === formDetails.data.gender)
@@ -195,9 +194,9 @@ export default function Detail() {
                         {formDetails.data.tripPlan.title}
                       </h1>
                       <p>
-                        {formDetails.data.tripPlan.start_dt.slice(0, 10)} to
+                        {formDetails.data.tripPlan.start_dt} to
                         <span> </span>
-                        {formDetails.data.tripPlan.end_dt.slice(0, 10)}
+                        {formDetails.data.tripPlan.end_dt}
                       </p>
                     </div>
                     <div className="flex-col ml-8 mb-20 ">

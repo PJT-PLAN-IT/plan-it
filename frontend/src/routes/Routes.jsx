@@ -16,6 +16,7 @@ import TravelDetail from "../pages/travel/TravelDetail.jsx";
 import MyReview from "../pages/mypage/MyReview.jsx";
 import MyTripPlanList from "../pages/tripplan/MyTripPlanList.jsx";
 import MyTripPlanDetail from "../pages/tripplan/MyTripPlanDetail.jsx";
+import MateList from "../pages/mate/MateList.jsx";
 
 function AppRoutes() {
   return (
@@ -33,9 +34,6 @@ function AppRoutes() {
       <Route path="/mypage/likes/:custNo" element={<Likes />} />
       <Route path="/mypage/replys/:custNo" element={<MyReply />} />
       <Route path="/mypage/reviews/:custNo" element={<MyReview />} />
-      <Route path="/mate" element={<Write />} />
-      <Route path="/mate/edit" element={<DetailEdit />} />
-      <Route path="planit/mates/details" element={<Detail />} />
       <Route path="/planit" element={<MainPage />} />
 
       {/* 여행 정보 */}
@@ -44,6 +42,9 @@ function AppRoutes() {
 
       {/* 메이트 */}
       <Route path="/mate" element={<Write />} />
+      <Route path="/mate/edit" element={<DetailEdit />} />
+      <Route path="planit/mates/details" element={<Detail />} />
+      <Route path="/planit/mates" element={<MateList />} />
 
       {/*  트립플랜  */}
       <Route path="/plan" element={<MakeTripPlan />} />

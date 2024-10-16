@@ -11,12 +11,15 @@ import { useState, useEffect } from "react";
 import { btnVal } from "../../hooks/validCheck";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
+import TripDetails from "../../components/mate/TripDetails";
 
 export default function DetailEdit() {
   const location = useLocation();
   const navigate = useNavigate();
   //   const [detailData, setDetailData] = useState(location.state?.formData);
-
+  const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     regButtonStates: {
       0: false,
@@ -64,6 +67,9 @@ export default function DetailEdit() {
     contentState: "",
     genderState: "",
     thumbnailSel: "",
+    selectedTrip: null,
+    tripPlanList: [],
+    tripPlanDetailList: [],
   });
 
   useEffect(() => {
@@ -104,12 +110,88 @@ export default function DetailEdit() {
         findMateNoState: detailsData.findMateNo || "",
         titleState: detailsData.title || "",
         mateNumState: detailsData.mateNum || 1,
-        contentState: detailsData.content || "",
+        contentState: detailsData.content,
         genderState: detailsData.gender,
         thumbnailSel: detailsData.thumbnailImg,
+        selectedTrip: detailsData.selectedTrip,
+        tripPlanList: detailsData.tripPlanList || {},
+        tripPlanDetailList: detailsData.tripPlanDetailList || {},
       }));
     }
   }, [location.state]);
+
+  useEffect(() => {
+    const fetchTripPlans = async () => {
+      try {
+        const response = await axios.get(
+          `/api/mate/tripplans?custNo=${custNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const extractedTripPlans = response.data.data
+          .filter((tripPlan) => tripPlan.public_yn === "Y")
+          .map((tripPlan) => ({
+            tripPlanNo: tripPlan.trip_plan_no,
+            title: tripPlan.title,
+            startDt: tripPlan.start_dt,
+            endDt: tripPlan.end_dt,
+          }));
+
+        setFormData((prevData) => ({
+          ...prevData,
+          tripPlanList: extractedTripPlans,
+        }));
+
+        console.log("Fetched Trip Plans: ", extractedTripPlans);
+      } catch (error) {
+        console.error(
+          "Error fetching trip plans:",
+          error.response ? error.response.data : error.message
+        );
+      }
+    };
+
+    // Fetch trip plans only once when component is mounted
+    fetchTripPlans();
+
+    // The empty array ensures this only runs once
+  }, [custNo, token]);
+
+  useEffect(() => {
+    if (formData.selectedTrip) {
+      // Clear previous trip details before fetching new ones
+      setFormData((prevData) => ({
+        ...prevData,
+        tripPlanDetailList: [], // Reset the trip details
+      }));
+
+      axios
+        .get(
+          `/api/mate/tripdetails?tripPlanNo=${formData.selectedTrip.tripPlanNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          setFormData((prevData) => ({
+            ...prevData,
+            tripPlanDetailList: response.data.data, // Update tripPlanDetailList in formData
+          }));
+        })
+        .catch((error) => {
+          console.error(
+            "Error fetching trip details:",
+            error.response ? error.response.data : error.message
+          );
+        });
+    }
+  }, [formData.selectedTrip, token]);
 
   function regBtnClick(btnState) {
     setFormData((prev) => ({
@@ -134,10 +216,6 @@ export default function DetailEdit() {
     console.log(data);
   };
 
-  //   const titleChange = (e) => {
-  //     setFormData({ ...formData, titleState: e.target.value });
-  //   };
-
   const handleTitleChange = (event) => {
     const newTitle = event.target.value;
     setFormData((prevData) => ({
@@ -153,12 +231,7 @@ export default function DetailEdit() {
       mateNumState: newMateNum, // Update the state
     }));
   };
-  //   const mateNumChange = (e) => {
-  //     setFormData({ ...formData, mateNumState: e.target.value });
-  //   };
-  //   const contentChange = (content) => {
-  //     setFormData({ ...formData, contentState: content });
-  //   };
+
   const handleContentChange = (newContent) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -174,6 +247,15 @@ export default function DetailEdit() {
         endDate: endDate,
       },
     });
+  };
+
+  const handleSelectedTripUpdate = (trip) => {
+    console.log(trip.tripPlanNo);
+    setFormData((prevData) => ({
+      ...prevData,
+      selectedTrip: trip,
+    }));
+    console.log(trip.tripPlanNo);
   };
 
   const handleGenderChange = (e) => {
@@ -246,6 +328,7 @@ export default function DetailEdit() {
       thirtyYN: formData.ageButtonStates.thirty ? "Y" : "N",
       fortyYN: formData.ageButtonStates.forty ? "Y" : "N",
       fiftyYN: formData.ageButtonStates.fifty ? "Y" : "N",
+      tripPlanNo: formData.selectedTrip.tripPlanNo,
     };
 
     console.log("sending json: ", finalFormData);
@@ -253,6 +336,7 @@ export default function DetailEdit() {
     axios
       .put("/api/mate", finalFormData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       })
@@ -272,13 +356,22 @@ export default function DetailEdit() {
   return (
     <div className="mx-[300px]">
       <form onSubmit={handleSubmit}>
-        <TripScroll />
+        <TripScroll
+          tripPlanList={formData.tripPlanList}
+          onSelectedTripUpdate={handleSelectedTripUpdate}
+        />
         <TextBox
           title={formData.titleState}
           content={formData.contentState}
           titleChange={handleTitleChange}
           contentChange={handleContentChange}
         />
+        {formData.tripPlanDetailList.length > 0 && (
+          <TripDetails
+            tripDetails={formData.tripPlanDetailList}
+            selectedTrip={formData.selectedTrip}
+          />
+        )}
         <RegionSel formData={formData} regBtnClick={regBtnClick} />
         <TripStyle formData={formData} trpBtnClick={trpBtnClick} />
         <Calender

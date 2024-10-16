@@ -20,7 +20,7 @@ public interface PlanMapper {
 
     public List<TripPlanDetailDto> getDetailList(TripPlanDto param);
 
-    public List<MateDetailDTO> getDetailList2(TripPlanDto param);
+    public List<TripPlanDetailDto> getDetailList2(TripPlanDto param);
 
     public List<PlaceInfoReviewDto> getReviewList(PlaceInfoListDto param);
 

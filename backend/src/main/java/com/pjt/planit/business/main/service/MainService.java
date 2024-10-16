@@ -75,15 +75,29 @@ public class MainService {
      * @return
      */
     public List<FindMateLikeDto> findMateLike() {
-        Pageable pageable = PageRequest.of(0, 2);
+        Pageable pageable = PageRequest.of(0, 5);
         List<Integer> mateTop10 = findMateLikeRepository.findMateTop10(pageable);
         List<FindMateLikeDto> result = mateTop10.stream()
                 .map(i -> {
+                	System.out.println("now running i:");
+                	System.out.println(i);
                     FindMate findMate = findMateRepository.findByFindMateNo(i);
+                    if (findMate == null) {
+                    	System.out.println("FindMate is null");
+                        return null;
+                    }
                     List<FindMateRegion> findMateRegions = findMateRegionRepository.findByFindMateNo(i);
                     List<FindMateStyle> findMateStyles = findMateStyleRepository.findByFindMateNo(i);
                     TripPlan tripPlanNo = tripPlanRepository.findByTripPlanNo(findMate.getTripPlanNo());
+                    if (tripPlanNo == null) {
+                       System.out.println("TriplPlanNO is null");
+                        return null;
+                    }
                     Cust cust = custRepository.findByCustNo(tripPlanNo.getCustNo());
+                    if (cust == null) {
+                        System.out.println("cust is null");
+                        return null;
+                    }
                     List<TripMate> tripMate = tripMateRepository.findAllByTripPlanNo(findMate.getTripPlanNo());
                     if (tripMate != null) {
                         List<Integer> collect = tripMate.stream()
@@ -92,12 +106,16 @@ public class MainService {
                                     return custNo.size();
                                 }).collect(Collectors.toList());
                         FindMateLikeDto convert = convert(findMate, findMateRegions, findMateStyles, tripPlanNo, cust, collect.size());
+                        System.out.println("tripMate is not null");
                         return convert;
                     } else {
                         FindMateLikeDto convert = convert(findMate, findMateRegions, findMateStyles, tripPlanNo, cust, 0);
+                        System.out.println("tripMate is null");
                         return convert;
                     }
                 }).toList();
+        System.out.println("returning result");
+        System.out.println(result);
         return result;
     }
 
@@ -121,7 +139,7 @@ public class MainService {
                 .thirtyYn(findMate.getThirtyYn())
                 .fortyYn(findMate.getFortyYn())
                 .fiftyYn(findMate.getFiftyYn())
-                .thumbnailImg(fileDir + findMate.getThumbnailImg())
+                .thumbnailImg(findMate.getThumbnailImg())
                 .regions(regions)
                 .tripStyles(tripStyles)
                 .tripPlanNo(tripPlan.getTripPlanNo())

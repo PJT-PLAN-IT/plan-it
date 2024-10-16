@@ -48,7 +48,7 @@ public class MateDetailDTO {
 	private Integer mateCnfrmNo;
 	private Integer findMateLikeNo;
 	private List<TripPlanDto> tripPlanList = new ArrayList<>();
-	private List<MateDetailDTO> tripPlanDetailList = new ArrayList<>();
+	private List<TripPlanDetailDto> tripPlanDetailList = new ArrayList<>();
 	private List<FindMateReply> mateReplyList = new ArrayList<>();
 //	private List<ReplyGroupDTO> groupedReplies; 
 }

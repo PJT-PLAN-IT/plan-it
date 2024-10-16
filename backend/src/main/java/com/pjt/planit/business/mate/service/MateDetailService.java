@@ -63,6 +63,9 @@ public class MateDetailService {
 			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
 			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
 		}
+		
+		System.out.println(detailDTO.getTripPlanList());
+		System.out.println(detailDTO.getTripPlanDetailList());
 
 	return detailDTO;
 
