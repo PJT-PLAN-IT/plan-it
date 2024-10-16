@@ -26,7 +26,12 @@ function MyTripPlanDetail() {
     // 장소 리뷰용
     const [tripDetailReviewObj, setTripDetailReviewObj] = useState({});
 
+    //프론트에서 넘어오는 데이터 받는 방법
+    //const Details = () => {
+    //   const location = useLocation();
+    //   const user = location.state;
 
+    
     useEffect(() => {
         fetchDetail();
     }, []);
@@ -143,11 +148,15 @@ function MyTripPlanDetail() {
         const tripPlanNo = resultList.tripPlanNo;
         console.log("tripPlanNo", tripPlanNo);
         const fetchTripPlanDelete = async () => {
-            await axiosInstance.delete(`/api/plan?tripPlanNo=${tripPlanNo}`)
+            try {
+                await axiosInstance.delete(`/api/plan?tripPlanNo=${tripPlanNo}`);
+                alert("삭제되었습니다!");
+            }catch (error){
+                console.log(error);
+            }
         }
         fetchTripPlanDelete();
-
-        navigate(`/plan/list/${custNo}/2024`);
+        navigate(`/plan/list/${custNo}/${new Date().getFullYear()} `);
 
     };
 
@@ -221,7 +230,8 @@ function MyTripPlanDetail() {
                     </h1>
                 </div>
                 {isBefore === false && (
-                    <button className={`bg-orange on p-2 rounded float-right text-sm`}>
+                    <button className={`bg-orange on p-2 rounded float-right text-sm`}
+                                onClick={() => navigate('/mate',{state: resultList.tripPlanNo})}>
                         메이트 구하기
                     </button>
                 )}

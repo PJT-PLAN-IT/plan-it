@@ -1,8 +1,10 @@
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 function MyTripPlanList() {
     const axiosInstance = useAxiosInstance();
+    const navigate = useNavigate();
 
     const [year, setYear] = useState();
     const [planResult, setPlanResult] = useState([]);
@@ -74,7 +76,7 @@ function MyTripPlanList() {
                                     <h2 className="font-semibold text-lg mb-5 mt-8 ">{Number(index) + 1}</h2>
                                     <div className={`grid grid-cols-3 gap-10`}>
                                         {monthPlanResult[index].map((item) => (
-                                            <div key={item.tripPlanNo}
+                                            <div key={item.tripPlanNo} onClick={() => navigate(`/plan/${item.tripPlanNo}`)}
                                                  className={`h-48 border-gray-200 border-2 mb-4 rounded-lg`}>
                                                 <div className={`h-2/3 bg-neutral-100`}>
                                                     {/*    이미지 구역   */}
