@@ -35,6 +35,8 @@ public class PlaceDetailService {
 
     @Value("${file.fileDir}")
     private String fileDir;
+    @Value("${file.readFileDir}")
+    private String readFileDir;
 
     /**
      * 여행장소 리뷰 조회
@@ -150,10 +152,10 @@ public class PlaceDetailService {
                 .star(placeReview.getStar())
                 .starAvg(formattedStarAvg)
                 .review(placeReview.getReview())
-                .reviewImg1(fileDir + placeReview.getReviewImg1())
-                .reviewImg2(fileDir + placeReview.getReviewImg2())
-                .reviewImg3(fileDir + placeReview.getReviewImg3())
-                .reviewImg4(fileDir + placeReview.getReviewImg4())
+                .reviewImg1(readFileDir + placeReview.getReviewImg1())
+                .reviewImg2(readFileDir + placeReview.getReviewImg2())
+                .reviewImg3(readFileDir + placeReview.getReviewImg3())
+                .reviewImg4(readFileDir + placeReview.getReviewImg4())
                 .createDt(placeReview.getCreateDt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                 .name(cust.getName())
                 .totalCount(totalCount)
