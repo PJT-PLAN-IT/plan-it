@@ -6,7 +6,9 @@ import com.pjt.planit.db.repository.CustRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class JoinCustService {
@@ -32,13 +34,18 @@ public class JoinCustService {
         if(existsByEmail || existsByNickname) {
             return;
         }
+
+        String birthDt = custJoinDto.getBirthYear() + custJoinDto.getBirthMonth() + custJoinDto.getBirthDay();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime birth = LocalDate.parse(birthDt, formatter).atStartOfDay();
+
         Cust cust = Cust.builder()
                 .email(custJoinDto.getEmail())
                 .pw(bCryptPasswordEncoder.encode(custJoinDto.getPw()))
                 .name(custJoinDto.getName())
                 .nickname(custJoinDto.getNickname())
                 .phoneNumber(custJoinDto.getPhoneNumber())
-                .birthDt(custJoinDto.getBirthDt())
+                .birthDt(birth)
                 .gender(custJoinDto.getGender())
                 .joinDt(LocalDateTime.now())
                 .build();

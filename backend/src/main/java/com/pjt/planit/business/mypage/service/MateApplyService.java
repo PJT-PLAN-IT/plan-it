@@ -34,7 +34,7 @@ public class MateApplyService {
      * @return
      */
     public List<MateListSubDto> mateApply(Integer custNo, Integer year ) {
-        List<FindMateApply> applyList = findMateApplyRepository.findBycustNo(custNo);   //내가 신청한 메이트 현황 찾기
+        List<FindMateApply> applyList = findMateApplyRepository.findBycustNo(custNo);//내가 신청한 메이트 현황 찾기
 
         MateListSubDto dto = new MateListSubDto();
         dto.setStartDt(LocalDateTime.of(year, 1, 1, 0, 0, 0));
