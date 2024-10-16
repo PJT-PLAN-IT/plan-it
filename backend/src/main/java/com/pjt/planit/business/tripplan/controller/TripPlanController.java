@@ -4,12 +4,14 @@ import com.pjt.planit.business.tripplan.dto.*;
 import com.pjt.planit.business.tripplan.service.PlanService;
 import com.pjt.planit.core.security.filter.ResponseResult;
 import com.pjt.planit.core.util.FindAuthorizedUser;
+import com.pjt.planit.db.entity.Cust;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@RequestMapping("/plan")
+  @RequestMapping("/plan")
 @RestController
 @RequiredArgsConstructor
 public class TripPlanController {
@@ -49,7 +51,12 @@ public class TripPlanController {
     @PostMapping
     public ResponseResult<?> addTripPlan(@RequestBody TripPlanDto tripPlanDto) {
 
-        Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
+        Optional<Cust> findUser = findAuthorizedUser.findUser();
+        if(findUser.isEmpty()) {
+            return ResponseResult.ofSuccess("unauthorized user", null);
+        }
+
+        Integer custNo = findUser.get().getCustNo();
 
         if ( !tripPlanDto.getCustNo().equals(custNo)) {
             return ResponseResult.ofSuccess("unauthorized user", null);
