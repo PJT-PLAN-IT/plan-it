@@ -1,7 +1,7 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { useState } from "react";
 
-const TripScroll = ({ tripPlanList, onSelectedTripUpdate }) => {
+const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
   const [selectedTrip, setSelectedTrip] = useState(null);
 
   const handleSelectChange = (event) => {
