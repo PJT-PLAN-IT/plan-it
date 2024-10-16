@@ -30,7 +30,7 @@ const Alert = () => {
 
 const ThumbSelect = ({ thumbSelChange }) => {
   const [file, setFile] = useState(null);
-  const camera = <FontAwesomeIcon icon={faCamera} />;
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const imgArr = [
     { img: "https://imgur.com/EhF3mMd.jpg", key: "img1 " },
@@ -38,40 +38,14 @@ const ThumbSelect = ({ thumbSelChange }) => {
     { img: "https://imgur.com/H4Y6H6u.jpg", key: "img3" },
     { img: "https://imgur.com/j98DCIf.jpg", key: "img4" },
     { img: "https://imgur.com/sFynFpK.jpg", key: "img5" },
+    { img: "https://imgur.com/nLnhoY6.jpg", key: "img6" },
   ];
 
-  const imageClick = (e) => {
-    setFile(e.target.src);
-    thumbSelChange(file);
+  const imageClick = (src) => {
+    setSelectedImage(src);
+    thumbSelChange(src);
+
     console.log(file);
-  };
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const submitImage = async (e) => {
-    e.preventDefault();
-
-    if (!file) {
-      alert("썸네일을 선택하거나 파일을 올려주세요");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    try {
-      const response = await fetch("/api/images/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const imageUrl = await response.text();
-      console.log("Image URL:", imageUrl);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
   };
 
   return (
@@ -83,7 +57,11 @@ const ThumbSelect = ({ thumbSelChange }) => {
         <div className=" flex flex-wrap gap-4 justify-evenly items-center">
           {imgArr.map((img) => (
             <div
-              className="w-[10%] object-cover overflow-hidden border-2"
+              className={
+                selectedImage === img.img
+                  ? "w-[10%] object-cover overflow-hidden border-2 border-orange"
+                  : "w-[10%] object-cover overflow-hidden border-2"
+              }
               key={img.key}
             >
               <img
@@ -91,30 +69,11 @@ const ThumbSelect = ({ thumbSelChange }) => {
                 src={img.img}
                 alt="img"
                 key={img.key}
-                onClick={imageClick}
+                onClick={() => imageClick(img.img)}
               />
             </div>
           ))}
         </div>
-        {/* <div className="flex h-9 items-center mt-10">
-          <h1 className="text-lg font-medium my-5  px-16 py-2 ">
-            {camera} 직접 썸네일 올리기:
-          </h1>
-          <input
-            type="file"
-            className="border-2 border-gray inline-block"
-            accept=".jpg, .png"
-            onChange={handleFileChange}
-          />
-        </div>
-        <div className="flex justify-center items-center"></div>
-        <button
-          type="button"
-          className="my-10 px-10 py-2 rounded-lg on "
-          onClick={submitImage}
-        >
-          저장하기
-        </button> */}
       </div>
     </div>
   );
