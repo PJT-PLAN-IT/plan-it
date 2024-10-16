@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import DetailPageMap from "../../components/tripplan/DetailPageMap.jsx";
 import {Editor} from "@tinymce/tinymce-react";
 import AddPlaceReviewModal from "../../components/tripplan/AddPlaceReviewModal.jsx";
 
 function MyTripPlanDetail() {
+    const navigate = useNavigate();
     const axiosInstance = useAxiosInstance();
     const {tripPlanNo} = useParams();
     const [resultList, setResultList] = useState({
@@ -21,47 +22,17 @@ function MyTripPlanDetail() {
     const [reviewOpen, setReivewOpen] = useState(false);
     const [review, setReivew] = useState("");
     const [isOpenModal, setIsOpenModal] = useState(false);
-
+    const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
     // 장소 리뷰용
     const [tripDetailReviewObj, setTripDetailReviewObj] = useState({});
 
+    //프론트에서 넘어오는 데이터 받는 방법
+    //const Details = () => {
+    //   const location = useLocation();
+    //   const user = location.state;
 
+    
     useEffect(() => {
-        const fetchDetail = async () => {
-            try {
-                const response = await axiosInstance.get(`/api/plan?tripPlanNo=${tripPlanNo}`);
-                const resultData = response.data.data;
-
-                let tripPlanDetailList = {};
-                resultData.tripPlanDetailList.map(tripPlanDetail => {
-                    const key = tripPlanDetail.planDt.split('T')[0];
-                    let refreshData = tripPlanDetailList[key];
-                    if (!refreshData) {
-                        refreshData = [];
-                    }
-                    refreshData.push(tripPlanDetail);
-
-                    tripPlanDetailList = {
-                        ...tripPlanDetailList,
-                        [key]: refreshData
-                    }
-                });
-
-                setResultList({
-                    tripPlanNo: resultData.tripPlanNo,
-                    title: resultData.title,
-                    startDt: resultData.startDt,
-                    endDt: resultData.endDt,
-                    thumbnailImg: resultData.thumbnailImg,
-                    review: resultData.review,
-                    publicYn: resultData.publicYn,
-                    ownerYn: resultData.ownerYn,
-                    tripPlanDetailList: tripPlanDetailList
-                });
-            } catch (error) {
-                console.error('요청 실패', error);
-            }
-        }
         fetchDetail();
     }, []);
 
@@ -71,6 +42,42 @@ function MyTripPlanDetail() {
             setReivew(resultList.review);
         }
     }, [resultList]);
+
+    const fetchDetail = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/plan?tripPlanNo=${tripPlanNo}`);
+            const resultData = response.data.data;
+
+            let tripPlanDetailList = {};
+            resultData.tripPlanDetailList.map(tripPlanDetail => {
+                const key = tripPlanDetail.planDt.split('T')[0];
+                let refreshData = tripPlanDetailList[key];
+                if (!refreshData) {
+                    refreshData = [];
+                }
+                refreshData.push(tripPlanDetail);
+
+                tripPlanDetailList = {
+                    ...tripPlanDetailList,
+                    [key]: refreshData
+                }
+            });
+
+            setResultList({
+                tripPlanNo: resultData.tripPlanNo,
+                title: resultData.title,
+                startDt: resultData.startDt,
+                endDt: resultData.endDt,
+                thumbnailImg: resultData.thumbnailImg,
+                review: resultData.review,
+                publicYn: resultData.publicYn,
+                ownerYn: resultData.ownerYn,
+                tripPlanDetailList: tripPlanDetailList
+            });
+        } catch (error) {
+            console.error('요청 실패', error);
+        }
+    }
 
     //오늘 날짜 체크
     const [isBefore, setIsBefore] = useState(false);
@@ -91,31 +98,66 @@ function MyTripPlanDetail() {
             tripPlanNo: resultList.tripPlanNo,
             review: review
         };
-        console.log('saveData: ', saveData);
 
-        // API connect
-        // 페이지 새로고침
+
+        /**
+         * 여행 후기 작성
+         * @returns {Promise<void>}
+         */
+        const fetchTripPlanReviewSave = async () => {
+            const response = await axiosInstance.post(`/api/plan/review`, saveData);
+            const result = response.data;
+
+            if (result.message === 'success') {
+                window.location.reload();
+            }
+        }
+        fetchTripPlanReviewSave();
     };
 
+    /**
+     * 여행 공개 설정( 개발 보류 )
+     */
     const onClickPublicYn = () => {
         let saveData = {
             tripPlanNo: resultList.tripPlanNo,
             publicYn: resultList.publicYn === 'Y' ? 'N' : 'Y'
         };
-        console.log('saveData: ', saveData);
 
-        // API connect
-        // 페이지 새로고침
+        const fetchTripPlanPublicYN = async () => {
+            const response = await axiosInstance.post(`/api/plan/public`, saveData);
+            const result = response.data;
+
+            if (result.message === 'success') {
+                window.location.reload();
+            }
+        }
+        fetchTripPlanPublicYN();
+
     };
 
     const goToEditPage = () => {
-        // 페이지 이동
+        // 페이지 이동2
     };
-    
+
+    /**
+     * 딜리트
+     */
     const onClickDelete = () => {
         console.log('tripPlanNo: ', resultList.tripPlanNo);
-        // API connect
-        // 이전 페이지 이동
+        const tripPlanNo = resultList.tripPlanNo;
+        console.log("tripPlanNo", tripPlanNo);
+        const fetchTripPlanDelete = async () => {
+            try {
+                await axiosInstance.delete(`/api/plan?tripPlanNo=${tripPlanNo}`);
+                alert("삭제되었습니다!");
+            }catch (error){
+                console.log(error);
+            }
+        }
+        fetchTripPlanDelete();
+        navigate(`/plan/list/${custNo}/${new Date().getFullYear()} `);
+
     };
 
     const onClickAddPlaceReview = (item) => {
@@ -124,16 +166,52 @@ function MyTripPlanDetail() {
         setIsOpenModal(true);
     };
 
-    const saveReviewModal = (props) => {
+    const saveReviewModal = async (props) => {
         let saveData = {
             ...props,
             tripDetailNo: tripDetailReviewObj.tripDetailNo,
             custNo: JSON.parse(localStorage.getItem("userInfo")).custNo,
             contentid: tripDetailReviewObj.contentid
+        };
+
+        const formData = new FormData();
+        formData.append("placeReviewDto", new Blob([JSON.stringify(saveData)], {type: "application/json"}));
+
+        if (saveData.totalImages) {
+            saveData.totalImages.forEach((file) => {
+                formData.append("files", file);
+            });
         }
-        console.log('saveData: ', saveData);
-        // API connect
-        // 페이지 새로고침
+
+        console.log("saveData: ", saveData);
+
+        if (saveData.placeReviewNo) {
+            const response = await axiosInstance.put('/api/place-review', formData);
+            const result = response.data;
+            if (result.message === "already registered") {
+                alert("이미 리뷰를 작성하였습니다!");
+            }
+            if (result.message === "unauthorized user") {
+                alert("로그인 정보를 다시 확인해주세요!");
+            }
+            if (result.message === "success") {
+                alert("리뷰 등록 완료!");
+                fetchDetail();
+            }
+        } else {
+            const response = await axiosInstance.post('/api/place-review', formData);
+            const result = response.data;
+            if (result.message === "already registered") {
+                alert("이미 리뷰를 작성하였습니다!");
+            }
+            if (result.message === "unauthorized user") {
+                alert("로그인 정보를 다시 확인해주세요!");
+            }
+            if (result.message === "success") {
+                alert("리뷰 등록 완료!");
+                fetchDetail();
+            }
+        }
     };
 
     const closeReviewModal = () => {
@@ -152,7 +230,8 @@ function MyTripPlanDetail() {
                     </h1>
                 </div>
                 {isBefore === false && (
-                    <button className={`bg-orange on p-2 rounded float-right text-sm`}>
+                    <button className={`bg-orange on p-2 rounded float-right text-sm`}
+                                onClick={() => navigate('/mate',{state: resultList.tripPlanNo})}>
                         메이트 구하기
                     </button>
                 )}
@@ -164,14 +243,14 @@ function MyTripPlanDetail() {
                         여행 일기 작성하기
                     </button>
                 )}
-                {isBefore === true && resultList.review && (
-                    <button
-                        className={`bg-orange on p-2 rounded float-right text-sm`}
-                        onClick={() => onClickPublicYn()}
-                    >
-                        여행 후기 비공개/공개
-                    </button>
-                )}
+                {/*{isBefore === true && resultList.review  (*/}
+                {/*    <button*/}
+                {/*        className={`bg-orange on p-2 rounded float-right text-sm`}*/}
+                {/*        onClick={() => onClickPublicYn()}*/}
+                {/*    >*/}
+                {/*        여행 후기 비공개*/}
+                {/*    </button>*/}
+                {/*)}*/}
             </div>
 
             {
@@ -258,12 +337,24 @@ function MyTripPlanDetail() {
                                     <p className={`font-bold text-sm pb-2`}>{item.title}</p>
                                     <p className={`text-xs`}>{item.address}</p>
                                 </div>
-                                <button
-                                    className={` border border-orange rounded-lg text-xs text-orange p-1`}
-                                    onClick={() => onClickAddPlaceReview(item)}
-                                >
-                                    리뷰작성
-                                </button>
+
+                                {item.placeReviewNo == null && (
+                                    <button
+                                        className={` border border-orange rounded-lg text-xs text-orange p-1`}
+                                        onClick={() => onClickAddPlaceReview(item)}
+                                    >
+                                        리뷰작성
+                                    </button>
+                                )}
+                                {item.placeReviewNo != null && (
+                                    <button
+                                        className={` border border-orange rounded-lg text-xs text-orange p-1`}
+                                        onClick={() => onClickAddPlaceReview(item)}
+                                    >
+                                        리뷰수정
+                                    </button>
+                                )}
+
                             </div>
                         ))}
                     </div>

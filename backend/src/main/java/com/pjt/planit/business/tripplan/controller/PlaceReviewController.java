@@ -5,6 +5,9 @@ import com.pjt.planit.business.tripplan.service.PlaceReviewService;
 import com.pjt.planit.core.security.filter.ResponseResult;
 import com.pjt.planit.core.util.FindAuthorizedUser;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequestMapping("/place-review")
 @RestController
@@ -20,44 +23,46 @@ public class PlaceReviewController {
 
     /**
      * 여행 장소 리뷰 추가
+     *
      * @param placeReviewDto
      * @return
      */
     @PostMapping
-    public ResponseResult<?> addPlaceReview(@RequestBody PlaceReviewDto placeReviewDto) {
+    public ResponseResult<?> addPlaceReview(@RequestPart(required = false) List<MultipartFile> files, @RequestPart PlaceReviewDto placeReviewDto) {
         Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
-        if ( !placeReviewDto.getCustNo().equals(custNo)) {
+        if (!placeReviewDto.getCustNo().equals(custNo)) {
             return ResponseResult.ofSuccess("unauthorized user", null);
         }
 
-        if(!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)){
+        if (!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)) {
             return ResponseResult.ofSuccess("unauthorized user", null);
         }
 
-        if(!placeReviewService.isFirstReview(placeReviewDto)){
+        if (!placeReviewService.isFirstReview(placeReviewDto)) {
             return ResponseResult.ofSuccess("already registered", null);
         }
 
-        placeReviewService.addPlarceReview(placeReviewDto);
+        placeReviewService.addPlarceReview(files, placeReviewDto);
         return ResponseResult.ofSuccess("success", null);
     }
 
     /**
      * 여행 장소 리뷰 수정
+     *
      * @param placeReviewDto
      * @return
      */
     @PutMapping
-    public ResponseResult<?> updatePlaceReview(@RequestBody PlaceReviewDto placeReviewDto) {
+    public ResponseResult<?> updatePlaceReview(@RequestPart(required = false) List<MultipartFile> files, @RequestPart PlaceReviewDto placeReviewDto) {
         Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
-        if ( !placeReviewDto.getCustNo().equals(custNo)) {
+        if (!placeReviewDto.getCustNo().equals(custNo)) {
             return ResponseResult.ofSuccess("unauthorized user", null);
         }
-        if(!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)){
+        if (!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)) {
             return ResponseResult.ofSuccess("unauthorized user", null);
         }
 
-        placeReviewService.updatePlaceReveiw(placeReviewDto);
+        placeReviewService.updatePlaceReveiw(files, placeReviewDto);
 
         return ResponseResult.ofSuccess("success", null);
     }
@@ -65,7 +70,8 @@ public class PlaceReviewController {
 
     /**
      * 여행 장소 리뷰 삭제
-      * @param placeReviewNo
+     *
+     * @param placeReviewNo
      * @return
      */
     @DeleteMapping

@@ -41,7 +41,7 @@ const DetailPageMap = ({planCoordinate = {}}) => {
     };
 
     return (
-        <Map id="map" center={center} level={9} className={`w-full h-full flex justify-center items-center`}>
+        <Map id="map" center={center} level={13} className={`w-full h-full flex justify-center items-center`}>
             {Object.keys(planCoordinate).map((day) => (
                 planCoordinate[day].map((pos) => (
                     <CustomOverlayMap key={pos.seq} position={{lat: pos.mapy, lng: pos.mapx}}>

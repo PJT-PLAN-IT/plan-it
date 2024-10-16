@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pjt.planit.business.tripplan.mapper.PlanMapper">
-    <select id="getPlanList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="hashmap">
+    <select id="getPlanList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDto">
         SELECT *
              , CASE WHEN A.custNo = #{custNo} THEN 'Y' ELSE 'N' END AS ownerYn
         FROM (
@@ -59,6 +59,7 @@
         WHERE trip_plan_no = #{tripPlanNo};
     </select>
 
+
     <select id="getDetailList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDetailDto">
         SELECT ttd.trip_detail_no AS tripDetailNo
              , ttd.trip_plan_no AS tripPlanNo
@@ -77,6 +78,7 @@
              , tpr.review_img1 AS reviewImg1
              , tpr.review_img2 AS reviewImg2
              , tpr.review_img3 AS reviewImg3
+             , tpr.review_img4 AS reviewImg4
         FROM T_TRIP_DETAIL ttd
         LEFT OUTER JOIN T_PLACE_REVIEW tpr
         ON ttd.trip_detail_no = tpr.trip_detail_no
@@ -101,6 +103,7 @@
              , tpr.review_img1 AS reviewImg1
              , tpr.review_img2 AS reviewImg2
              , tpr.review_img3 AS reviewImg3
+             , tpr.review_img4 AS reviewImg4
         FROM T_TRIP_DETAIL ttd
         LEFT OUTER JOIN T_PLACE_REVIEW tpr
         ON ttd.trip_detail_no = tpr.trip_detail_no

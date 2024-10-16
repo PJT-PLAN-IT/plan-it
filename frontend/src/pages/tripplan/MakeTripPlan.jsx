@@ -8,6 +8,7 @@ import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleLeft, faAngleRight, faCirclePlus, faTrashCan, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {addHours} from "date-fns";
+import {useNavigate} from "react-router-dom";
 
 
 function MakeTripPlan() {
@@ -16,7 +17,7 @@ function MakeTripPlan() {
     const trash = <FontAwesomeIcon icon={faTrashCan}/>
     const xmark = <FontAwesomeIcon icon={faXmark}/>
     const circlePlus = <FontAwesomeIcon icon={faCirclePlus}/>
-
+    const navigate = useNavigate();
     const axiosInstance = useAxiosInstance();
 
     const [searchBody, setSearchBody] = useState({
@@ -155,7 +156,7 @@ function MakeTripPlan() {
 
         try {
             await axiosInstance.post(`/api/plan`, saveData);
-            // 페이지 이동
+            navigate(`/plan/list/${JSON.parse(localStorage.getItem("userInfo")).custNo}/${new Date().getFullYear()}`);
         } catch (error) {
             console.error('서버 요청 실패', error);
         }
@@ -270,7 +271,7 @@ function MakeTripPlan() {
         if (!range[0] || !range[1]) return;
 
         if (JSON.stringify(selectedPlans) !== '{}') {
-            const result = window.confirm("날짜를 변경하시겠습니까? (지금까지 짠 계획들이 사라져요!)");
+            const result = window.confirm("계획을 초기화 하겠습니까?");
             if (result) {
                 setSelectedPlans({});
             } else {
