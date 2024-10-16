@@ -97,8 +97,6 @@
 		trip_plan_no = #{tripPlanNo},
 		title =
 		#{title},
-		start_dt = #{startDate},
-		end_dt = #{endDate},
 		update_dt =
 		#{updateDate},
 		thumbnail_img = #{thumbnail_img},

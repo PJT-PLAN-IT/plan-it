@@ -3,11 +3,8 @@ import "../assets/css/Header.css";
 import Logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faFolder } from "@fortawesome/free-regular-svg-icons";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const down = <FontAwesomeIcon className="mb-[2px]" icon={faSortDown} />;
@@ -16,11 +13,6 @@ const folder = <FontAwesomeIcon icon={faFolder} />;
 export function Header() {
   const [open, setOpen] = useState(false);
   const { userInfo } = useAuth();
-  const navigate = useNavigate();
-
-  const headerOnClick = (url) => {
-    navigate(url);
-  };
 
   return (
     <div className="font-notosans HeaderWrap">
@@ -67,13 +59,13 @@ export function Header() {
               text={"로그아웃"}
             />
             <hr />
-            <DropdownMenu text={"여행관리"} />
+            <DropdownMenuHead text={"여행관리"} />
             <hr />
             <DropdownMenu icon={folder} text={"여행 계획 작성"} />
             <DropdownMenu icon={folder} text={"나의 여행 계획 보기"} />
             <DropdownMenu icon={folder} text={"좋아요 한 여행 후기"} />
             <hr />
-            <DropdownMenu text={"메이트 관리"} />
+            <DropdownMenuHead text={"메이트 관리"} />
             <hr />
             <DropdownMenu
               icon={folder}
@@ -128,4 +120,7 @@ function DropdownMenu(props) {
       </Link>
     </li>
   );
+}
+function DropdownMenuHead(props) {
+  return <li className="DropDownItem ">{props.text}</li>;
 }

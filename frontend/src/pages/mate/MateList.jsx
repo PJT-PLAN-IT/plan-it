@@ -1,10 +1,10 @@
 import "../../App.css";
 import "../../assets/css/Write.css";
 import Banner from "../../components/mate/Banner";
-import { PostCard2, SectionMate } from "../MainPage";
+import { PostCard2 } from "../MainPage";
 import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function MateList() {
@@ -16,7 +16,6 @@ export default function MateList() {
   const navigate = useNavigate();
   const userInfo = localStorage.getItem("userInfo");
 
-  // console.log(localStorage.getItem("userInfo"));
   useEffect(() => {
     fetchMates();
   }, [page]);
@@ -32,7 +31,6 @@ export default function MateList() {
         }
       );
       setMates(response.data.data.content);
-      console.log(mates);
       setTotalPages(response.data.data.totalPages);
     } catch (error) {
       console.error("Error fetching mate list", error);
@@ -63,9 +61,11 @@ export default function MateList() {
             메이트 공고
           </h2>
           {userInfo ? (
-            <button className="border-orange border-2 px-2 py-1 rounded-lg text-orange font-semibold mr-5">
-              작성하기
-            </button>
+            <Link to={"/mate"}>
+              <button className="border-orange border-2 px-2 py-1 rounded-lg text-orange font-semibold mr-5">
+                작성하기
+              </button>
+            </Link>
           ) : (
             ""
           )}

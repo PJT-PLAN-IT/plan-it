@@ -3,7 +3,6 @@ import "../../assets/css/Write.css";
 import TextBox, { TripScroll } from "../../components/mate/TextBox";
 import RegionSel from "../../components/mate/RegionSel";
 import TripStyle from "../../components/mate/TripStyle";
-import Calender from "../../components/mate/Calender";
 import { GenderSel, AgeSel, MateNum } from "../../components/mate/AgeAndGender";
 import { ThumbSelect } from "../../components/mate/PopUps";
 import { RegBtnBg, CancelBtnBg } from "../../components/mate/Buttons";
@@ -17,7 +16,6 @@ import TripDetails from "../../components/mate/TripDetails";
 export default function DetailEdit() {
   const location = useLocation();
   const navigate = useNavigate();
-  //   const [detailData, setDetailData] = useState(location.state?.formData);
   const custNo = JSON.parse(localStorage.getItem("userInfo")).custNo;
   const { token } = useAuth();
   const [formData, setFormData] = useState({
@@ -57,10 +55,6 @@ export default function DetailEdit() {
       fifty: false,
     },
 
-    dateChangeStates: {
-      startDate: "",
-      endDate: "",
-    },
     findMateNoState: "",
     titleState: "",
     mateNumState: 1,
@@ -73,9 +67,7 @@ export default function DetailEdit() {
   });
 
   useEffect(() => {
-    // Use data from location.state if it exists
-    const detailsData = location.state?.formData; // Ensure to adjust according to the passed state structure
-    console.log(detailsData);
+    const detailsData = location.state?.formData;
     if (detailsData) {
       setFormData((prevData) => ({
         ...prevData,
@@ -84,7 +76,7 @@ export default function DetailEdit() {
           ...Object.fromEntries(
             Object.keys(prevData.regButtonStates).map((key) => [
               key,
-              detailsData.regions.includes(parseInt(key)), // Assuming regions is an array of selected region IDs
+              detailsData.regions.includes(parseInt(key)),
             ])
           ),
         },
@@ -93,7 +85,7 @@ export default function DetailEdit() {
           ...Object.fromEntries(
             Object.keys(prevData.tripButtonStates).map((key) => [
               key,
-              detailsData.tripStyles.includes(parseInt(key)), // Assuming tripStyles is an array of selected style IDs
+              detailsData.tripStyles.includes(parseInt(key)),
             ])
           ),
         },
@@ -103,10 +95,7 @@ export default function DetailEdit() {
           forty: detailsData.fortyYN === "Y",
           fifty: detailsData.fiftyYN === "Y",
         },
-        dateChangeStates: {
-          startDate: detailsData.startDate,
-          endDate: detailsData.endDate,
-        },
+
         findMateNoState: detailsData.findMateNo || "",
         titleState: detailsData.title || "",
         mateNumState: detailsData.mateNum || 1,
@@ -145,8 +134,6 @@ export default function DetailEdit() {
           ...prevData,
           tripPlanList: extractedTripPlans,
         }));
-
-        console.log("Fetched Trip Plans: ", extractedTripPlans);
       } catch (error) {
         console.error(
           "Error fetching trip plans:",
@@ -155,18 +142,14 @@ export default function DetailEdit() {
       }
     };
 
-    // Fetch trip plans only once when component is mounted
     fetchTripPlans();
-
-    // The empty array ensures this only runs once
   }, [custNo, token]);
 
   useEffect(() => {
     if (formData.selectedTrip) {
-      // Clear previous trip details before fetching new ones
       setFormData((prevData) => ({
         ...prevData,
-        tripPlanDetailList: [], // Reset the trip details
+        tripPlanDetailList: [],
       }));
 
       axios
@@ -181,7 +164,7 @@ export default function DetailEdit() {
         .then((response) => {
           setFormData((prevData) => ({
             ...prevData,
-            tripPlanDetailList: response.data.data, // Update tripPlanDetailList in formData
+            tripPlanDetailList: response.data.data,
           }));
         })
         .catch((error) => {
@@ -213,7 +196,6 @@ export default function DetailEdit() {
   }
   const thumbSelChange = (data) => {
     setFormData({ ...formData, thumbnailSel: data });
-    console.log(data);
   };
 
   const handleTitleChange = (event) => {
@@ -225,10 +207,10 @@ export default function DetailEdit() {
   };
 
   const handleMateNumChange = (event) => {
-    const newMateNum = Math.max(1, Number(event.target.value)); // Ensure it is at least 1
+    const newMateNum = Math.max(1, Number(event.target.value));
     setFormData((prevData) => ({
       ...prevData,
-      mateNumState: newMateNum, // Update the state
+      mateNumState: newMateNum,
     }));
   };
 
@@ -239,23 +221,11 @@ export default function DetailEdit() {
     }));
   };
 
-  const dateChange = (startDate, endDate) => {
-    setFormData({
-      ...formData,
-      dateChangeStates: {
-        startDate: startDate,
-        endDate: endDate,
-      },
-    });
-  };
-
   const handleSelectedTripUpdate = (trip) => {
-    console.log(trip.tripPlanNo);
     setFormData((prevData) => ({
       ...prevData,
       selectedTrip: trip,
     }));
-    console.log(trip.tripPlanNo);
   };
 
   const handleGenderChange = (e) => {
@@ -279,7 +249,6 @@ export default function DetailEdit() {
     e.preventDefault();
     const regArr = Object.values(formData.regButtonStates);
     const stlArr = Object.values(formData.tripButtonStates);
-    const datArr = Object.values(formData.dateChangeStates);
     const ttlArr = formData.titleState;
     const cntArr = formData.contentState;
     const gdrArr = formData.genderState;
@@ -287,7 +256,6 @@ export default function DetailEdit() {
 
     const regTxt = "지역";
     const styleTxt = "여행 스타일";
-    const datTxt = "날짜";
     const ttlTxt = "제목";
     const cntTxt = "내용";
     const gdrTxt = "성별";
@@ -297,11 +265,10 @@ export default function DetailEdit() {
     const v5 = btnVal(cntArr, cntTxt);
     const v1 = btnVal(regArr, regTxt);
     const v2 = btnVal(stlArr, styleTxt);
-    const v3 = btnVal(datArr, datTxt);
     const v6 = btnVal(gdrArr, gdrTxt);
     const v7 = btnVal(mtnArr, mtnTxt);
 
-    if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6 || !v7) {
+    if (!v1 || !v2 || !v4 || !v5 || !v6 || !v7) {
       return;
     }
 
@@ -316,8 +283,6 @@ export default function DetailEdit() {
     const finalFormData = {
       findMateNo: formData.findMateNoState,
       title: formData.titleState,
-      startDate: formData.dateChangeStates.startDate,
-      endDate: formData.dateChangeStates.endDate,
       mateNum: formData.mateNumState,
       content: formData.contentState,
       gender: formData.genderState,
@@ -331,8 +296,6 @@ export default function DetailEdit() {
       tripPlanNo: formData.selectedTrip.tripPlanNo,
     };
 
-    console.log("sending json: ", finalFormData);
-
     axios
       .put("/api/mate", finalFormData, {
         headers: {
@@ -341,7 +304,6 @@ export default function DetailEdit() {
         },
       })
       .then((response) => {
-        // console.log("success", response.data);
         const findMateNo = response.data.data;
         navigate(`/planit/mates/details?findMateNo=${findMateNo}`);
       })
@@ -374,15 +336,7 @@ export default function DetailEdit() {
         )}
         <RegionSel formData={formData} regBtnClick={regBtnClick} />
         <TripStyle formData={formData} trpBtnClick={trpBtnClick} />
-        <Calender
-          dateChange={dateChange}
-          formData={formData}
-          setFormData={setFormData}
-          initialDate={[
-            formData.dateChangeStates.startDate,
-            formData.dateChangeStates.endDate,
-          ]}
-        />
+
         <div className="flex">
           <GenderSel
             formData={formData}
