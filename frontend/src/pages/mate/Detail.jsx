@@ -55,7 +55,7 @@ export default function Detail() {
           console.error("Error fetching form details:", error);
         });
     }
-  }, [findMateNo, token, custNo]);
+  }, [findMateNo]);
 
   console.log(formDetails.data);
   const heart = (
@@ -64,7 +64,7 @@ export default function Detail() {
 
   const editDetail = () => {
     if (formDetails.data) {
-      navigate("/mate/edit", { state: { formData: formDetails.data } });
+      navigate(`/mate/edit`, { state: { formData: formDetails.data } });
     }
   };
 
@@ -242,11 +242,11 @@ export default function Detail() {
               ) : (
                 ""
               )}
-              <div
+              {/* <div
                 className={`flex w-full h-[600px] border-gray-200 border-2 `}
               >
                 <DetailPageMap planCoordinate={groupedByDate} />
-              </div>
+              </div> */}
               <div className="flex justify-center align-middle gap-10 my-[70px]">
                 {custNo != formDetails.data.custNo ? (
                   <MateApplyBtn

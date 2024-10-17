@@ -159,7 +159,7 @@ const PostCard2 = ({ item, onClickMate }) => {
     </div>
   );
 };
-const PostCard3 = ({ item, onClickMate }) => {
+const PostCard3 = ({ item, onClickMate, startDate, endDate }) => {
   return (
     <div
       className={` rounded-lg bg-cover bg-center relative overflow-hidden self-center justify-self-center `}
@@ -176,11 +176,9 @@ const PostCard3 = ({ item, onClickMate }) => {
           <p className="text-sm ">{item.name}</p>
         </div>
         <p className="font-light text-sm my-2">
-          {item.startDt} ~ {item.endDt}
+          {startDate} ~ {endDate}
         </p>
-        <h1 className="text-xl my-24 font-semibold overflow-hidden">
-          {item.title}
-        </h1>
+        <h1 className="text-xl font-semibold overflow-hidden">{item.title}</h1>
       </div>
     </div>
   );
@@ -189,18 +187,3 @@ const PostCard3 = ({ item, onClickMate }) => {
 export default MainPage;
 
 export { PostCard2, PostCard3, SectionMate };
-{
-  /* <div
-className="aspect-square border-2 overflow-hidden justify-evenly p-2 "
-onClick={() => onClickCard(item.contentid, item.contenttypeid)}
->
-<h3 className="z-20 text-white absolute">{item.title}</h3>
-<div className="w-[100%] h-[100%] rounded-lg z-10 bg-black opacity-20"></div>
-<img
-  src={item.firstimage2}
-  alt={item.title}
-  className="rounded-lg object-cover h-[100%] z-0 "
-/>
-<p>{item.contentid}</p>
-</div> */
-}
