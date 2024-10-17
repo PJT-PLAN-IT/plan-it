@@ -27,7 +27,7 @@
          , tp.start_dt AS startDt
          , tp.end_dt AS endDt
 
-         , c.name AS name
+         , c.nickname AS name
 
          , tm.trip_plan_no AS tripMate
 
