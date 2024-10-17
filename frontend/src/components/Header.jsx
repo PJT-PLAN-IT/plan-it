@@ -14,6 +14,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const { userInfo } = useAuth();
   const userName = userInfo.nickname;
+  const custNo = userInfo.custNo;
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -73,11 +74,16 @@ export function Header() {
         <div className=" bg-white DropDownCont z-50">
           <ul>
             <li className="DropDownItem mt-5">MENU</li>
-            <DropdownMenu
-              className="UnderLine"
-              icon={folder}
-              text={"로그아웃"}
-            />
+            {
+              !custNo && (
+                    <DropdownMenu
+                        className="UnderLine"
+                        icon={folder}
+                        text={"로그인"}
+                        link={`/login`}
+                    />
+                )
+            }
             <hr />
             <DropdownMenuHead text={"여행관리"} />
             <hr />
