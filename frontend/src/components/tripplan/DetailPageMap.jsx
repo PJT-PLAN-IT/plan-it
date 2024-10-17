@@ -45,7 +45,7 @@ const DetailPageMap = ({ planCoordinate = {} }) => {
     <Map
       id="map"
       center={center}
-      level={13}
+      level={10}
       className={`w-full h-full flex justify-center items-center`}
     >
       {Object.keys(planCoordinate).map((day) =>
