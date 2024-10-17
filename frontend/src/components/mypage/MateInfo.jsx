@@ -5,7 +5,7 @@
 import {useEffect, useState} from "react";
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
 
-function MateInfo({item, custNo, refreshData}) {
+function MateInfo({item, custNo, refreshData }) {
     const [isStarted, setIsStarted] = useState(false);
     const axiosInstance = useAxiosInstance();
 
@@ -59,7 +59,7 @@ function MateInfo({item, custNo, refreshData}) {
 
     return (
         <>
-            <div>여행 메이트 : {name}</div>
+            <div>여행 메이트 : {item.name}</div>
             {
                 !isStarted && (
                     <div className="flex space-x-2">
