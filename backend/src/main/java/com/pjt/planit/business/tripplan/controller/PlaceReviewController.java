@@ -29,14 +29,6 @@ public class PlaceReviewController {
      */
     @PostMapping
     public ResponseResult<?> addPlaceReview(@RequestPart(required = false) List<MultipartFile> files, @RequestPart PlaceReviewDto placeReviewDto) {
-        Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
-        if (!placeReviewDto.getCustNo().equals(custNo)) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
-
-        if (!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
 
         if (!placeReviewService.isFirstReview(placeReviewDto)) {
             return ResponseResult.ofSuccess("already registered", null);
@@ -54,14 +46,6 @@ public class PlaceReviewController {
      */
     @PutMapping
     public ResponseResult<?> updatePlaceReview(@RequestPart(required = false) List<MultipartFile> files, @RequestPart PlaceReviewDto placeReviewDto) {
-        Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
-        if (!placeReviewDto.getCustNo().equals(custNo)) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
-        if (!placeReviewService.isCustNoEquals(placeReviewDto.getTripDetailNo(), custNo)) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
-
         placeReviewService.updatePlaceReveiw(files, placeReviewDto);
 
         return ResponseResult.ofSuccess("success", null);
@@ -76,7 +60,6 @@ public class PlaceReviewController {
      */
     @DeleteMapping
     public ResponseResult<?> deletePlaceReview(@RequestParam Integer placeReviewNo) {
-        Integer custNo = findAuthorizedUser.findUser().get().getCustNo();
         placeReviewService.deleteReview(placeReviewNo);
         return ResponseResult.ofSuccess("success", null);
     }
