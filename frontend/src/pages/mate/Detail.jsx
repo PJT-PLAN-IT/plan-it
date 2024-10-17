@@ -12,8 +12,8 @@ import { useAuth } from "../../context/AuthContext";
 import CommentSection from "../../components/mate/DetailComment";
 import axios from "axios";
 import { MateApplyBtn } from "../../hooks/MateApplyBtn";
-import DetailPageMap from "../../components/tripplan/DetailPageMap";
-import MateLike from "../../components/mate/MateLike";
+import DetailPageMap from "../../components/tripplan/DetailPageMap.jsx";
+import MateLike from "../../components/mate/MateLike.jsx";
 
 export default function Detail() {
   const { token, userInfo } = useAuth();
@@ -55,7 +55,7 @@ export default function Detail() {
           console.error("Error fetching form details:", error);
         });
     }
-  }, [findMateNo]);
+  }, [findMateNo, token, custNo]);
 
   console.log(formDetails.data);
   const heart = (
@@ -232,6 +232,11 @@ export default function Detail() {
                         </div>
                       ))}
                     </div>
+                  </div>
+                  <div
+                    className={`flex w-full h-[600px] border-gray-200 border-2 my-36`}
+                  >
+                    <DetailPageMap planCoordinate={groupedByDate} />
                   </div>
                 </>
               ) : (
