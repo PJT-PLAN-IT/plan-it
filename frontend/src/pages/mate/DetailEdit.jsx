@@ -132,14 +132,12 @@ export default function DetailEdit() {
           }
         );
 
-        const extractedTripPlans = response.data.data
-          .filter((tripPlan) => tripPlan.public_yn === "Y")
-          .map((tripPlan) => ({
-            tripPlanNo: tripPlan.trip_plan_no,
-            title: tripPlan.title,
-            startDt: tripPlan.start_dt,
-            endDt: tripPlan.end_dt,
-          }));
+        const extractedTripPlans = response.data.data.map((tripPlan) => ({
+          tripPlanNo: tripPlan.trip_plan_no,
+          title: tripPlan.title,
+          startDt: tripPlan.start_dt,
+          endDt: tripPlan.end_dt,
+        }));
 
         setFormData((prevData) => ({
           ...prevData,

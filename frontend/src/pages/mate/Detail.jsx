@@ -55,7 +55,7 @@ export default function Detail() {
           console.error("Error fetching form details:", error);
         });
     }
-  }, [findMateNo]);
+  }, []);
 
   console.log(formDetails.data);
   const heart = (
@@ -97,13 +97,12 @@ export default function Detail() {
   };
 
   console.log(groupedByDate);
-  const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
   return (
     <div className="mx-[300px]">
       <div>
         {formDetails.data ? (
           <div className="p-[30px] h-[400px]  relative">
-            {userEmail == formDetails.data.findMateCreateBy ? (
+            {custNo == formDetails.data.custNo ? (
               <div className=" justify-around flex gap-4 absolute top-4 right-7 text-xs underline">
                 <button onClick={editDetail}>수정</button>
                 <button onClick={() => deleteDetail(findMateNo)}>삭제</button>
@@ -113,8 +112,8 @@ export default function Detail() {
             )}
             <div>
               <div className="">
-                <div className="flex justify-between mt-5">
-                  <h1 className="font-semibold text-base">
+                <div className="flex justify-between my-5">
+                  <h1 className="font-semibold text-2xl">
                     {formDetails.data.title}
                   </h1>
                   <div className="flex justify-between gap-2">
@@ -123,7 +122,11 @@ export default function Detail() {
                     </p>
                     <a></a>
                     <div className="flex gap-2 text-xs font-light">
-                      <p>{formDetails.data.findMateCreateDate.slice(0, 10)}</p>
+                      <p>
+                        {formDetails.data.findMateCreateDate
+                          .toString()
+                          .slice(0, 10)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -146,7 +149,8 @@ export default function Detail() {
                     );
                   })}
                   <p className="px-3 border-r-2">
-                    {formDetails.data.startDate}- {formDetails.data.endDate}
+                    {formDetails.data.startDate.toString().slice(0, 10)}-{" "}
+                    {formDetails.data.endDate.toString().slice(0, 10)}
                   </p>
                   {genderInfo
                     .filter((gender) => gender.key === formDetails.data.gender)
@@ -180,11 +184,12 @@ export default function Detail() {
                 <div>
                   <div className="flex justify-between items-end  bottom-7 h-[5vh] ">
                     <div className="">
-                      {formDetails && formDetails.data.hasCustLiked == "N" ? (
-                        <MateLike findMateNo={findMateNo} />
-                      ) : (
-                        <span className="inline-block mr-4 ">{heart}</span>
-                      )}
+                      {custNo !== formDetails.data.custNo &&
+                        (formDetails?.data.hasCustLiked === "N" ? (
+                          <MateLike findMateNo={findMateNo} liked={false} />
+                        ) : (
+                          <MateLike findMateNo={findMateNo} liked={true} />
+                        ))}
                     </div>
                     <CheckTripMate
                       tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
@@ -201,9 +206,14 @@ export default function Detail() {
                         {formDetails.data.tripPlan.title}
                       </h1>
                       <p className="mt-2 font-normal">
-                        {formDetails.data.tripPlan.start_dt.slice(0, 10)} to
+                        {formDetails.data.tripPlan.start_dt
+                          .toString()
+                          .slice(0, 10)}{" "}
+                        to
                         <span> </span>
-                        {formDetails.data.tripPlan.start_dt.slice(0, 10)}
+                        {formDetails.data.tripPlan.end_dt
+                          .toString()
+                          .slice(0, 10)}
                       </p>
                     </div>
                     <div className="flex-col ml-8 mb-20 ">
@@ -242,11 +252,6 @@ export default function Detail() {
               ) : (
                 ""
               )}
-              {/* <div
-                className={`flex w-full h-[600px] border-gray-200 border-2 `}
-              >
-                <DetailPageMap planCoordinate={groupedByDate} />
-              </div> */}
               <div className="flex justify-center align-middle gap-10 my-[70px]">
                 {custNo != formDetails.data.custNo ? (
                   <MateApplyBtn

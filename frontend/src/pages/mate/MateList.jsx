@@ -1,7 +1,6 @@
 import "../../App.css";
 import "../../assets/css/Write.css";
 import MainSlider from "../../components/mate/MainSlider";
-// import { PostCard3 } from "../MainPage";
 import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -113,6 +112,7 @@ export default function MateList() {
 }
 
 const PostCard3 = ({ item, onClickMate, startDate, endDate }) => {
+  console.log(item);
   return (
     <div
       className={` rounded-lg bg-cover bg-center relative overflow-hidden self-center justify-self-center `}
@@ -167,7 +167,14 @@ const PostCard3 = ({ item, onClickMate, startDate, endDate }) => {
             );
           })}
         </div>
-        <p>{item.mateNum}명 모집중</p>
+        <div className="absolute bottom-5 right-5">
+          <p>
+            {item.tripMateNum && item.tripMateNum != null
+              ? item.tripMateNum
+              : "0"}
+            /{item.recruits}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const GenderSel = ({ formData, handleGenderChange }) => {
     },
     {
       name: "혼성",
-      key: "fm",
+      key: "a",
     },
   ];
   return (
