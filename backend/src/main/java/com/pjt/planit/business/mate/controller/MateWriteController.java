@@ -90,4 +90,17 @@ public class MateWriteController {
 		return ApiResponse.ok("post liked");
 	}
 	
+	@DeleteMapping("/like-revoke")
+	public ApiResponse removeMateLike (@RequestParam("findMateNo") int findMateNo, @RequestParam("custNo") int custNo) {
+			
+		MateLikeDTO likeDTO = new MateLikeDTO();
+		likeDTO.setCustNo(custNo);
+		likeDTO.setFindMateNo(findMateNo);
+		detailService.removeMatelike(likeDTO);
+		
+		return ApiResponse.ok("post like revoked");
+	}
+	
+	
+
 }

@@ -26,6 +26,7 @@ import com.pjt.planit.db.repository.FindMateRegionRepository;
 import com.pjt.planit.db.repository.FindMateRepository;
 import com.pjt.planit.db.repository.FindMateStyleRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -74,30 +75,6 @@ public class MateDetailService {
 		return detailDTO;
 
 	}
-//	public MateDetailDTO getDetail(int findMateNo) {
-//		MateDetailDTO detailDTO = detailMapper.getDetail(findMateNo);
-//		List<Integer> regions = regionRepository.findContentTypeIdsByFindMateNo(findMateNo);
-//		List<Integer> styles = styleRepository.findTripStyleIdsByFindMateNo(findMateNo);
-//		System.out.println(regions);
-//		System.out.println(styles);
-//		detailDTO.setRegions(regions);
-//		detailDTO.setTripStyles(styles);
-//		
-//		if (detailDTO.getTripPlanNo() != null) {
-//			int tripPlanNo = detailDTO.getTripPlanNo();
-//			TripPlanDto tripPlanDto = new TripPlanDto();
-//			tripPlanDto.setTripPlanNo(tripPlanNo);
-//			tripPlanDto = planMapper.getPlanDetail(tripPlanDto);
-//			detailDTO.setTripPlanList(detailMapper.getTripPlan(tripPlanDto));
-//			detailDTO.setTripPlanDetailList(planMapper.getDetailList2(tripPlanDto));
-//		}
-//		
-//		System.out.println(detailDTO.getTripPlanList());
-//		System.out.println(detailDTO.getTripPlanDetailList());
-//		
-//		return detailDTO;
-//		
-//	}
 
 	public int editDetail(MateDetailDTO detailDTO) {
 
@@ -171,14 +148,34 @@ public class MateDetailService {
 		styleRepository.deleteAllByFindMateNo(findMateNo);
 
 	}
-
+	
+	@Transactional
 	public void addMateLike(MateLikeDTO likeDTO) {
-		FindMateLike newLike = new FindMateLike();
-		newLike.setFindMateNo(likeDTO.getFindMateNo());
-		newLike.setCustNo(likeDTO.getCustNo());
-		
-		findMateLikeRepository.save(newLike);
-		
+		 FindMateLike existLike = findMateLikeRepository.findByFindMateNoAndCustNo(
+			        likeDTO.getFindMateNo(), likeDTO.getCustNo()
+			    );
+
+		 if (existLike == null) {
+			  FindMateLike newLike = new FindMateLike();
+		        newLike.setFindMateNo(likeDTO.getFindMateNo());
+		        newLike.setCustNo(likeDTO.getCustNo());
+		        
+		        findMateLikeRepository.save(newLike);
+		    } 
+
+	}
+	
+	@Transactional
+	public void removeMatelike(MateLikeDTO likeDTO) {
+	    FindMateLike existingLike = findMateLikeRepository.findByFindMateNoAndCustNo(
+	        likeDTO.getFindMateNo(), likeDTO.getCustNo()
+	    );
+
+	    if (existingLike != null) {
+	        findMateLikeRepository.delete(existingLike);
+	    } else {
+	        throw new EntityNotFoundException("MateLike not found");
+	    }
 	}
 
 }

@@ -1,8 +1,10 @@
 import { Editor } from "@tinymce/tinymce-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
-  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [selectedTrip, setSelectedTrip] = useState(
+    tripPlanList.find((trip) => trip.tripPlanNo === oriTripPlan) || null
+  );
 
   const handleSelectChange = (event) => {
     const selectedTripPlanNo = event.target.value;
@@ -13,6 +15,18 @@ const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
     setSelectedTrip(selectedTrip);
     onSelectedTripUpdate(selectedTrip); // Notify the parent about the selected trip
   };
+
+  useEffect(() => {
+    if (oriTripPlan) {
+      const preloadedTrip = tripPlanList.find(
+        (trip) => trip.tripPlanNo === oriTripPlan
+      );
+      if (preloadedTrip) {
+        setSelectedTrip(preloadedTrip);
+        onSelectedTripUpdate(preloadedTrip);
+      }
+    }
+  }, [oriTripPlan, tripPlanList, onSelectedTripUpdate]);
 
   return (
     <div className="flex justify-start">
@@ -33,6 +47,39 @@ const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
     </div>
   );
 };
+
+// const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
+//   const [selectedTrip, setSelectedTrip] = useState(null);
+
+//   const handleSelectChange = (event) => {
+//     const selectedTripPlanNo = event.target.value;
+
+//     const selectedTrip = tripPlanList.find(
+//       (trip) => trip.tripPlanNo === parseInt(selectedTripPlanNo)
+//     );
+//     setSelectedTrip(selectedTrip);
+//     onSelectedTripUpdate(selectedTrip); // Notify the parent about the selected trip
+//   };
+
+//   return (
+//     <div className="flex justify-start">
+//       <select
+//         className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10"
+//         onChange={handleSelectChange}
+//         value={selectedTrip?.tripPlanNo || ""}
+//       >
+//         <option value="" disabled>
+//           여행계획 선택
+//         </option>
+//         {tripPlanList.map((trip) => (
+//           <option key={trip.tripPlanNo} value={trip.tripPlanNo}>
+//             {trip.title}
+//           </option>
+//         ))}
+//       </select>
+//     </div>
+//   );
+// };
 
 function Textbox({ title, content, titleChange, contentChange }) {
   return (

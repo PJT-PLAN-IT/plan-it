@@ -9,41 +9,51 @@
 		SELECT
 		fm.find_mate_no AS findMateNo,
 		c.cust_no AS CustNo,
-		c.name AS custName,
+		c.nickname AS custName,
 		fm.create_by AS findMateCreateBy,
 		fm.trip_plan_no AS tripPlanNo,
 		fm.title AS title,
-		fm.start_dt AS startDate,
+		fm.start_dt AS
+		startDate,
 		fm.end_dt AS endDate,
 		fm.update_dt AS updateDate,
 		fm.create_dt AS findMateCreateDate,
 		fm.recruits AS mateNum,
-		fm.content AS content,
+		fm.content
+		AS content,
 		fm.gender_type AS gender,
 		fm.twenty_yn AS twentyYN,
 		fm.thirty_yn AS thirtyYN,
 		fm.forty_yn AS fortyYN,
-		fm.fifty_yn AS fiftyYN,
+		fm.fifty_yn AS
+		fiftyYN,
 		tp.thumbnail_img AS thumbnail_img,
-		fa.find_mate_apply_no AS findMateAppNo,
+		fa.find_mate_apply_no AS
+		findMateAppNo,
 		fa.allow_yn AS appAllowYn,
 		fa.expired_dt AS expiredDt,
 		fl.find_mate_like_no AS findMateLikeNo,
 
 		CASE
-		WHEN fl.cust_no = #{custNo} THEN 'Y'
+		WHEN fl.find_mate_like_no
+		IS NOT NULL AND fl.cust_no = #{custNo} THEN 'Y'
 		ELSE 'N'
-		END AS hasCustLiked
+		END AS
+		hasCustLiked
 		FROM
 		T_FIND_MATE fm
 		LEFT JOIN
-		T_TRIP_PLAN tp ON fm.trip_plan_no = tp.trip_plan_no
+		T_TRIP_PLAN tp ON
+		fm.trip_plan_no = tp.trip_plan_no
 		LEFT JOIN
-		T_CUST c ON tp.cust_no = c.cust_no
+		T_CUST c ON tp.cust_no =
+		c.cust_no
 		LEFT JOIN
-		T_FIND_MATE_APPLY fa ON fm.find_mate_no = fa.find_mate_no
+		T_FIND_MATE_APPLY fa ON fm.find_mate_no =
+		fa.find_mate_no
 		LEFT JOIN
-		T_FIND_MATE_LIKE fl ON fm.find_mate_no = fl.find_mate_no
+		T_FIND_MATE_LIKE fl ON fm.find_mate_no =
+		fl.find_mate_no AND fl.cust_no = #{custNo}
 		LEFT JOIN
 		T_FIND_MATE_REGION r ON fm.find_mate_no = r.find_mate_no
 		LEFT JOIN
@@ -52,6 +62,7 @@
 		fm.find_mate_no = #{findMateNo}
 		GROUP BY
 		fm.find_mate_no;
+
 	</select>
 
 
@@ -74,19 +85,21 @@
 		SELECT
 		fr.find_mate_reply_no AS findMateReplyNo,
 		fr.find_mate_no AS findMateNo,
-		fr.upper_find_mate_reply_no AS upperFindMateReplyNo,
+		fr.upper_find_mate_reply_no AS
+		upperFindMateReplyNo,
 		fr.cust_no AS custNo,
 		fr.reply AS reply,
 		fr.public_yn AS publicYn,
 		fr.create_dt AS createDt,
 		fr.seq AS seq,
 
-		-- Fetching the customer name using the custNo
-		c.name AS custName
+
+		c.nickname AS custName
 		FROM
 		T_FIND_MATE_REPLY fr
 		LEFT JOIN
-		T_CUST c ON fr.cust_no = c.cust_no
+		T_CUST c ON
+		fr.cust_no = c.cust_no
 		WHERE
 		fr.find_mate_no = #{findMateNo}
 		ORDER BY
