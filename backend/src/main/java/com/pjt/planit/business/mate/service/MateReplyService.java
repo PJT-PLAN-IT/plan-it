@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.pjt.planit.business.mate.dto.MateReplyDTO;
+import com.pjt.planit.business.mate.mapper.MateDetailMapper;
 import com.pjt.planit.db.entity.FindMateReply;
 import com.pjt.planit.db.repository.FindMateReplyRepository;
 
@@ -12,9 +13,11 @@ import com.pjt.planit.db.repository.FindMateReplyRepository;
 public class MateReplyService {
 
 	private final FindMateReplyRepository replyRepository;
-
-	public MateReplyService(FindMateReplyRepository replyRepository) {
+	private final MateDetailMapper detailMapper;
+	
+	public MateReplyService(FindMateReplyRepository replyRepository, MateDetailMapper detailMapper) {
 		this.replyRepository = replyRepository;
+		this.detailMapper = detailMapper;
 	}
 
 	public int submitReply(MateReplyDTO replyDTO) {
@@ -50,6 +53,11 @@ public class MateReplyService {
 		List<FindMateReply> replies = replyRepository.findByFindMateNo(findMateNo);
 		
 		return replies;
+	}
+	
+	public List<MateReplyDTO> getReplies(int findMateNo){
+		
+		return detailMapper.getMateReply(findMateNo);
 	}
 
 	private MateReplyDTO convertToDTO(FindMateReply reply) {

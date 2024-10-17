@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pjt.planit.business.mate.dto.MateDetailDTO;
+import com.pjt.planit.business.mate.dto.MateLikeDTO;
 import com.pjt.planit.business.mate.dto.ReplyGroupDTO;
 import com.pjt.planit.business.mate.mapper.MateDetailMapper;
 import com.pjt.planit.business.tripplan.dto.TripPlanDto;
 import com.pjt.planit.business.tripplan.mapper.PlanMapper;
+import com.pjt.planit.db.entity.FindMateLike;
 import com.pjt.planit.db.entity.FindMateRegion;
 import com.pjt.planit.db.entity.FindMateReply;
 import com.pjt.planit.db.entity.FindMateStyle;
+import com.pjt.planit.db.repository.FindMateLikeRepository;
 import com.pjt.planit.db.repository.FindMateRegionRepository;
 import com.pjt.planit.db.repository.FindMateRepository;
 import com.pjt.planit.db.repository.FindMateStyleRepository;
@@ -32,17 +35,19 @@ public class MateDetailService {
 	private final FindMateRepository mateRepository;
 	private final FindMateStyleRepository styleRepository;
 	private final FindMateRegionRepository regionRepository;
+	private final FindMateLikeRepository findMateLikeRepository;
 	private final MateDetailMapper detailMapper;
 	private final PlanMapper planMapper;
 
 	@Autowired
 	public MateDetailService(FindMateRepository mateRepository, FindMateStyleRepository styleRepository,
-			FindMateRegionRepository regionRepository, MateDetailMapper detailMapper, PlanMapper planMapper) {
+			FindMateRegionRepository regionRepository, MateDetailMapper detailMapper, PlanMapper planMapper, FindMateLikeRepository findMateLikeRepository ) {
 		this.mateRepository = mateRepository;
 		this.styleRepository = styleRepository;
 		this.regionRepository = regionRepository;
 		this.detailMapper = detailMapper;
 		this.planMapper = planMapper;
+		this.findMateLikeRepository = findMateLikeRepository;
 	}
 
 	public MateDetailDTO getDetail(MateDetailDTO dto) {
@@ -165,6 +170,15 @@ public class MateDetailService {
 		regionRepository.deleteAllByFindMateNo(findMateNo);
 		styleRepository.deleteAllByFindMateNo(findMateNo);
 
+	}
+
+	public void addMateLike(MateLikeDTO likeDTO) {
+		FindMateLike newLike = new FindMateLike();
+		newLike.setFindMateNo(likeDTO.getFindMateNo());
+		newLike.setCustNo(likeDTO.getCustNo());
+		
+		findMateLikeRepository.save(newLike);
+		
 	}
 
 }

@@ -22,9 +22,17 @@ public class MateDetailController {
 	 * 공고 디테일 보기
 	 * **/
 	@GetMapping("/details")
-	public ApiResponse showDetail(@RequestBody MateDetailDTO detailDTO ) {
+	public ApiResponse showDetail(@RequestParam("findMateNo") int findMateNo, @RequestParam("custNo")int custNo ) {
+		
+		MateDetailDTO detailDTO = new MateDetailDTO();
+		
+		detailDTO.setFindMateNo(findMateNo);
+		detailDTO.setCustNo(custNo);
+		
 		MateDetailDTO result = detailService.getDetail(detailDTO);
+		
 		System.out.println(result);
+		
 		return ApiResponse.ok("sent detail", result);
 	}
 

@@ -52,7 +52,7 @@ input[type="checkbox"]:before {
 input[type="checkbox"]:checked:after {
   content: "";
   display: block;
-  top: -17px;
+  top: -21px;
   left: 5px;
   position: relative;
   width: 12px;

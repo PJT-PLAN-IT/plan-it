@@ -176,7 +176,8 @@ function SubmitForm() {
   };
 
   const contentChange = (content) => {
-    setFormData({ ...formData, contentState: content });
+    const strippedContent = content.replace(/<\/?p[^>]*>/g, "");
+    setFormData({ ...formData, contentState: strippedContent });
   };
 
   const handleGenderChange = (e) => {

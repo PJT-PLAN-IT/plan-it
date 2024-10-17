@@ -13,31 +13,31 @@ import CommentSection from "../../components/mate/DetailComment";
 import axios from "axios";
 import { MateApplyBtn } from "../../hooks/MateApplyBtn";
 import DetailPageMap from "../../components/tripplan/DetailPageMap";
+import MateLike from "../../components/mate/MateLike";
 
 export default function Detail() {
-  const { token } = useAuth();
+  const { token, userInfo } = useAuth();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const findMateNo = queryParams.get("findMateNo");
   const [formDetails, setFormDetails] = useState({ data: null });
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  // const custNo = localStorage.getItem("userInfo").custNo;
+  const custNo = userInfo.custNo;
 
-  // console.log(findMateNo, custNo);
+  console.log(custNo);
 
   useEffect(() => {
-    const dto = {
-      findMateNo: findMateNo,
-      custNo: custNo,
-    };
     if (findMateNo) {
       axios
-        .post(`/api/planit/mates/details`, dto, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .get(
+          `/api/planit/mates/details?findMateNo=${findMateNo}&custNo=${custNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((response) => {
           const { tripPlanList, tripPlanDetailList, mateReplyList } =
             response.data.data;
@@ -95,7 +95,7 @@ export default function Detail() {
         });
     }
   };
-  // const writeDate = formDetails.data.findMateCreateDate;
+
   console.log(groupedByDate);
   const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
   return (
@@ -180,14 +180,11 @@ export default function Detail() {
                 <div>
                   <div className="flex justify-between items-end  bottom-7 h-[5vh] ">
                     <div className="">
-                      <span
-                        className="inline-block mr-4 "
-                        onClick={() => {
-                          setOpen(!open);
-                        }}
-                      >
-                        {heart}
-                      </span>
+                      {formDetails && formDetails.data.hasCustLiked == "N" ? (
+                        <MateLike findMateNo={findMateNo} />
+                      ) : (
+                        <span className="inline-block mr-4 ">{heart}</span>
+                      )}
                     </div>
                     <CheckTripMate
                       tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
@@ -200,13 +197,13 @@ export default function Detail() {
                 <>
                   <div className="flex flex-col pt-10">
                     <div className="font-semibold p-[30px] mb-10 border-t-2">
-                      <h1 className="TitleLabel">
+                      <h1 className="TitleLabel text-3xl">
                         {formDetails.data.tripPlan.title}
                       </h1>
-                      <p>
-                        {formDetails.data.tripPlan.start_dt} to
+                      <p className="mt-2 font-normal">
+                        {formDetails.data.tripPlan.start_dt.slice(0, 10)} to
                         <span> </span>
-                        {formDetails.data.tripPlan.end_dt}
+                        {formDetails.data.tripPlan.start_dt.slice(0, 10)}
                       </p>
                     </div>
                     <div className="flex-col ml-8 mb-20 ">
@@ -246,12 +243,16 @@ export default function Detail() {
                 <DetailPageMap planCoordinate={groupedByDate} />
               </div>
               <div className="flex justify-center align-middle gap-10 my-[70px]">
-                <MateApplyBtn
-                  findMateNo={findMateNo}
-                  startDate={formDetails.data.startDate}
-                  expiredDate={formDetails.data.endDate}
-                  tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
-                />
+                {custNo != formDetails.data.custNo ? (
+                  <MateApplyBtn
+                    findMateNo={findMateNo}
+                    startDate={formDetails.data.startDate}
+                    expiredDate={formDetails.data.endDate}
+                    tripPlanNo={formDetails.data.tripPlan.trip_plan_no}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <CommentSection findMateNo={findMateNo} />
             </div>

@@ -13,7 +13,7 @@ const folder = <FontAwesomeIcon icon={faFolder} />;
 export function Header() {
   const [open, setOpen] = useState(false);
   const { userInfo } = useAuth();
-  const userName = userInfo.nickname;
+  // const userName = userInfo.nickname;
   const dropdownRef = useRef(null); // To track the dropdown element
 
   // Handle clicks outside of the dropdown
@@ -61,9 +61,7 @@ export function Header() {
               setOpen(!open);
             }}
           >
-            <span>
-              {userName}님 {down}
-            </span>
+            <span>님 {down}</span>
           </div>
         </div>
       </div>
