@@ -91,7 +91,7 @@ public class MateApplyService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
+                    .thumbnailImg(findMate.getThumbnailImg())
                     .allowYn(allowYn)
                     .tripPlanNo(tripPlan.getTripPlanNo())
                     .startDt(tripPlan.getStartDt())
