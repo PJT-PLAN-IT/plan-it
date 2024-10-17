@@ -135,38 +135,46 @@ const PostCard3 = ({ item, onClickMate, startDate, endDate }) => {
           {startDate} ~ {endDate}
         </p>
         <div>
-          {item.twentyYN == "Y" ? (
-            <p className="px-3 border-r-2">#20대</p>
-          ) : null}
-          {item.thirtyYN == "Y" ? (
-            <p className="px-3 border-r-2">#30대</p>
-          ) : null}
-          {item.fortyYN == "Y" ? (
-            <p className="px-3 border-r-2">#40대</p>
-          ) : null}
-          {item.fiftyYN == "Y" ? (
-            <p className="px-3 border-r-2">#50대 이상</p>
-          ) : null}
+          {[
+            item.twentyYN === "Y" && <p className="px-3 border-r-2">#20대</p>,
+            item.thirtyYN === "Y" && <p className="px-3 border-r-2">#30대</p>,
+            item.fortyYN === "Y" && <p className="px-3 border-r-2">#40대</p>,
+            item.fiftyYN === "Y" && (
+              <p className="px-3 border-r-2">#50대 이상</p>
+            ),
+          ]
+            .filter(Boolean)
+            .slice(0, 1)}
         </div>
-        <div className="flex">
-          {item.regionsList.map((region) => {
-            const regionVar = Regions.find((r) => r.key == region);
-            return (
-              <p key={regionVar.key} className="px-3">
-                {regionVar.value}
-              </p>
-            );
-          })}
 
-          {item.tripStylesList.map((style) => {
-            const styleVar = TripStyles.find((s) => s.key == style);
-            return (
-              <p key={styleVar.key} className="px-3 ">
-                {styleVar.value}
-              </p>
-            );
-          })}
+        <div className="flex">
+          {item.regionsList
+            .map((region) => {
+              const regionVar = Regions.find((r) => r.key == region);
+              return (
+                regionVar && (
+                  <p key={regionVar.key} className="px-3">
+                    {regionVar.value}
+                  </p>
+                )
+              );
+            })
+            .slice(0, 1)}
+
+          {item.tripStylesList
+            .map((style) => {
+              const styleVar = TripStyles.find((s) => s.key == style);
+              return (
+                styleVar && (
+                  <p key={styleVar.key} className="px-3">
+                    {styleVar.value}
+                  </p>
+                )
+              );
+            })
+            .slice(0, 1)}
         </div>
+
         <div className="absolute bottom-5 right-5">
           <p>
             {item.tripMateNum && item.tripMateNum != null
