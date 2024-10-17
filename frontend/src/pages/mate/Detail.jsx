@@ -12,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import CommentSection from "../../components/mate/DetailComment";
 import axios from "axios";
 import { MateApplyBtn } from "../../hooks/MateApplyBtn";
+import DetailPageMap from "../../components/tripplan/DetailPageMap.jsx";
 // import DetailPageMap from "../../components/tripplan/DetailPageMap";
 
 export default function Detail() {
@@ -229,7 +230,9 @@ export default function Detail() {
                       ))}
                     </div>
                   </div>
-                  {/* <DetailPageMap /> */}
+                  <div className={`flex w-full h-[600px] border-gray-200 border-2 my-36`}>
+                    <DetailPageMap planCoordinate={groupedByDate} />
+                  </div>
                 </>
               ) : (
                 ""
