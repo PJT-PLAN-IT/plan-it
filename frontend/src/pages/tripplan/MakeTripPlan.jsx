@@ -3,12 +3,21 @@ import {DragDropContext, Draggable, Droppable,} from 'react-beautiful-dnd';
 import AreaList from "../../components/tripplan/SelectArea.jsx";
 import SelectContentTypeId from "../../components/tripplan/SelectContentTypeId.jsx";
 import MapComponent from "../../components/tripplan/MapComponent.jsx";
-import Calendar from "react-calendar";
 import {useAxiosInstance} from "../../utils/axiosConfig.js";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAngleLeft, faAngleRight, faCirclePlus, faTrashCan, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {
+    faAngleLeft,
+    faAngleRight,
+    faCirclePlus, faCrown,
+    faMagnifyingGlass,
+    faTrashCan,
+    faXmark
+} from "@fortawesome/free-solid-svg-icons";
 import {addHours} from "date-fns";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import Calendar from "react-calendar";
+import "../../assets/css/Calender.css";
+import Logo from "../../assets/img/logo.png";
 
 
 function MakeTripPlan() {
@@ -16,6 +25,7 @@ function MakeTripPlan() {
     const right = <FontAwesomeIcon icon={faAngleRight}/>
     const trash = <FontAwesomeIcon icon={faTrashCan}/>
     const xmark = <FontAwesomeIcon icon={faXmark}/>
+    const search = <FontAwesomeIcon icon={faMagnifyingGlass}/>
     const circlePlus = <FontAwesomeIcon icon={faCirclePlus}/>
     const navigate = useNavigate();
     const axiosInstance = useAxiosInstance();
@@ -310,16 +320,24 @@ function MakeTripPlan() {
 
     return (
         <div className={`flex h-screen`}>
-            <div className={`shrink-0 w-16 z-20 bg  border border-amber-700`}>
-                <div onClick={togglePlaceModal}>
-                    검색
-                {/* 할일 2   삭제 하기 버튼 추가 뒤로가기 / 삭제하기 버튼 추가 */}
+            <div className={`flex flex-col shrink-0 w-16 z-20 bg  border border-orange justify-start`}>
+                {/*<div onClick={togglePlaceModal} className={`cursor-pointer font-bold w-16 h-16 flex items-center`}>*/}
+                {/*    검색*/}
+                {/*</div>*/}
+                <div className={`shrink-0 flex-col flex justify-center items-center`}>
+                    <Link to={`/planit`}>
+                        <img className="w-[90px]" src={Logo} alt="logo" />
+                    </Link>
+                </div>
+                <div className={`shrink-0 flex-col flex justify-center items-center h-16 cursor-pointer`}  onClick={togglePlaceModal}>
+                    {search}
+                    <p className={`text-xs mt-2`}>검색</p>
                 </div>
             </div>
             <div className={`flex grow`}>
                 <div
                     className={`flex items-center absolute z-10 w-96 h-full transform transition-transform duration-300 ${isPlanModalOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    <div className={` w-96 h-screen flex flex-col bg-white border border-amber-700`}>
+                    <div className={` w-96 h-screen flex flex-col bg-white border border-orange`}>
                         <div className={`border-b-2 h-32 px-3`}>
                             <input className={`font-bold py-4 mt-2 w-full`} placeholder={`제목을 입력해주세요.`} value={title}
                                    maxLength={15} onChange={e => onChangeTitle(e)}/>
@@ -337,7 +355,7 @@ function MakeTripPlan() {
                                         onChange={selectDate}
                                         value={dateRange}
                                         selectRange={true}
-                                        className="cursor-pointer"/>
+                                        className={`cursor-pointer bg-white`}/>
                                 </div>
                             )}
                         </div>
@@ -501,14 +519,14 @@ function MakeTripPlan() {
                     )
                         }
 
-                    {selectContent && (
-                        // 할일 3 상세보기 페이지 추가
-                        <div
-                            className={`flex  items-center absolute h-screen  z-10 w-96 left-full py-4 pl-4 transform transition-transform duration-300`}>
-                            <div className={`border-2 w-full h-full bg-purple-400 flex flex-col`}>
-                            </div>
-                        </div>
-                    )}
+                    {/*{selectContent && (*/}
+                    {/*   */}
+                    {/*    <div*/}
+                    {/*        className={`flex  items-center absolute h-screen  z-10 w-96 left-full py-4 pl-4 transform transition-transform duration-300`}>*/}
+                    {/*        <div className={`border-2 w-full h-full bg-purple-400 flex flex-col`}>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
                 </div>
                 <div className={`flex-grow`}>
                     <MapComponent planCoordinate={selectedPlans} searchMap={clickCoord}/>
