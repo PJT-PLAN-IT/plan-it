@@ -2,38 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.pjt.planit.business.mate.mapper.MateDetailMapper">
+
 	<select id="getDetail"
-		 parameterType="int"
+		parameterType="com.pjt.planit.business.mate.dto.MateDetailDTO"
 		resultType="com.pjt.planit.business.mate.dto.MateDetailDTO">
 		SELECT
-			fm.find_mate_no AS findMateNo,
-			c.cust_no AS CustNo,
-			c.name AS custName,
-			fm.create_by AS findMateCreateBy,
-			fm.trip_plan_no AS tripPlanNo,
-			fm.title AS title,
-			fm.start_dt AS startDate,
-			fm.end_dt AS endDate,
-			fm.update_dt AS updateDate,
-			fm.create_dt AS findMateCreateDate,
-			fm.recruits AS mateNum,
-			fm.content as content,
-			fm.gender_type AS gender,
-			fm.twenty_yn AS twentyYN,
-			fm.thirty_yn AS thirtyYN,
-			fm.forty_yn AS fortyYN,
-			fm.fifty_yn AS fiftyYN,
-			tp.thumbnail_img AS thumbnail_img,
-			fa.find_mate_apply_no AS findMateAppNo,
-			fa.allow_yn AS appAllowYn,
-			fa.expired_dt AS expiredDt,
-			fl.find_mate_like_no AS findMateLikeNo
+		fm.find_mate_no AS findMateNo,
+		c.cust_no AS CustNo,
+		c.name AS custName,
+		fm.create_by AS findMateCreateBy,
+		fm.trip_plan_no AS tripPlanNo,
+		fm.title AS title,
+		fm.start_dt AS startDate,
+		fm.end_dt AS endDate,
+		fm.update_dt AS updateDate,
+		fm.create_dt AS findMateCreateDate,
+		fm.recruits AS mateNum,
+		fm.content AS content,
+		fm.gender_type AS gender,
+		fm.twenty_yn AS twentyYN,
+		fm.thirty_yn AS thirtyYN,
+		fm.forty_yn AS fortyYN,
+		fm.fifty_yn AS fiftyYN,
+		tp.thumbnail_img AS thumbnail_img,
+		fa.find_mate_apply_no AS findMateAppNo,
+		fa.allow_yn AS appAllowYn,
+		fa.expired_dt AS expiredDt,
+		fl.find_mate_like_no AS findMateLikeNo,
+
+		CASE
+		WHEN fl.cust_no = #{custNo} THEN 'Y'
+		ELSE 'N'
+		END AS hasCustLiked
 		FROM
 		T_FIND_MATE fm
 		LEFT JOIN
-		T_CUST c ON fm.create_by = c.create_by
-		LEFT JOIN
 		T_TRIP_PLAN tp ON fm.trip_plan_no = tp.trip_plan_no
+		LEFT JOIN
+		T_CUST c ON tp.cust_no = c.cust_no
 		LEFT JOIN
 		T_FIND_MATE_APPLY fa ON fm.find_mate_no = fa.find_mate_no
 		LEFT JOIN
@@ -63,28 +69,28 @@
 
 
 	<select id="getMateReply" parameterType="Integer"
-		resultType="hashmap">
+		resultType="com.pjt.planit.business.mate.dto.MateReplyDTO">
 
-		SELECT *
-		FROM (
-		SELECT tr.*,
-		CASE
-		WHEN
-		tr.upper_find_mate_reply_no IS
-		NULL THEN 1
-		ELSE 2
-		END AS depth
+		SELECT
+		fr.find_mate_reply_no AS findMateReplyNo,
+		fr.find_mate_no AS findMateNo,
+		fr.upper_find_mate_reply_no AS upperFindMateReplyNo,
+		fr.cust_no AS custNo,
+		fr.reply AS reply,
+		fr.public_yn AS publicYn,
+		fr.create_dt AS createDt,
+		fr.seq AS seq,
+
+		-- Fetching the customer name using the custNo
+		c.name AS custName
 		FROM
-		T_FIND_MATE_REPLY tr
+		T_FIND_MATE_REPLY fr
+		LEFT JOIN
+		T_CUST c ON fr.cust_no = c.cust_no
 		WHERE
-		tr.find_mate_no =
-		#{findMateNo}
-		AND
-		tr.public_yn = 'Y'
-		) AS T1
+		fr.find_mate_no = #{findMateNo}
 		ORDER BY
-		T1.upper_find_mate_reply_no,
-		T1.depth, T1.create_dt;
+		fr.create_dt ASC;
 
 	</select>
 
@@ -100,7 +106,8 @@
 		update_dt =
 		#{updateDate},
 		start_dt = #{startDate},
-		end_dt = #{endDate},
+		end_dt =
+		#{endDate},
 		thumbnail_img = #{thumbnail_img},
 		recruits = #{mateNum},
 		content = #{content},

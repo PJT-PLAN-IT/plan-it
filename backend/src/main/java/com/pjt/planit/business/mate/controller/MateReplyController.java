@@ -28,14 +28,24 @@ public class MateReplyController {
 	 * 공고 댓글 가져오기
 	 **/
 	
-	@GetMapping
-	public ApiResponse getRepliesByFindMateNo(@RequestParam("findMateNo") int findMateNo) {
-		List<FindMateReply> replies = mateReplyService.getRepliesByFindMateNo(findMateNo);
-		System.out.println("replies");
-		System.out.println(replies);
-		return  ApiResponse.ok("sent replies", replies);
-	}
+//	@GetMapping
+//	public ApiResponse getRepliesByFindMateNo(@RequestParam("findMateNo") int findMateNo) {
+//		List<FindMateReply> replies = mateReplyService.getRepliesByFindMateNo(findMateNo);
+//		System.out.println("replies");
+//		System.out.println(replies);
+//		return  ApiResponse.ok("sent replies", replies);
+//	}
 
+	@GetMapping
+	public ApiResponse getReplies(@RequestParam("findMateNo") int findMateNo) {
+		
+		List<MateReplyDTO> replies = mateReplyService.getReplies(findMateNo);
+		
+		return ApiResponse.ok("replies", replies);
+		
+	}
+	
+	
 	/**
 	 * 공고 댓글 작성
 	 **/

@@ -1,10 +1,12 @@
 package com.pjt.planit.business.mate.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.pjt.planit.business.mate.dto.MateReplyDTO;
+import com.pjt.planit.business.mate.mapper.MateDetailMapper;
 import com.pjt.planit.db.entity.FindMateReply;
 import com.pjt.planit.db.repository.FindMateReplyRepository;
 
@@ -12,9 +14,11 @@ import com.pjt.planit.db.repository.FindMateReplyRepository;
 public class MateReplyService {
 
 	private final FindMateReplyRepository replyRepository;
-
-	public MateReplyService(FindMateReplyRepository replyRepository) {
+	private final MateDetailMapper detailMapper;
+	
+	public MateReplyService(FindMateReplyRepository replyRepository, MateDetailMapper detailMapper) {
 		this.replyRepository = replyRepository;
+		this.detailMapper = detailMapper;
 	}
 
 	public int submitReply(MateReplyDTO replyDTO) {
@@ -25,7 +29,7 @@ public class MateReplyService {
 		findMateReply.setReply(replyDTO.getReply());
 		findMateReply.setPublicYn(replyDTO.getPublicYn());
 		findMateReply.setSeq(replyDTO.getSeq());
-//		findMateReply.setCreateBy(replyDTO.getCreateBy());
+		findMateReply.setCreateDt(LocalDateTime.now());
 		replyRepository.save(findMateReply);
 		int replyNo = findMateReply.getFindMateReplyNo();
 		return replyNo;
@@ -50,6 +54,11 @@ public class MateReplyService {
 		List<FindMateReply> replies = replyRepository.findByFindMateNo(findMateNo);
 		
 		return replies;
+	}
+	
+	public List<MateReplyDTO> getReplies(int findMateNo){
+		
+		return detailMapper.getMateReply(findMateNo);
 	}
 
 	private MateReplyDTO convertToDTO(FindMateReply reply) {

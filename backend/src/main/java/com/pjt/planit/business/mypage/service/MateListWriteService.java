@@ -89,7 +89,7 @@ public class MateListWriteService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
+                    .thumbnailImg(findMate.getThumbnailImg())
                     .recruits(findMate.getRecruits())
                     .startDt(tripPlan.getStartDt())
                     .endDt(tripPlan.getEndDt())

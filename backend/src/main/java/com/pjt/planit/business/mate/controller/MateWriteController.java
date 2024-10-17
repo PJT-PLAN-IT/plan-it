@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.pjt.planit.business.mate.dto.MateDetailDTO;
+import com.pjt.planit.business.mate.dto.MateLikeDTO;
 import com.pjt.planit.business.mate.dto.MateWriteDTO;
 import com.pjt.planit.business.mate.service.MateDetailService;
 import com.pjt.planit.business.mate.service.MateFetchTripService;
@@ -77,4 +78,16 @@ public class MateWriteController {
 		return ApiResponse.ok("");
 	}
 
+	
+	/**
+	 * 공고 좋아요 설정
+	 * **/
+	@PostMapping("/like")
+	public ApiResponse addMateLike(@RequestBody MateLikeDTO likeDTO ) {
+		
+		detailService.addMateLike(likeDTO);
+		
+		return ApiResponse.ok("post liked");
+	}
+	
 }

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const RegBtnBg = () => {
   return (
     <div>
@@ -31,6 +33,8 @@ const ConfirmBtnSm = () => {
   );
 };
 const CancelBtnBg = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <button className="button can big">취소</button>

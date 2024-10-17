@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 public class RequestMatcherHolder {
 
+    
     private final List<String> PERMIT_ALL_URLS = List.of(
             "/login",
             "/join",
@@ -23,7 +24,8 @@ public class RequestMatcherHolder {
             "api/mate/tripplans",
             "api/mate/tripDetails",
             "/images/**",
-            "api/planit/mates"
+            "api/planit/mates",
+            "/**"
        
 
     );

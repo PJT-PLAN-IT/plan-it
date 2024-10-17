@@ -7,7 +7,7 @@ import sliderImg3 from "../../assets/img/slider6.jpg";
 export default function MainSlider() {
   var settings = {
     infinite: true,
-    speed: 500,
+    speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
