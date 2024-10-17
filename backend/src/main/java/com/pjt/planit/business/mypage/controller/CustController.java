@@ -48,9 +48,9 @@ public class CustController {
         return ApiResponse.ok("ok");
     }
 
-    //이메일체크
+    //닉네임 중복확인
     @PostMapping("/check")
-    public ApiResponse emailCheck(@RequestParam String nickName) {
+    public ApiResponse nickNameCheck(@RequestParam String nickName) {
         Boolean check = userInfoService.nickNameCheck(nickName);
         return ApiResponse.ok("ok",check);
     }

@@ -31,7 +31,7 @@ function MyTripPlanDetail() {
     //   const location = useLocation();
     //   const user = location.state;
 
-    
+
     useEffect(() => {
         fetchDetail();
     }, []);
@@ -96,7 +96,8 @@ function MyTripPlanDetail() {
     const onClickReviewSave = () => {
         let saveData = {
             tripPlanNo: resultList.tripPlanNo,
-            review: review
+            review: review.replace(/<\/?p[^>]*>/g, "")
+                .replace(/&nbsp;/g, "")
         };
 
 
@@ -231,13 +232,13 @@ function MyTripPlanDetail() {
                 </div>
                 {isBefore === false && (
                     <button className={`bg-orange on p-2 rounded float-right text-sm`}
-                                onClick={() => navigate('/mate',{state: resultList.tripPlanNo})}>
+                            onClick={() => navigate('/mate',{state: resultList.tripPlanNo})}>
                         메이트 구하기
                     </button>
                 )}
                 {isBefore === true && !resultList.review && (
                     <button
-                        className={`bg-orange on p-2 rounded float-right text-sm`}
+                        className={`border-orange border text-orange text-xs p-3 rounded-lg px-5`}
                         onClick={() => setReivewOpen(!reviewOpen)}
                     >
                         여행 일기 작성하기
@@ -258,17 +259,17 @@ function MyTripPlanDetail() {
                     <div className={`mt-10 flex justify-between`}>
                         {resultList.review}
                         <button
-                            className={`bg-orange text-white p-3 rounded-lg px-5`}
+                            className={`border-orange border text-orange text-xs p-3 rounded-lg px-5`}
                             onClick={() => setReivewOpen(!reviewOpen)}
                         >
-                            리뷰 수정
+                            일기 수정하기
                         </button>
                     </div>
                 )
             }
             {
                 reviewOpen && (
-                    <div className={`mt-10 flex justify-between`}>
+                    <div className={`mt-10 flex justify-between `}>
                         <Editor
                             apiKey="xrrohkv0t2zqx94m985ll5nay89i4r3tppwr17zjeg2igtg6"
                             onEditorChange={text => onEditorChange(text)}
@@ -310,10 +311,10 @@ function MyTripPlanDetail() {
                         />
                         <div className={`flex justify-center items-center align-middle mb-20 space-x-20`}>
                             <button
-                                className={`bg-orange text-white p-3 rounded-lg px-5`}
+                                className={`border-orange border text-orange text-xs p-3 rounded-lg px-5`}
                                 onClick={() => onClickReviewSave()}
                             >
-                                리뷰 저장
+                                일기 저장하기
                             </button>
                         </div>
                     </div>
@@ -365,12 +366,12 @@ function MyTripPlanDetail() {
             </div>
 
             <div className={`flex justify-center items-center align-middle mb-20 space-x-20`}>
-                <button
-                    className={`bg-orange text-white p-3 rounded-lg px-5`}
-                    onClick={() => goToEditPage()}
-                >
-                    수정하기
-                </button>
+                {/*<button*/}
+                {/*    className={`bg-orange text-white p-3 rounded-lg px-5`}*/}
+                {/*    onClick={() => goToEditPage()}*/}
+                {/*>*/}
+                {/*    수정하기*/}
+                {/*</button>*/}
                 <button
                     className={`border-2 border-orange text-orange p-3 rounded-lg px-5`}
                     onClick={() => onClickDelete()}

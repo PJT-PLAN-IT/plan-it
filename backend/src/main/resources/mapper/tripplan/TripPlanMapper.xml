@@ -3,36 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pjt.planit.business.tripplan.mapper.PlanMapper">
     <select id="getPlanList" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDto">
-        SELECT *
-             , CASE WHEN A.custNo = #{custNo} THEN 'Y' ELSE 'N' END AS ownerYn
-        FROM (
-                 SELECT ttp.trip_plan_no AS tripPlanNo
-                      , ttp.title AS title
-                      , ttp.start_dt AS startDt
-                      , ttp.end_dt AS endDt
-                      , ttp.thumbnail_img AS thumbnailImg
-                      , ttp.review AS review
-                      , ttp.public_yn AS publicYn
-                      , ttp.cust_no AS custNo
-                 FROM T_TRIP_PLAN ttp
-                 WHERE ttp.cust_no = #{custNo}
-                   AND ttp.start_dt BETWEEN #{startDt} AND #{endDt}
-                 UNION ALL
-                 SELECT ttp2.trip_plan_no AS tripPlanNo
-                      , ttp2.title AS title
-                      , ttp2.start_dt AS startDt
-                      , ttp2.end_dt AS endDt
-                      , ttp2.thumbnail_img AS thumbnailImg
-                      , ttp2.review AS review
-                      , ttp2.public_yn AS publicYn
-                      , ttp2.cust_no AS custNo
-                 FROM T_TRIP_PLAN ttp2
-                          INNER JOIN T_TRIP_MATE ttm
-                                     ON ttm.trip_plan_no = ttp2.trip_plan_no
-                 WHERE ttm.cust_no = #{custNo}
-                   AND ttp2.start_dt BETWEEN #{startDt} AND #{endDt}
-             ) AS A
-        ORDER BY A.startDt DESC
+        SELECT ttp.trip_plan_no AS tripPlanNo
+             , ttp.title AS title
+             , ttp.start_dt AS startDt
+             , ttp.end_dt AS endDt
+             , ttp.thumbnail_img AS thumbnailImg
+             , ttp.review AS review
+             , ttp.public_yn AS publicYn
+             , ttp.cust_no AS custNo
+        FROM T_TRIP_PLAN ttp
+        WHERE ttp.cust_no = #{custNo}
+          AND ttp.start_dt BETWEEN '2024-01-01 00:00:00' AND '2024-12-29 00:00:00'
+          ORDER BY start_dt DESC
     </select>
 
     <select id="getPlanDetail" parameterType="com.pjt.planit.business.tripplan.dto.TripPlanDto" resultType="com.pjt.planit.business.tripplan.dto.TripPlanDto">

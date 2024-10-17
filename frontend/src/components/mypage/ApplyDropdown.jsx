@@ -10,7 +10,8 @@ function ApplyDropdown({ applyList, refreshData }) {
   const axiosInstance = useAxiosInstance();
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
     setIsOpen(!isOpen);
     console.log("Dropdown toggled:", isOpen); // 상태 확인을 위한 로그
   };
