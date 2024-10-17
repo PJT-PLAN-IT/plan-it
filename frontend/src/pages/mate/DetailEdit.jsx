@@ -227,7 +227,7 @@ export default function DetailEdit() {
   const handleContentChange = (newContent) => {
     setFormData((prevData) => ({
       ...prevData,
-      contentState: newContent,
+      contentState: newContent.replace(/<\/?p[^>]*>/g, ""),
     }));
   };
 
