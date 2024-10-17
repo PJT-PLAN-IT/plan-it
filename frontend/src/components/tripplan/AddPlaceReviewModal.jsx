@@ -90,8 +90,7 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                     <h2 className="text-xl font-bold mb-4 flex justify-center items-center align-middle">
-                        <p>{data.title}</p>
-                        <p className={`ml-3 text-sm text-gray-300`}>에 후기를 남겨보세요!</p>
+                        <p className={`flex`}>{data.title}</p>
                     </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">

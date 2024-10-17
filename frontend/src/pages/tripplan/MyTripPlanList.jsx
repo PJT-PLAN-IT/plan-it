@@ -16,6 +16,7 @@ function MyTripPlanList() {
     }
     const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     const [monthPlanResult, setMonthPlanResult] = useState([]);
+    const [custNo, setCustNo] = useState();
 
     useEffect(() => {
         const fetchPlanList = async () => {
@@ -23,6 +24,7 @@ function MyTripPlanList() {
                 const response = await axiosInstance.get(`/api/plan/list?custNo=${sendData.custNo}&year=${sendData.year}`);
                 // console.log(response.data.data);
                 setPlanResult(response.data.data);
+                setCustNo(JSON.parse(localStorage.getItem("userInfo")).custNo);
             } catch (error) {
                 console.log(error);
             }
@@ -58,16 +60,16 @@ function MyTripPlanList() {
                                     <h2 className="font-semibold text-lg mb-5 mt-8 ">2024.{Number(index) + 1}</h2>
                                     <div className={`grid grid-cols-3 gap-10`}>
                                         {monthPlanResult[index].map((item) => (
-                                            <div key={item.tripPlanNo} onClick={() => navigate(`/plan/${item.tripPlanNo}`)}
-                                                 className={` bg-black bg-opacity-5 h-48 mb-4 rounded-lg`}>
-                                                {/*<div className={`h-2/3 bg-neutral-100 outline-gray-300`}>*/}
-                                                {/*    /!*    이미지 구역   *!/*/}
-                                                {/*</div>*/}
-                                                <div className={`p-5`}>
-                                                    <p className={`font-bold mb-2`}>{item.title}</p>
-                                                    <p className={`text-sm`}>{item.startDt.split('T')[0]} ~ {item.endDt.split('T')[0]}</p>
-                                                </div>
-                                            </div>
+                                            // item.custNo === custNo && (
+                                                    <div key={item.tripPlanNo}
+                                                         onClick={() => navigate(`/plan/${item.tripPlanNo}`)}
+                                                         className={` bg-black bg-opacity-5 h-48 mb-4 rounded-lg`}>
+                                                        <div className={`p-5`}>
+                                                            <p className={`font-bold mb-2`}>{item.title}</p>
+                                                            <p className={`text-sm`}>{item.startDt.split('T')[0]} ~ {item.endDt.split('T')[0]}</p>
+                                                        </div>
+                                                    </div>
+                                                // )
                                         ))}
                                     </div>
                                 </>

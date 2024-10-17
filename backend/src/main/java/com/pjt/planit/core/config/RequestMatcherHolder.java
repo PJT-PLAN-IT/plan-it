@@ -14,8 +14,6 @@ public class RequestMatcherHolder {
             "/login",
             "/join",
             "/planit/**",
-            "/api/test/**",
-            "/test/test",
             "mate/**",
             "/planit/mates/details",
             "api/images/upload",
@@ -24,10 +22,7 @@ public class RequestMatcherHolder {
             "api/mate/tripplans",
             "api/mate/tripDetails",
             "/images/**",
-            "api/planit/mates",
-            "/**"
-       
-
+            "api/planit/mates"
     );
 
 }
