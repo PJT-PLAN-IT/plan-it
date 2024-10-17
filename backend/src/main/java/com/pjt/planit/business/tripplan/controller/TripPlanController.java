@@ -50,18 +50,6 @@ public class TripPlanController {
      */
     @PostMapping
     public ResponseResult<?> addTripPlan(@RequestBody TripPlanDto tripPlanDto) {
-
-        Optional<Cust> findUser = findAuthorizedUser.findUser();
-        if(findUser.isEmpty()) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
-
-        Integer custNo = findUser.get().getCustNo();
-
-        if ( !tripPlanDto.getCustNo().equals(custNo)) {
-            return ResponseResult.ofSuccess("unauthorized user", null);
-        }
-
         planService.addTripPlan(tripPlanDto);
         return ResponseResult.ofSuccess("success", null);
     }

@@ -35,9 +35,6 @@ function MyTripPlanList() {
         makeMonthPlanResult();
     }, [planResult]);
 
-    useEffect(() => {
-        console.log('monthPlanResult: ', monthPlanResult);
-    }, [monthPlanResult]);
 
     const makeMonthPlanResult = () => {
         let monthPlanList = [];
