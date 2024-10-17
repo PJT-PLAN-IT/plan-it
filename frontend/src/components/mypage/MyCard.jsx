@@ -4,7 +4,7 @@ function MyCard({item, component}) {
     const navigate = useNavigate();
 
     const goPage = () => {
-        navigate(`/plan/${item.tripPlanNo}`)
+        navigate(`/planit/mates/details?findMateNo=${item.findMateNo}`)
     }
 
     return (

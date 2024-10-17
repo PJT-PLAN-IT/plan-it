@@ -52,7 +52,7 @@ function Join() {
         };
 
         try {
-            const response = await axios.post('/api/api/auth/signup', payload);  // 서버 URL 수정 필요
+            const response = await axios.post('/api/join', payload);  // 서버 URL 수정 필요
             console.log(response);
 
             alert('회원가입이 완료되었습니다.');
