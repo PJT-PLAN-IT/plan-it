@@ -84,7 +84,7 @@ public class MateLikesService {
                     .findMateNo(findMate.getFindMateNo())
                     .title(findMate.getTitle())
                     .content(findMate.getContent())
-                    .thumbnailImg(readFileDir + findMate.getThumbnailImg())
+                    .thumbnailImg(findMate.getThumbnailImg())
                     .startDt(tripPlan.getStartDt())
                     .endDt(tripPlan.getEndDt())
                     .name(cust.getName());

@@ -19,7 +19,9 @@ public class CustJoinDto {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private LocalDateTime birthDt;
+    private String birthYear;
+    private String birthMonth;
+    private String birthDay;
     private String gender; // M or W
     private LocalDateTime joinDt;
 
