@@ -89,16 +89,18 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 className="text-xl font-bold mb-4">{data.title} 리뷰 작성</h2>
+                    <h2 className="text-xl font-bold mb-4 flex justify-center items-center align-middle">
+                        <p>{data.title}</p>
+                        <p className={`ml-3 text-sm text-gray-300`}>에 후기를 남겨보세요!</p>
+                    </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-1">별점:</label>
-                        <div className="flex">
+                        <div className="flex justify-center items-center">
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <button
                                     key={star}
                                     type="button"
-                                    className={`text-xl ${star <= rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                                    className={`text-3xl ${star <= rating ? 'text-yellow-500' : 'text-gray-300'}`}
                                     onClick={() => setRating(star)}
                                 >
                                     ★
@@ -107,8 +109,10 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
                         </div>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium mb-1">리뷰:</label>
+                    <div className={`m-4`}>
+                        <label className=" flex text-sm font-medium justify-center align-middle m-8">
+                            <p className={`flex font-bold`}>어떤 점이 좋았나요?</p>
+                        </label>
                         <textarea
                             className="border border-gray-300 rounded w-full p-2"
                             rows="4"
@@ -118,40 +122,56 @@ const AddPlaceReviewModal = ({data, onSave, onClose}) => {
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-1">이미지 업로드:</label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            onChange={handleImageChange}
-                            className="border border-gray-300 rounded w-full p-2"
-                        />
-                        <div className="mt-2">
+                        {/*<input*/}
+                        {/*    type="file"*/}
+                        {/*    accept="image/*"*/}
+                        {/*    multiple*/}
+                        {/*    onChange={handleImageChange}*/}
+                        {/*    className={`border border-gray-300 rounded w-full p-2`}*/}
+                        {/*/>*/}
+                        <button type="button"
+                                className="w-full flex items-center justify-center bg-white border border-gray-300 rounded-lg py-3 mt-4 hover:bg-gray-100">
+                            <label htmlFor="file-upload" className="cursor-pointer flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                          d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <span>사진 첨부하기</span>
+                            </label>
+                            <input
+                                id="file-upload"
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImageChange}
+                                className={`hidden`}
+                            />
+                        </button>
+                        <div className="flex flex-row">
                             {imageUrls.map((imageUrl, index) => (
-                                <div key={index} className="flex items-center justify-between">
+                                <div key={index} className="flex items-center flex-row ml-2 my-2">
                                     <img src={imageUrl} alt="첨부된 사진"
-                                         className="w-20 h-20 object-cover rounded-lg"/>
-                                    <span>{"Image" + index}</span>
+                                         className="w-16 h-16 object-cover"/>
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveImage(index, "prev")}
-                                        className="text-red-500"
+                                        className="flex self-start text-red-500"
                                     >
-                                        제거
+                                        X
                                     </button>
                                 </div>
                             ))}
                             {newImageUrls.map((newImageUrl, index) => (
-                                <div key={index} className="flex items-center justify-between">
+                                <div key={index} className="flex items-center flex-row ml-2 my-2">
                                     <img src={newImageUrl} alt="첨부된 사진"
-                                         className="w-20 h-20 object-cover rounded-lg"/>
-                                    <span>{newImages[index].name}</span>
+                                         className="w-16 h-16 object-cover"/>
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveImage(index, "new")}
-                                        className="text-red-500"
+                                        className="flex self-start text-red-500"
                                     >
-                                        제거
+                                        X
                                     </button>
                                 </div>
                             ))}
