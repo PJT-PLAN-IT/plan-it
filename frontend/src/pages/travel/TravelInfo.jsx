@@ -28,7 +28,7 @@ const Regions = [
 
 const Region = ({ formData, regBtnClick }) => {
   return (
-      <div className="border-t-2">
+      <div>
         <div className="py-[10px] px-[30px] my-[9px]">
           <h1 className="TitleLabel">지역:</h1>
           {Regions.map((region) => (

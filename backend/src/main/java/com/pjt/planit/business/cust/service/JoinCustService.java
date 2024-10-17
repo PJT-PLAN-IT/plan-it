@@ -35,8 +35,7 @@ public class JoinCustService {
             return;
         }
 
-        String birthDt = custJoinDto.getBirthYear() + custJoinDto.getBirthMonth() + custJoinDto.getBirthDay();
-        System.out.println("birthDt = " + birthDt);
+        String birthDt = custJoinDto.getBirthYear() + custJoinDto.getBirthMonth() + custJoinDto.getBirthDay();;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime birth = LocalDate.parse(birthDt, formatter).atStartOfDay();
 

@@ -23,8 +23,8 @@ public class JoinCustController {
      * @param custJoinDto p1
      * @return ResponseResult<?>
      */
-    @PostMapping("")
-    public ResponseResult<?> signup(@Valid @RequestBody CustJoinDto custJoinDto) {
+    @PostMapping
+    public ResponseResult<?> signup(@RequestBody CustJoinDto custJoinDto) {
         joinCustService.signup(custJoinDto);
         return ResponseResult.ofSuccess("success", null);
     }
