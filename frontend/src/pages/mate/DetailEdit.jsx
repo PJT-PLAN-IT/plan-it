@@ -363,8 +363,8 @@ export default function DetailEdit() {
           />
         </div>
         <MateNum
-          mateNum={formData.mateNumState} // Pass mateNum state
-          mateNumChange={handleMateNumChange} // Pass change handler
+          mateNum={formData.mateNumState}
+          mateNumChange={handleMateNumChange}
         />
         <ThumbSelect
           thumbSelChange={thumbSelChange}
@@ -373,7 +373,8 @@ export default function DetailEdit() {
         />
         <div className="flex justify-center align-middle gap-10 my-[70px]">
           <RegBtnBg type="button" />
-          <CancelBtnBg />
+
+          <CancelBtnBg findMateNo={formData.findMateNoState} />
         </div>
       </form>
     </div>

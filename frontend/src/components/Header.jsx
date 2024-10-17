@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "../assets/css/Header.css";
 import Logo from "../assets/img/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,26 +13,41 @@ const folder = <FontAwesomeIcon icon={faFolder} />;
 export function Header() {
   const [open, setOpen] = useState(false);
   const { userInfo } = useAuth();
+  const userName = userInfo.nickname;
+  const dropdownRef = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
   return (
     <div className="font-notosans HeaderWrap">
       <Link to={`/planit`}>
-        <img className="w-[90px]" src={Logo} alt="logo" />
+        <img className="w-[100px]" src={Logo} alt="logo" />
       </Link>
 
-      <div className="w-[1320px] HeaderItems">
+      <div className="w-[100%] HeaderItems">
         <div className=" m-auto ml-2 HeaderNav">
-          <DropdownMenu
+          <DropdownMenu2
             className="HeaderNavItem"
             link={`/planit/mates`}
-            text={"메이트 구하기"}
+            text={"메이트 공고"}
           />
-          <DropdownMenu
+          <DropdownMenu2
             className="HeaderNavItem"
             link={`/plan`}
             text={"여행계획"}
           />
-          <DropdownMenu
+          <DropdownMenu2
             className="HeaderNavItem"
             link={`/travel/info`}
             text={" 여행정보"}
@@ -40,19 +55,24 @@ export function Header() {
         </div>
         <div className="mr-2 UserNavWrap">
           <div
-            className="UserNavBtn hover:font-semibold"
+            className="UserNavBtn relative hover:font-semibold"
             onClick={() => {
               setOpen(!open);
             }}
           >
-            <span>사용자님 {down}</span>
+            <span>
+              {userName}님 {down}
+            </span>
           </div>
         </div>
       </div>
-      <div className={`DropDownMenu ${open ? "active" : "inactive"}`}>
+      <div
+        ref={dropdownRef}
+        className={` DropDownMenu ${open ? "active" : "inactive"}`}
+      >
         <div className=" bg-white DropDownCont z-50">
           <ul>
-            <li className="DropDownItem">MENU</li>
+            <li className="DropDownItem mt-5">MENU</li>
             <DropdownMenu
               className="UnderLine"
               icon={folder}
@@ -61,9 +81,16 @@ export function Header() {
             <hr />
             <DropdownMenuHead text={"여행관리"} />
             <hr />
-            <DropdownMenu icon={folder} text={"여행 계획 작성"} link={`/plan`}/>
-            <DropdownMenu icon={folder} text={"나의 여행 계획 보기"} link={`/plan/list/${userInfo.custNo}/${new Date().getFullYear()}`} />
-            {/*<DropdownMenu icon={folder} text={"좋아요 한 여행 후기"} link={`/plan`} />*/}
+            <DropdownMenu
+              icon={folder}
+              text={"여행 계획 작성"}
+              link={`/plan`}
+            />
+            <DropdownMenu
+              icon={folder}
+              text={"나의 여행 계획 보기"}
+              link={`/plan/list/${userInfo.custNo}/${new Date().getFullYear()}`}
+            />
             <hr />
             <DropdownMenuHead text={"메이트 관리"} />
             <hr />
@@ -117,6 +144,15 @@ function DropdownMenu(props) {
       <Link to={props.link}>
         <span>{props.icon} </span>
         {props.text}
+      </Link>
+    </li>
+  );
+}
+function DropdownMenu2(props) {
+  return (
+    <li className="DropDownItem hover:font-semibold">
+      <Link to={props.link}>
+        <span className="text-[14px]"> {props.text}</span>
       </Link>
     </li>
   );

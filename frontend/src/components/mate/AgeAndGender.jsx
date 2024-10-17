@@ -63,7 +63,6 @@ const AgeSel = ({ ageButtonChange, ageButtonStates }) => {
               type="checkbox"
               name="age"
               key={age.key}
-              // checked={ageButtonStates[age.key]}
               onChange={() => ageButtonChange(age.key)}
             />
             <span className="SpanGap"> {age.demo}</span>

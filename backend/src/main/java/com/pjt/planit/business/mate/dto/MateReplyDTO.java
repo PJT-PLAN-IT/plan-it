@@ -33,6 +33,8 @@ public class MateReplyDTO {
 	private String publicYn;
 
 	private Integer seq;
+	
+	private String custName;
 
 	@JsonProperty("create_dt")
 	private LocalDateTime createDt;

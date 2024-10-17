@@ -34,65 +34,6 @@ const TripScroll = ({ tripPlanList, onSelectedTripUpdate, oriTripPlan }) => {
   );
 };
 
-// const TripScroll = ({
-//   tripPlanList,
-//   onTripDetailsUpdate,
-//   onSelectedTripUpdate,
-// }) => {
-//   const [selectedTrip, setSelectedTrip] = useState(null);
-//   const { token } = useAuth();
-//   const fetchTripDetails = async (tripPlanNo) => {
-//     console.log(tripPlanNo);
-//     try {
-//       const response = await axios.get(
-//         `/api/mate/tripdetails?tripPlanNo=${tripPlanNo}`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-
-//       onTripDetailsUpdate(response.data);
-
-//       console.log("Trip details fetched: ", JSON.stringify(response.data));
-//     } catch (error) {
-//       console.error("Error fetching trip details: ", error);
-//     }
-//   };
-
-//   const handleSelectChange = (event) => {
-//     const selectedTripPlanNo = event.target.value;
-
-//     const selectedTrip = tripPlanList.find(
-//       (trip) => trip.tripPlanNo === parseInt(selectedTripPlanNo)
-//     );
-//     setSelectedTrip(selectedTrip);
-//     console.log(selectedTrip);
-//     onSelectedTripUpdate(selectedTrip);
-//     // fetchTripDetails(selectedTripPlanNo);
-//   };
-
-//   return (
-//     <div className="flex justify-start">
-//       <select
-//         className="border rounded-[9px] text-xs outline-none w-60 h-10 p-2 my-10"
-//         onChange={handleSelectChange}
-//         value={selectedTrip?.tripPlanNo || ""}
-//       >
-//         <option value="" disabled>
-//           여행계획 선택
-//         </option>
-//         {tripPlanList.map((trip) => (
-//           <option key={trip.tripPlanNo} value={trip.tripPlanNo}>
-//             {trip.title}
-//           </option>
-//         ))}
-//       </select>
-//     </div>
-//   );
-// };
-
 function Textbox({ title, content, titleChange, contentChange }) {
   return (
     <div className=" flex-col border border-gray-400  mb-[70px] ">
@@ -111,7 +52,7 @@ function Textbox({ title, content, titleChange, contentChange }) {
         onEditorChange={contentChange}
         value={content}
         init={{
-          forced_root_block: "",
+          forced_root_block: false,
           force_br_newlines: true,
           force_p_newlines: false,
           plugins: [
