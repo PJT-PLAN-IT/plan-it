@@ -134,7 +134,6 @@ const CommentSection = ({ findMateNo }) => {
     }
   };
 
-  // Function to delete a comment
   const deleteComment = async (deletedCommentId) => {
     try {
       await axios.delete(
@@ -147,7 +146,6 @@ const CommentSection = ({ findMateNo }) => {
         }
       );
 
-      // Remove the comment from the state
       setComments((prevComments) =>
         prevComments.filter(
           (comment) => comment.find_mate_reply_no !== deletedCommentId
@@ -157,7 +155,7 @@ const CommentSection = ({ findMateNo }) => {
       console.error("Error deleting comment:", error);
     }
   };
-  // Function to add a new comment to the comments list
+
   const addNewComment = (newComment) => {
     setComments((prevComments) => [...prevComments, newComment]);
   };
@@ -168,15 +166,15 @@ const CommentSection = ({ findMateNo }) => {
       <h1 className="border-b-2 p-2">
         댓글 <b>{comments.length}</b>
       </h1>
-      {loading ? ( // Show loading message while data is being fetched
+      {loading ? (
         <p>로딩중...</p>
-      ) : comments.length > 0 ? ( // Render comments once available
+      ) : comments.length > 0 ? (
         comments.map((comment) => (
           <ShowComment
             key={comment.find_mate_reply_no}
             comment={comment}
             editComment={editComment}
-            deleteComment={deleteComment} // Pass deleteComment to ShowComment
+            deleteComment={deleteComment}
           />
         ))
       ) : (
@@ -220,7 +218,7 @@ export const ShowComment = ({ comment, editComment, deleteComment }) => {
           {userNo == comment.cust_no ? (
             <>
               <button onClick={() => setIsEditing(true)}>수정</button>
-              <button onClick={handleDelete} style={{ color: "red" }}>
+              <button onClick={handleDelete} className="text-orange">
                 삭제
               </button>
             </>
@@ -256,11 +254,7 @@ export const ShowComment = ({ comment, editComment, deleteComment }) => {
         <h3 className="py-5">{comment.reply}</h3>
       )}
 
-      <div>
-        <span className="font-light">
-          {new Date(comment.create_dt).toLocaleDateString()}
-        </span>
-      </div>
+      <div></div>
     </div>
   );
 };

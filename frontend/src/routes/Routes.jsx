@@ -22,7 +22,7 @@ function AppRoutes() {
   return (
     <Routes>
       {/* 메인 */}
-
+      <Route path="/planit" element={<MainPage />} />
       {/* 로그인 , 회원가입 */}
       <Route path="/join" element={<Join />} />
       <Route path="/login" element={<Login />} />
@@ -34,7 +34,6 @@ function AppRoutes() {
       <Route path="/mypage/likes/:custNo" element={<Likes />} />
       <Route path="/mypage/replys/:custNo" element={<MyReply />} />
       <Route path="/mypage/reviews/:custNo" element={<MyReview />} />
-      <Route path="/planit" element={<MainPage />} />
 
       {/* 여행 정보 */}
       <Route path="/travel/info" element={<TravelInfo />} />
