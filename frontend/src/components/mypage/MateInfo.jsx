@@ -19,7 +19,8 @@ function MateInfo({item, custNo, refreshData }) {
     }, [item.startDt]);
 
     //취소
-    const cancelOnClick =  async () => {
+    const cancelOnClick =  async (e) => {
+        e.stopPropagation();
         try {
             const param = {
                 findMateNo : item.findMateNo,
@@ -39,7 +40,8 @@ function MateInfo({item, custNo, refreshData }) {
     };
 
     //탈퇴
-    const secessionOnClick = async () => {
+    const secessionOnClick = async (e) => {
+        e.stopPropagation();
         try {
             const param = {
                 tripMateNo: item.tripMateNo
@@ -71,8 +73,8 @@ function MateInfo({item, custNo, refreshData }) {
                             </button>
                         ) : (
                             <>
-                                <button
-                                    className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange hover:text-white transition">
+                                <button disabled
+                                        className="px-4 py-2 text-sm border border-orange-500 text-orange-500 rounded-full hover:bg-orange hover:text-white transition">
                                     대기중
                                 </button>
                                 <button
@@ -81,7 +83,7 @@ function MateInfo({item, custNo, refreshData }) {
                                     취소
                                 </button>
                             </>
-                            )
+                        )
                         }
                     </div>
                 )
