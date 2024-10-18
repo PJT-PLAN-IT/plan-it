@@ -19,4 +19,5 @@ public interface FindMateLikeRepository extends JpaRepository<FindMateLike, Inte
     @Query("SELECT l.findMateNo FROM FindMateLike l GROUP BY l.findMateNo ORDER BY COUNT(l) DESC")
     List<Integer> findMateTop10(Pageable pageable);
 
+    void deleteAllByFindMateNo(int findMateNo);
 }
