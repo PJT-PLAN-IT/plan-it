@@ -146,6 +146,7 @@ public class MateDetailService {
 		mateRepository.deleteByFindMateNo(findMateNo);
 		regionRepository.deleteAllByFindMateNo(findMateNo);
 		styleRepository.deleteAllByFindMateNo(findMateNo);
+		findMateLikeRepository.deleteAllByFindMateNo(findMateNo);
 
 	}
 	
