@@ -17,6 +17,7 @@ function ApplyDropdown({ applyList, refreshData }) {
   };
 
   const custButtonClick = async (e, apply) => {
+    e.stopPropagation();
     const buttonValue = e.target.value === "allow" ? "Y" : "N";
     const param = {
       findMateApplyNo: apply.findMateApplyNo,
@@ -114,7 +115,7 @@ function ApplyDropdown({ applyList, refreshData }) {
       <div className="flex space-x-2">
         {applyList.length > 0 ? (
           <p>
-            {allowCount} / {applyList.length}
+            확정 메이트: {allowCount}명
           </p>
         ) : null}
       </div>
