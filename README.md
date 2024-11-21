@@ -58,9 +58,49 @@
 <br><br>
 
 ## 기능 소개
+1. 메인페이지<br>
+<img src="https://github.com/user-attachments/assets/08ef465a-bb59-4f98-a457-c611f0e6c4e3" width="500" height="300"/><br>
 
-    
+2. 여행
 
+- 나의 여행 계획<br>
+<img src="https://github.com/user-attachments/assets/14c2456f-8b9d-4efa-88fe-0c25f2ee5e2d" width="500" height="300"/>
 
+- 여행 계획 작성하기<br>
+<img src="https://github.com/user-attachments/assets/2053546e-0f82-475f-af61-909a1a278afd" width="500" height="300"/>
+
+- 리뷰 작성하기<br>
+<img src="https://github.com/user-attachments/assets/aa9cd342-4341-4991-8a9a-7499789faa36" width="500" height="300"/>
+
+- 여행 정보 보기<br>
+<img src="https://github.com/user-attachments/assets/63e4c27a-c871-4e10-8199-7587f6e5dba3" width="500" height="300"/>
+
+3. 메이트
+
+- 메이트 공고 작성<br>
+  <img src="https://github.com/user-attachments/assets/a24645cc-aa92-4efa-b583-e0088d86c5ab" width="500" height="300"/>
+  
+- 메이트 공고 상세보기<br>
+<img src="https://github.com/user-attachments/assets/db2ecb6b-e58c-47fd-ae93-097780040efc" width="500" height="300"/>
+
+- 메이트 승인 거절<br>
+<img src="https://github.com/user-attachments/assets/00ebb9fb-534b-4e8d-bd25-d96b862f8533" width="500" height="300"/>
+
+- 신청한 메이트<br>
+<img src="https://github.com/user-attachments/assets/e7114b78-677d-4281-9795-d4a8b4dee087" width="500" height="300"/>  
+
+- 메이트 참여 신청<br>
+<img src="https://github.com/user-attachments/assets/ceb66c9e-a642-46c4-9f1e-6f6ede98f167" width="500" height="300"/>
+
+4. 마이페이지
+ 
+- 내가 작성한 리뷰<br>
+<img src="https://github.com/user-attachments/assets/42d3abde-4804-400b-815f-fcedaf3a3853" width="500" height="300"/>
+
+- 내가 작성한 댓글<br>
+<img src="https://github.com/user-attachments/assets/53aae335-8e74-4d38-96f6-fe20014dda8f" width="500" height="300"/>
+
+- 좋아요한 메이트 글<br>
+<img src="https://github.com/user-attachments/assets/d0ff7c52-686e-427b-b8e4-b9837ab7e073" width="500" height="300"/>
 
 
