@@ -35,14 +35,7 @@
 <br><br>
 
 ## 기술 스택
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&amp;logo=React&amp;logoColor=black">
-<img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&amp;logo=Node.js&amp;logoColor=white">
-<img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&amp;logo=Vite&amp;logoColor=white">
-<img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=flat-square&amp;
-logo=TailwindCSS&amp;logoColor=white">
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&amp;logo=SpringBoot&amp;logoColor=white">
-<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&amp;logo=Spring Security&amp;logoColor=white">
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&amp;logo=MySQL&amp;logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&amp;logo=React&amp;logoColor=black"> <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&amp;logo=Node.js&amp;logoColor=white"> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&amp;logo=Vite&amp;logoColor=white"> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=flat-square&amp;logo=TailwindCSS&amp;logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-quare&amp;logo=SpringBoot&amp;logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&amp;logo=Spring Security&amp;logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&amp;logo=MySQL&amp;logoColor=white">
 
 <br><br>
 
