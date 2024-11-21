@@ -40,13 +40,12 @@
 <br><br>
 
 ## 프로젝트 아키텍처
-![alt text](image.png)
-
+![planit_architecture](https://github.com/user-attachments/assets/91f769ba-45e6-4688-8c43-785dd9789822)
 <br><br>
 
 ## DB 설계
 ### My SQL
-![alt text](image-1.png)
+![planit_erd](https://github.com/user-attachments/assets/9078257b-efad-4d6d-b22b-e9059d46c391)
 
 <br><br>
 
